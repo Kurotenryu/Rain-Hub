@@ -381,7 +381,7 @@ task.spawn(function()
             goto cont
         end
 
-        if not EnsureQuestReadyForKaitun() then task.wait(0.6) goto cont end
+        if not EnsureQuestReadyForKaitun() then task.wait(0.6)  end
 
         local found = false
         local Enemies = Workspace:FindFirstChild("Enemies")
@@ -418,7 +418,5 @@ task.spawn(function()
             if CFrameMon then SmartTopos(CFrameMon) end
             task.wait(0.3)
         end
-
-        ::cont::
     end
 end)
