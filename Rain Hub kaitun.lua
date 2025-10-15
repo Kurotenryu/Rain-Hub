@@ -108,27 +108,55 @@ function CheckQuest()
 			NameMon = "Bandit"
 			CFrameQuest = CFrame.new(1059, 15, 1550)
 			CFrameMon = CFrame.new(1046, 27, 1561)
-        elseif MyLevel >= 10 and MyLevel <= 250 then
-      Mon = "Shanda"
-      LevelQuest = nil
-      NameQuest = nil
-      NameMon = "Shanda"
-      CFrameQuest = nil
-      CFrameMon = CFrame.new(-7678.48974609375, 5566.40380859375, -497.2156066894531)
-    elseif MyLevel >= 250 and MyLevel <= 275 then
-      Mon = "Toga Warrior"
-      LevelQuest = 1
-      NameQuest = "ColosseumQuest"
-      NameMon = "Toga Warrior"
-      CFrameQuest = CFrame.new(-1580.04663, 6.35000277, -2986.47534, -0.515037298, 0, -0.857167721, 0, 1, 0, 0.857167721, 0, -0.515037298)
-      CFrameMon = CFrame.new(-1820.21484375, 51.68385696411133, -2740.6650390625)
-    elseif MyLevel >= 275 and MyLevel <= 300 then
-      Mon = "Gladiator"
-      LevelQuest = 2
-      NameQuest = "ColosseumQuest"
-      NameMon = "Gladiator"
-      CFrameQuest = CFrame.new(-1580.04663, 6.35000277, -2986.47534, -0.515037298, 0, -0.857167721, 0, 1, 0, 0.857167721, 0, -0.515037298)
-      CFrameMon = CFrame.new(-1292.838134765625, 56.380882263183594, -3339.031494140625)
+			elseif MyLevel >= 10 and MyLevel <= 14 then
+            Mon= "Monkey"
+            LevelQuest = 1
+            NameQuest = "JungleQuest"
+            NameMon= "Monkey"
+            CFrameQuest = CFrame.new(-1598.089,35.55,153.378)
+            CFrameMon = CFrame.new(-1448.518,67.853,11.466)
+        elseif MyLevel >= 15 and MyLevel <= 29 then
+            Mon = "Gorilla"
+            LevelQuest = 2
+            NameQuest = "JungleQuest"
+            NameMon = "Gorilla"
+            CFrameQuest = CFrame.new(-1598.089,35.55,153.378)
+            CFrameMon = CFrame.new(-1129.884,40.464,-525.424)
+        elseif MyLevel >= 30 and MyLevel <= 39 then
+            Mon = "Pirate"
+            LevelQuest = 1
+            NameQuest = "BuggyQuest1"
+            NameMon = "Pirate"
+            CFrameQuest = CFrame.new(-1141.075,4.1,3831.55)
+            CFrameMon = CFrame.new(-1103.513,13.752,3896.091)
+        elseif MyLevel >= 40 and MyLevel <= 59 then
+            Mon = "Brute"
+            LevelQuest = 2
+            NameQuest = "BuggyQuest1"
+            NameMon = "Brute"
+            CFrameQuest = CFrame.new(-1141.075,4.1,3831.55)
+            CFrameMon = CFrame.new(-1140.084,14.81,4322.921)
+        elseif MyLevel >= 60 and MyLevel <= 74 then
+            Mon = "Desert Bandit"
+            LevelQuest = 1
+            NameQuest = "DesertQuest"
+            NameMon = "Desert Bandit"
+            CFrameQuest = CFrame.new(894.489,5.14,4392.434)
+            CFrameMon = CFrame.new(924.8,6.449,4481.586)
+        elseif MyLevel >= 75 and MyLevel <= 89 then
+            Mon = "Desert Officer"
+            LevelQuest = 2
+            NameQuest = "DesertQuest"
+            NameMon = "Desert Officer"
+            CFrameQuest = CFrame.new(894.489,5.14,4392.434)
+            CFrameMon = CFrame.new(1608.282,8.614,4371.007)
+        elseif MyLevel >= 90 and MyLevel <= 99 then
+            Mon = "Snow Bandit"
+            LevelQuest =1
+            NameQuest = "SnowQuest"
+            NameMon="Snow Bandit"
+            CFrameQuest = CFrame.new(1389.745,88.152,-1298.908)
+            CFrameMon = CFrame.new(1354.348,87.273,-1393.947)
 		end
 	end
 end
