@@ -359,36 +359,64 @@ function AutoFarmLoop()
 		pcall(function()
 			CheckQuest()
 			local questTitle = GetQuestTitle()
-			if not questTitle or not string.find(questTitle, NameMon or "") then
+
+			-- nếu chưa có quest hoặc quest không khớp thì abandon + take mới
+			if not questTitle or not (NameMon and string.find(questTitle, NameMon)) then
 				pcall(function() Rep.Remotes.CommF_:InvokeServer("AbandonQuest") end)
 				TakeQuest()
 				task.wait(0.8)
-                    repeat 
-                        questTitle = GetQuestTitle()
-                    until questTitle and string.find(questTitle, NameMon) end
-			else
+
+				-- chờ UI quest xác nhận (timeout an toàn)
+				local t0 = tick()
+				repeat
+					questTitle = GetQuestTitle()
+					task.wait(0.15)
+				until (questTitle and NameMon and string.find(questTitle, NameMon)) or tick() - t0 > 6
+				if not (questTitle and NameMon and string.find(questTitle, NameMon)) then
+					warn("[AutoFarm] Failed to confirm quest accept (timeout).")
+					return
+				end
+			end
+
+			-- nếu đã có quest/Mon -> farm
+			if Enemies and Enemies.Parent then
 				for _, mob in ipairs(Enemies:GetChildren()) do
 					if mob and mob.Name == Mon then
 						local humanoid = mob:FindFirstChildOfClass("Humanoid")
 						local hrp = mob:FindFirstChild("HumanoidRootPart")
 						if humanoid and hrp and humanoid.Health > 0 then
-							SmartTP(hrp.CFrame * CFrame.new(0, 20, 5))
+							-- tới khu spawn (nếu có)
+							if CFrameMon then
+								SmartTP(CFrameMon)
+								task.wait(0.2)
+							end
+
+							-- đứng trên mob
+							pcall(function() SmartTP(hrp.CFrame * CFrame.new(0, 20, 5)) end)
+
+							-- cố định mob / neo
+							pcall(function()
+								hrp.CanCollide = false
+								if mob:FindFirstChild("Head") then mob.Head.CanCollide = false end
+								humanoid.WalkSpeed = 0
+							end)
+
+							-- buff/auto equip/attack
+							if getgenv().AutoHakiEnabled then pcall(AutoHaki) end
+							if getgenv().SelectWeapon then pcall(function() EquipWeapon(getgenv().SelectWeapon) end) end
+
+							if getgenv().FastAttackEnabled then
+								if not FastAttackThread then FastAttackThread = task.spawn(FastAttackLoop) end
+							else
+								AttackNoCoolDown()
+							end
+
+							-- chờ mob chết
 							repeat
 								task.wait(0.08)
-								if getgenv().AutoHakiEnabled then AutoHaki() end
-								EquipWeapon(getgenv().SelectWeapon)
-								if getgenv().FastAttackEnabled then
-									if not FastAttackThread then FastAttackThread = task.spawn(FastAttackLoop) end
-								else
-									AttackNoCoolDown()
-								end
-								-- magnet/collider changes
-								pcall(function()
-									hrp.CanCollide = false
-									if mob:FindFirstChild("Head") then mob.Head.CanCollide = false end
-									humanoid.WalkSpeed = 0
-								end)
-							until not getgenv().AutoFarmEnabled or humanoid.Health <= 0 or not mob.Parent
+								-- break nếu mob biến mất hoặc chết
+							until not getgenv().AutoFarmEnabled or not humanoid or humanoid.Health <= 0 or not mob.Parent
+
 							task.wait(0.2)
 						end
 					end
