@@ -16,18 +16,7 @@ local Main = Window:MakeTab({ Name = "Main", Icon = "", PremiumOnly = false })
 local Farm = Main:AddSection({ Name = "Farm" })
 local Setting = Window:MakeTab({ Name = "Setting", Icon = "", PremiumOnly = false })
 
--- =========================
--- Flags (use Enabled suffix to avoid name clash with functions)
--- =========================
-getgenv().AutoFarmEnabled   = false
-getgenv().AutoHakiEnabled   = false
-getgenv().FastAttackEnabled = false
-getgenv().SelectWeapon      = "Melee"
-getgenv().InstantRange      = 300
-getgenv().TweenRange        = 5000
-getgenv().Speed             = 1000
-getgenv().NotAutoEquip      = false
-getgenv().StartMagnet       = false
+
 
 --// Dropdown chọn weapon
 Main:AddDropdown({
@@ -35,11 +24,50 @@ Main:AddDropdown({
 	Default = "Melee",
 	Options = {"Melee", "Sword", "Gun", "Fruit"},
 	Callback = function(Value)
-		getgenv().SelectWeapon = Value
+		_G.SelectWeapon = Value
 	end    
 })
-
 -- NOTE: replace old Main:AddToggle that used getgenv().AutoFarm (collision). Use Enabled flags below.
+task.spawn(function()
+	while wait(0.2) do
+		pcall(function()
+			if _G.SelectWeapon == "Melee" then
+				for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Melee" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name;
+						end;
+					end;
+				end;
+			elseif _G.SelectWeapon == "Sword" then
+				for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Sword" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name;
+						end;
+					end;
+				end;
+			elseif _G.SelectWeapon == "Gun" then
+				for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Gun" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name;
+						end;
+					end;
+				end;
+			elseif _G.SelectWeapon == "Fruit" then
+				for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Blox Fruit" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name;
+						end;
+					end;
+				end;
+			end;
+		end);
+	end;
+end);
+
 
 --// Toggles (use Enabled flags)
 Main:AddToggle({
@@ -59,40 +87,20 @@ Main:AddToggle({
 	Name = "Auto Haki",
 	Default = false,
 	Callback = function(Value)
-		getgenv().AutoHakiEnabled = Value
+		_G.AutoHaki = Value
 	end
 })
 
---// Settings sliders
-Setting:AddSlider({
-	Name = "Instant Range",
-	Min = 50, Max = 1000, Default = 300,
-	Color = Color3.fromRGB(255,100,100), Increment = 10, ValueName = "studs",
-	Callback = function(Value) getgenv().InstantRange = Value end    
-})
 
-Setting:AddSlider({
-	Name = "Tween Range",
-	Min = 500, Max = 10000, Default = 5000,
-	Color = Color3.fromRGB(100, 255, 100), Increment = 50, ValueName = "studs",
-	Callback = function(Value) getgenv().TweenRange = Value end    
-})
-
-Setting:AddSlider({
-	Name = "Tween Speed",
-	Min = 200, Max = 3000, Default = 1000,
-	Color = Color3.fromRGB(100, 100, 255), Increment = 50, ValueName = "studs/s",
-	Callback = function(Value) getgenv().Speed = Value end    
-})
 
 --// World check
 local Sea1, Sea2, Sea3
-if game.PlaceId == 2753915549 then 
-	Sea1 = true
+if game.PlaceId == 2753915549 then
+	FirstSea = true
 elseif game.PlaceId == 4442272183 then 
-	Sea2 = true
+	SecondSea = true
 elseif game.PlaceId == 7449423635 then
-	Sea3 = true
+	ThirdSea = true
 end
 
 --// Quest (keeps your mapping)
@@ -100,7 +108,7 @@ function CheckQuest()
 	local ok, level = pcall(function() return Player.Data.Level.Value end)
 	if not ok or not level then return end
 	local MyLevel = level
-	if Sea1 then
+	if FirstSea then
 		if MyLevel >= 1 and MyLevel <= 10 then
 			Mon = "Bandit"
 			LevelQuest = 1
@@ -171,7 +179,7 @@ function AutoHaki()
 end
 task.spawn(function()
 	while task.wait(3) do
-		if getgenv().AutoHakiEnabled then pcall(AutoHaki) end
+		if _G.AutoHaki then pcall(AutoHaki) end
 	end
 end)
 
@@ -213,6 +221,55 @@ function EquipWeapon(ToolSe)
 end
 
 --// SmartTP
+function CheckNearestTeleporter(targetCFrame)
+	local pos = targetCFrame.Position
+	local Teleporters = {}
+	if FirstSea then
+        Teleporters = {
+            Vector3.new(-4652,873,-1754),   -- Sky Island 1
+            Vector3.new(-7895,5547,-380),   -- Sky Island 2
+            Vector3.new(61164,5,1820),      -- Under Water Island
+            Vector3.new(3865,5,-1926),      -- Under Water Entrance
+        }
+    elseif SecondSea then
+        Teleporters = {
+            Vector3.new(-317,331,597),      -- Flamingo Mansion
+            Vector3.new(2283,15,867),       -- Flamingo Room
+            Vector3.new(923,125,32853),     -- Cursed Ship
+            Vector3.new(-6509,83,-133),     -- Zombie Island
+        }
+    elseif ThirdSea then
+        Teleporters = {
+            Vector3.new(-12471,374,-7551),  -- Mansion
+            Vector3.new(5659,1013,-341),    -- Hydra
+            Vector3.new(-5092,315,-3130),   -- Castle On The Sea
+            Vector3.new(-12001,332,-8861),  -- Floating Turtle
+            Vector3.new(5319,23,-93),       -- Beautiful Pirate
+            Vector3.new(28286,14897,103),   -- Temple Of Time
+        }
+    end
+		
+	local closest, minDist = nil, math.huge
+    for _,v in ipairs(Teleporters) do
+        local d = (v - pos).Magnitude
+        if d < minDist then minDist = d; closest = v end
+    end
+
+    if closest and HRP() then
+        local direct = (HRP().Position - pos).Magnitude
+        if minDist <= direct then return closest end
+    end
+end
+
+local function requestEntrance(pos)
+    SafeInvokeCommF("requestEntrance", pos)
+	local hrp = HRP()
+    if hrp then 
+    	hrp.CFrame = hrp.CFrame + Vector3.new(0,50,0) 
+    end -- tránh kẹt
+    task.wait(0.4)
+end
+
 local function ResetCharacter()
 	if Player.Character and Player.Character:FindFirstChild("Humanoid") then
 		Player.Character.Humanoid.Health = 0
@@ -224,18 +281,34 @@ function SmartTP(targetCFrame)
 	local hrp = HRP()
 	local distance = (targetCFrame.Position - hrp.Position).Magnitude
 
-	if distance <= (getgenv().InstantRange or 300) then
+	if distance <= 300 then
 		hrp.CFrame = targetCFrame
 		return "Instant"
 	end
-	if distance <= (getgenv().TweenRange or 5000) then
-		tween = TweenService:Create(hrp, TweenInfo.new(distance / (getgenv().Speed or 1000), Enum.EasingStyle.Linear), {CFrame = targetCFrame})
+	
+	local tele = CheckNearestTeleporter(targetCFrame)
+    if tele then 
+    	requestEntrance(tele)
+    	return "teleporter" 
+    end
+	
+	if distance <= 5000 then
+		pcall(function()
+		tween = TweenService:Create(hrp, TweenInfo.new(distance / 375, Enum.EasingStyle.Linear), {CFrame = targetCFrame})
 		tween:Play()
 		tween.Completed:Wait()
+			if tween.PlaybackState = Enum.PlaybackState.Playing then
+				tween:Cancel
+			end
 		return "Tween"
+		end)
 	end
-	ResetCharacter()
-	return "Reset"
+  if distance > 5000  then
+    hrp.CFrame = targetCFrame
+    task.wait(0.5)
+    ResetCharacter()
+    return "Reset"
+  end
 end
 
 --// StopTween
@@ -393,28 +466,13 @@ function AutoFarmLoop()
 
 							-- đứng trên mob
 							pcall(function() SmartTP(hrp.CFrame * CFrame.new(0, 20, 5)) end)
-
-							-- cố định mob / neo
 							pcall(function()
 								hrp.CanCollide = false
 								if mob:FindFirstChild("Head") then mob.Head.CanCollide = false end
 								humanoid.WalkSpeed = 0
 							end)
-
-							-- buff/auto equip/attack
-							if getgenv().AutoHakiEnabled then pcall(AutoHaki) end
-							if getgenv().SelectWeapon then pcall(function() EquipWeapon(getgenv().SelectWeapon) end) end
-
-							if getgenv().FastAttackEnabled then
-								if not FastAttackThread then FastAttackThread = task.spawn(FastAttackLoop) end
-							else
-								AttackNoCoolDown()
-							end
-
-							-- chờ mob chết
 							repeat
 								task.wait(0.08)
-								-- break nếu mob biến mất hoặc chết
 							until not getgenv().AutoFarmEnabled or not humanoid or humanoid.Health <= 0 or not mob.Parent
 
 							task.wait(0.2)
@@ -453,6 +511,3 @@ Main:AddToggle({
 		end
 	end
 })
-
--- done
-print("[Mango Hub] Loaded (fixed). Use toggles in GUI. If any console error appears, chụp gửi mình sẽ fix tiếp.")
