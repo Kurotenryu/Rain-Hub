@@ -221,95 +221,158 @@ function EquipWeapon(ToolSe)
 end
 
 --// SmartTP
-function CheckNearestTeleporter(targetCFrame)
-	local pos = targetCFrame.Position
-	local Teleporters = {}
-	if FirstSea then
-        Teleporters = {
-            Vector3.new(-4652,873,-1754),   -- Sky Island 1
-            Vector3.new(-7895,5547,-380),   -- Sky Island 2
-            Vector3.new(61164,5,1820),      -- Under Water Island
-            Vector3.new(3865,5,-1926),      -- Under Water Entrance
-        }
-    elseif SecondSea then
-        Teleporters = {
-            Vector3.new(-317,331,597),      -- Flamingo Mansion
-            Vector3.new(2283,15,867),       -- Flamingo Room
-            Vector3.new(923,125,32853),     -- Cursed Ship
-            Vector3.new(-6509,83,-133),     -- Zombie Island
-        }
-    elseif ThirdSea then
-        Teleporters = {
-            Vector3.new(-12471,374,-7551),  -- Mansion
-            Vector3.new(5659,1013,-341),    -- Hydra
-            Vector3.new(-5092,315,-3130),   -- Castle On The Sea
-            Vector3.new(-12001,332,-8861),  -- Floating Turtle
-            Vector3.new(5319,23,-93),       -- Beautiful Pirate
-            Vector3.new(28286,14897,103),   -- Temple Of Time
-        }
-    end
-		
-	local closest, minDist = nil, math.huge
-    for _,v in ipairs(Teleporters) do
-        local d = (v - pos).Magnitude
-        if d < minDist then minDist = d; closest = v end
-    end
+-- ================= SmartTP / Teleporter / Tween (fixed, safe) ================
 
-    if closest and HRP() then
-        local direct = (HRP().Position - pos).Magnitude
-        if minDist <= direct then return closest end
-    end
-end
+local currentTween -- active tween reference
 
-local function requestEntrance(pos)
-    SafeInvokeCommF("requestEntrance", pos)
-	local hrp = HRP()
-    if hrp then 
-    	hrp.CFrame = hrp.CFrame + Vector3.new(0,50,0) 
-    end -- tránh kẹt
-    task.wait(0.4)
+local function StopCurrentTween()
+    if currentTween then
+        pcall(function()
+            currentTween:Cancel()
+        end)
+        currentTween = nil
+    end
 end
 
 local function ResetCharacter()
-	if Player.Character and Player.Character:FindFirstChild("Humanoid") then
-		Player.Character.Humanoid.Health = 0
-	end
+    local h = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+    if h then
+        pcall(function() h.Health = 0 end)
+    end
 end
 
-function SmartTP(targetCFrame)
-	if not HRP() then return end
-	local hrp = HRP()
-	local distance = (targetCFrame.Position - hrp.Position).Magnitude
+-- trả về Vector3 của teleporter gần targetCFrame (hoặc nil)
+function CheckNearestTeleporter(targetCFrame)
+    if not targetCFrame or typeof(targetCFrame) ~= "CFrame" then return nil end
+    local pos = targetCFrame.Position
+    local Teleporters = {}
 
-	if distance <= 300 then
-		hrp.CFrame = targetCFrame
-		return "Instant"
-	end
-	
-	local tele = CheckNearestTeleporter(targetCFrame)
-    if tele then 
-    	requestEntrance(tele)
-    	return "teleporter" 
+    if FirstSea then
+        Teleporters = {
+            Vector3.new(-4652,873,-1754),
+            Vector3.new(-7895,5547,-380),
+            Vector3.new(61164,5,1820),
+            Vector3.new(3865,5,-1926),
+        }
+    elseif SecondSea then
+        Teleporters = {
+            Vector3.new(-317,331,597),
+            Vector3.new(2283,15,867),
+            Vector3.new(923,125,32853),
+            Vector3.new(-6509,83,-133),
+        }
+    elseif ThirdSea then
+        Teleporters = {
+            Vector3.new(-12471,374,-7551),
+            Vector3.new(5659,1013,-341),
+            Vector3.new(-5092,315,-3130),
+            Vector3.new(-12001,332,-8861),
+            Vector3.new(5319,23,-93),
+            Vector3.new(28286,14897,103),
+        }
     end
-	
-	if distance <= 5000 then
-		pcall(function()
-		tween = TweenService:Create(hrp, TweenInfo.new(distance / 375, Enum.EasingStyle.Linear), {CFrame = targetCFrame})
-		tween:Play()
-		tween.Completed:Wait()
-			if tween.PlaybackState = Enum.PlaybackState.Playing then
-				tween:Cancel
-			end
-		return "Tween"
-		end)
-	end
-  if distance > 5000  then
-    hrp.CFrame = targetCFrame
-    task.wait(0.5)
+
+    if #Teleporters == 0 then return nil end
+
+    local closest, minDist = nil, math.huge
+    for _, v in ipairs(Teleporters) do
+        local d = (v - pos).Magnitude
+        if d < minDist then
+            minDist = d
+            closest = v
+        end
+    end
+
+    -- nếu không có HRP thì trả nil
+    local hrp = HRP()
+    if not closest or not hrp then return closest end
+
+    local direct = (hrp.Position - pos).Magnitude
+    -- nếu teleporter gần target hơn so với khoảng cách từ bạn tới target thì trả tele
+    if minDist <= direct then
+        return closest
+    end
+    return nil
+end
+
+local function requestEntrance(pos)
+    pcall(function()
+        SafeInvokeCommF("requestEntrance", pos)
+    end)
+    local hrp = HRP()
+    if hrp then
+        -- đẩy lên 1 chút để tránh kẹt
+        pcall(function() hrp.CFrame = hrp.CFrame + Vector3.new(0,50,0) end)
+    end
+    task.wait(0.4)
+end
+
+-- SmartTP: Instant -> Teleporter -> Tween -> Reset
+-- Trả về: "Instant" / "teleporter" / "Tween" / "Reset" / "no_hrp"
+function SmartTP(targetCFrame)
+    local hrp = HRP()
+    if not hrp then return "no_hrp" end
+    if not targetCFrame or typeof(targetCFrame) ~= "CFrame" then return "invalid_target" end
+
+    local distance = (targetCFrame.Position - hrp.Position).Magnitude
+    local instantRange = (getgenv().InstantRange or 300)
+    local tweenRange   = (getgenv().TweenRange or 5000)
+    local speed        = (getgenv().Speed or 1000)
+
+    if distance <= instantRange then
+        pcall(function() hrp.CFrame = targetCFrame end)
+        return "Instant"
+    end
+
+    local tele = CheckNearestTeleporter(targetCFrame)
+    if tele then
+        requestEntrance(tele)
+        return "teleporter"
+    end
+
+    if distance <= tweenRange then
+        -- tween an toàn: hủy tween hiện tại trước khi tạo tween mới
+        StopCurrentTween()
+        local ok, err = pcall(function()
+            local info = TweenInfo.new(distance / speed, Enum.EasingStyle.Linear)
+            currentTween = TweenService:Create(hrp, info, {CFrame = targetCFrame})
+            currentTween:Play()
+            currentTween.Completed:Wait()
+            -- sau khi hoàn tất, cleanup
+            StopCurrentTween()
+        end)
+        if not ok then
+            warn("[SmartTP] Tween error:", err)
+            -- fallback an toàn: reset character để teleport
+            ResetCharacter()
+            return "Reset"
+        end
+        return "Tween"
+    end
+
+    -- quá xa -> reset (respawn) để dịch chuyển
     ResetCharacter()
     return "Reset"
-  end
 end
+
+-- StopTween public: hủy tween và giữ thr safe position
+function StopTween()
+    pcall(function()
+        getgenv().StopTween = true
+        StopCurrentTween()
+        local hrp = HRP()
+        if hrp then
+            local cf = hrp.CFrame
+            hrp.Anchored = true
+            task.wait(0.1)
+            hrp.CFrame = cf
+            hrp.Anchored = false
+        end
+        getgenv().StopTween = false
+    end)
+end
+
+-- ============================================================================
 
 --// StopTween
 function StopTween()
