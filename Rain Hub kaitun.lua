@@ -226,7 +226,6 @@ end
 
 -- trả về Vector3 của teleporter gần targetCFrame (hoặc nil)
 function CheckNearestTeleporter(targetCFrame)
-    if not targetCFrame or typeof(targetCFrame) ~= "CFrame" then return nil end
     local pos = targetCFrame.Position
     local Teleporters = {}
 
@@ -255,8 +254,6 @@ function CheckNearestTeleporter(targetCFrame)
         }
     end
 
-    if #Teleporters == 0 then return nil end
-
     local closest, minDist = nil, math.huge
     for _, v in ipairs(Teleporters) do
         local d = (v - pos).Magnitude
@@ -275,7 +272,6 @@ function CheckNearestTeleporter(targetCFrame)
     if minDist <= direct then
         return closest
     end
-    return nil
 end
 
 local function requestEntrance(pos)
