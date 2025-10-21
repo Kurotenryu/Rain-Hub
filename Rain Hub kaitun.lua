@@ -171,17 +171,14 @@ end
 
 --// Auto Haki (safe)
 function AutoHaki()
+	while task.wait(3)
 	local char = Player.Character
 	if not char then return end
-	if not char:FindFirstChild("HasBuso") and getgenv().AutoHakiEnabled then
+	if not char:FindFirstChild("HasBuso") then
 		pcall(function() Rep.Remotes.CommF_:InvokeServer("Buso") end)
 	end
 end
-task.spawn(function()
-	while task.wait(3) do
-		if _G.AutoHaki then pcall(AutoHaki) end
-	end
-end)
+end
 
 --// HRP shortcut
 local function HRP() 
@@ -206,13 +203,11 @@ end
 function EquipWeapon(ToolSe)
 	local now = tick()
 	if now - lastEquipTime >= 0.5 then        
-		if not getgenv().NotAutoEquip then
-			local char = Player.Character
-			local backpack = Player.Backpack
-			if char and backpack then
-				local tool = char:FindFirstChild(ToolSe) or backpack:FindFirstChild(ToolSe)
+		if not game.Players.LocalPlayer.Character:FindFirstChild(ToolSe) then
+			if  game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+				local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) or game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
 				if tool and char:FindFirstChildOfClass("Humanoid") then
-					char.Humanoid:EquipTool(tool)
+					game.Players.LocalPlayer.Character.Humanoid:EquipTool(Tool);
 				end
 			end
 		end
@@ -221,19 +216,7 @@ function EquipWeapon(ToolSe)
 end
 
 --// SmartTP
--- ================= SmartTP / Teleporter / Tween (fixed, safe) ================
-
-local currentTween -- active tween reference
-
-local function StopCurrentTween()
-    if currentTween then
-        pcall(function()
-            currentTween:Cancel()
-        end)
-        currentTween = nil
-    end
-end
-
+- ============================================================================
 local function ResetCharacter()
     local h = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
     if h then
@@ -313,13 +296,7 @@ function SmartTP(targetCFrame)
     local hrp = HRP()
     if not hrp then return "no_hrp" end
     if not targetCFrame or typeof(targetCFrame) ~= "CFrame" then return "invalid_target" end
-
-    local distance = (targetCFrame.Position - hrp.Position).Magnitude
-    local instantRange = (getgenv().InstantRange or 300)
-    local tweenRange   = (getgenv().TweenRange or 5000)
-    local speed        = (getgenv().Speed or 1000)
-
-    if distance <= instantRange then
+    if distance <= 300 then
         pcall(function() hrp.CFrame = targetCFrame end)
         return "Instant"
     end
@@ -330,11 +307,11 @@ function SmartTP(targetCFrame)
         return "teleporter"
     end
 
-    if distance <= tweenRange then
+    if distance <= 5000 then
         -- tween an toàn: hủy tween hiện tại trước khi tạo tween mới
         StopCurrentTween()
         local ok, err = pcall(function()
-            local info = TweenInfo.new(distance / speed, Enum.EasingStyle.Linear)
+            local info = TweenInfo.new(distance / 375, Enum.EasingStyle.Linear)
             currentTween = TweenService:Create(hrp, info, {CFrame = targetCFrame})
             currentTween:Play()
             currentTween.Completed:Wait()
@@ -354,26 +331,6 @@ function SmartTP(targetCFrame)
     ResetCharacter()
     return "Reset"
 end
-
--- StopTween public: hủy tween và giữ thr safe position
-function StopTween()
-    pcall(function()
-        getgenv().StopTween = true
-        StopCurrentTween()
-        local hrp = HRP()
-        if hrp then
-            local cf = hrp.CFrame
-            hrp.Anchored = true
-            task.wait(0.1)
-            hrp.CFrame = cf
-            hrp.Anchored = false
-        end
-        getgenv().StopTween = false
-    end)
-end
-
--- ============================================================================
-
 --// StopTween
 function StopTween()
 	pcall(function()
@@ -526,7 +483,8 @@ function AutoFarmLoop()
 								SmartTP(CFrameMon)
 								task.wait(0.2)
 							end
-
+							EquipWeapon(_G.SelectWeapon)
+							AutoHaki()
 							-- đứng trên mob
 							pcall(function() SmartTP(hrp.CFrame * CFrame.new(0, 20, 5)) end)
 							pcall(function()
@@ -536,7 +494,7 @@ function AutoFarmLoop()
 							end)
 							repeat
 								task.wait(0.08)
-							until not getgenv().AutoFarmEnabled or not humanoid or humanoid.Health <= 0 or not mob.Parent
+							until not getgenv().AutoFarmEnabled or not humanoid or humanoid.Health <= 0 or not mob.Parent or (game:GetService("Players")).LocalPlayer.PlayerGui.Main.Quest.Visible == false;
 
 							task.wait(0.2)
 						end
