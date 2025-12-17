@@ -398,6 +398,42 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF
   end
 })
 
+Taps.Shop:AddButton({
+  Title = "Ari Jump",
+  Description = "",
+  Callback = function()
+    local args = {
+	"BuyHaki",
+	"Geppo"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+  end
+})
+
+Tabs.Shop:AddButton({
+  Title = "Aura",
+  Description = "",
+  Callback = function()
+    local args = {
+	"BuyHaki",
+	"Buso"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+  end
+})
+
+Tabs.Shop:AddButton({
+  Title = "Flash Steap",
+  Descript = "",
+  Callback = function()
+    local args = {
+	"BuyHaki",
+	"Soru"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+  end
+})
+
 --TabsMain
 Tabs.Main:AddSection("Farms")
 Tabs.Main:AddToggle("MyToggle", {
