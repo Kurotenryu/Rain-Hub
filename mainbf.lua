@@ -309,6 +309,36 @@ task.spawn(function()
     end
   end
 end)
+
+task.spawn(function()
+  if _G.BringMob then
+    pcall(function()
+      sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+      while task.wait() do
+        for _, v in pairs(workspace.Enemies:GetChildren()) do
+          pcall(function()
+            if v.Name ~= MonFarm then return end
+            local hum = v:FindFirstChild("Humanoid")
+            local hrp = v:FindFirstChild("HumanoidRootPart")
+            local head = v:FindFirstChild("Head")
+            if not hum or not hrp or hum.Health <= 0 then return end
+            hrp:SetNetworkOwner(game.Players.LocalPlayer)
+            hrp.CFrame = FarmPos * CFrame.new(0, 0, -5)
+            hrp.Size = Vector3.new(25,25,25)
+            hrp.CanCollide = false
+            if head then head.CanCollide = false end
+            hum.WalkSpeed = 1
+            hum.JumpPower = 1
+            hum:ChangeState(Enum.HumanoidStateType.Running)
+            local animator = hum:FindFirstChild("Animator")
+            if animator then animator:Destroy() end
+          end)
+        end
+      end
+    end)
+  end
+end)
+
 --uimain
 
 --Ui
@@ -519,9 +549,10 @@ task.spawn(function()
                   repeat
 					task.wait(2)
                     AutoHaki()
+					_G.BringMob = true						
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-                    v.Humanoid.JumpPower = 0
-                    v.Humanoid.WalkSpeed = 0
+					MonFarm = v.Name
+					FarmPos = v.HumanoidRootPart.CFrame
                     v.HumanoidRootPart.CanCollide = false
                   until not _G.AutoBones or v.Humanoid.Health <= 0
                 end
