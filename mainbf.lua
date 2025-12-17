@@ -317,7 +317,7 @@ task.spawn(function()
       while task.wait() do
         for _, v in pairs(workspace.Enemies:GetChildren()) do
           pcall(function()
-            if v.Name ~= MonFarm then return end
+            if v.Name == MonFarm then  
             local hum = v:FindFirstChild("Humanoid")
             local hrp = v:FindFirstChild("HumanoidRootPart")
             local head = v:FindFirstChild("Head")
@@ -332,6 +332,7 @@ task.spawn(function()
             hum:ChangeState(Enum.HumanoidStateType.Running)
             local animator = hum:FindFirstChild("Animator")
             if animator then animator:Destroy() end
+			end
           end)
         end
       end
@@ -549,6 +550,7 @@ task.spawn(function()
                   repeat
 					task.wait(2)
                     AutoHaki()
+					StartFastAttack()
 					_G.BringMob = true						
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
 					MonFarm = v.Name
