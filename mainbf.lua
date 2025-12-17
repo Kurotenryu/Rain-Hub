@@ -491,7 +491,7 @@ task.spawn(function()
               if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                   repeat
-					task.wait(0.8)
+					task.wait(1.5)
                     AutoHaki()
 					FastAttackLoop()						
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
@@ -760,7 +760,7 @@ task.spawn(function()
                 if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
                   if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
                     repeat
-					  task.wait(0.8)
+					  task.wait(1.5)
                       AutoHaki()
 					  FastAttackLoop()
                       TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
