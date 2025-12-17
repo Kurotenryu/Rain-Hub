@@ -29,8 +29,8 @@ function TP(Pos)
       local player = game.Players.LocalPlayer
       local char = player.Character
       if not char then return end
-      local hum = char:FindFirstChildOfClass("Humanoid")
-      local hrp = char:FindFirstChild("HumanoidRootPart")
+      local hum = char:WaitForChild("Humanoid")
+      local hrp = char:WaitForChild("HumanoidRootPart")
       if not hum or not hrp then return end
       if hum.Sit then hum.Sit = false end
       if not char:FindFirstChild("Root") then
