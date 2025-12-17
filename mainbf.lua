@@ -310,35 +310,6 @@ task.spawn(function()
   end
 end)
 
-task.spawn(function()
-  if _G.BringMob then
-    pcall(function()
-      sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-      while task.wait() do
-        for _, v in pairs(workspace.Enemies:GetChildren()) do
-          pcall(function()
-            if v.Name == MonFarm then  
-            local hum = v:FindFirstChild("Humanoid")
-            local hrp = v:FindFirstChild("HumanoidRootPart")
-            local head = v:FindFirstChild("Head")
-            if not hum or not hrp or hum.Health <= 0 then return end
-            hrp:SetNetworkOwner(game.Players.LocalPlayer)
-            hrp.CFrame = FarmPos * CFrame.new(0, 0, -5)
-            hrp.Size = Vector3.new(25,25,25)
-            hrp.CanCollide = false
-            if head then head.CanCollide = false end
-            hum.WalkSpeed = 1
-            hum.JumpPower = 1
-            hum:ChangeState(Enum.HumanoidStateType.Running)
-            local animator = hum:FindFirstChild("Animator")
-            if animator then animator:Destroy() end
-			end
-          end)
-        end
-      end
-    end)
-  end
-end)
 
 --uimain
 
@@ -548,13 +519,10 @@ task.spawn(function()
               if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                   repeat
-					task.wait(2)
-                    AutoHaki()
-					StartFastAttack()
-					_G.BringMob = true						
+					task.wait()
+                    AutoHaki(0.8)
+					StartFastAttack()						
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-					MonFarm = v.Name
-					FarmPos = v.HumanoidRootPart.CFrame
                     v.HumanoidRootPart.CanCollide = false
                   until not _G.AutoBones or v.Humanoid.Health <= 0
                 end
@@ -820,10 +788,11 @@ task.spawn(function()
                 if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
                   if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
                     repeat
+					  task.wait(0.8)
                       AutoHaki()
                       TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-                      v.Humanoid.WalkSpeed=0
-                      v.HumanoidRootPart.CanCollide=false
+                      v.Humanoid.WalkSpeed = 0
+                      v.HumanoidRootPart.CanCollide = false
                     until not _G.AutoElite or v.Humanoid.Health <= 0
                   end
                 end
