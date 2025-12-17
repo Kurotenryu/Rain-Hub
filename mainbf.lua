@@ -182,109 +182,81 @@ function AutoHaki()
   end
 end
 
-function StartFastAttack()
-    task.spawn(function()
-        pcall(function()
-            local Players = game:GetService("Players")
-            local RunService = game:GetService("RunService")
-            local ReplicatedStorage = game:GetService("ReplicatedStorage")
-            local Player = Players.LocalPlayer
-            local EXTENDED_RANGE = 180
-            local WINDUP_TIME = 0.4
-            local MIN_LOOP = 0.05
-            local JITTER = 0.005
-            local SAFE_CALLS = 20
-            local calls, window_t = 0, tick()
-            local function can_call()
-            local now = tick()
-            if now - window_t >= 1 then
-                window_t, calls = now, 0
-            end
-            if calls < SAFE_CALLS then
-                calls += 1
-                return true
-            end
-                return false
-            end
-            local function HRP()
-                return Player.Character and Player.Character:FindFirstChild("HumanoidRootPart")
-            end
-            local function IsAlive(m)
-                local h = m and m:FindFirstChildOfClass("Humanoid")
-                return h and h.Health > 0
-            end
-            local function GetEnemyInRange(r)
-    local hrp = HRP()
-    if not hrp then return nil end
-
-    local folder = workspace:FindFirstChild("Enemies") or workspace:FindFirstChild("Monsters")
-    if not folder then return nil end
-
-    local best = nil
-    local bestD = math.huge
-
-    for _, e in ipairs(folder:GetChildren()) do
-        if IsAlive(e) and e:FindFirstChild("HumanoidRootPart") then
-            local d = (e.HumanoidRootPart.Position - hrp.Position).Magnitude
-            if d <= r and d < bestD then
-                best = e
-                bestD = d
+local function GetEnemiesInRange(character, range)
+    local list = {}
+    local Enemies = Workspace:FindFirstChild("Enemies") or Workspace:WaitForChild("Enemies")
+    if not character then return list end
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return list end
+    for _, mob in ipairs(Enemies:GetChildren()) do
+        local mhrp = mob:FindFirstChild("HumanoidRootPart")
+        local mhum = mob:FindFirstChildOfClass("Humanoid")
+        if mhrp and mhum and mhum.Health > 0 then
+            if (mhrp.Position - hrp.Position).Magnitude <= range then
+                table.insert(list, mob)
             end
         end
     end
-
-    if not best then return nil end
-
-    return best:FindFirstChild("Head") or best.HumanoidRootPart
+    return list
 end
-            local function PlayToolAnim(tool)
-                local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
-                if not hum then return end
-                local anim = tool:FindFirstChildWhichIsA("Animation")
-                if anim then
-                local ok, track = pcall(function() return hum:LoadAnimation(anim) end)
-                    if ok and track then pcall(function() track:Play() end) end
-                    
+
+function AttackNoCoolDown()
+    local char = game:GetService("Players").LocalPlayer.Character
+  if not char then return end
+    local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    for _, it in ipairs(char:GetChildren()) do
+        if it:IsA("Tool") then
+            tool = it 
+            break 
+        end
+    end
+    if not tool then return end
+    local targets = GetEnemiesInRange(char, 120)
+    if #targets == 0 then return end
+    if tool:FindFirstChild("LeftClickRemote") then
+        local n = 1
+        for _, mob in ipairs(targets) do
+            local root = mob:FindFirstChild("HumanoidRootPart")
+            if root then
+                local dir = (root.Position - char:GetPivot().Position).Unit
+                pcall(function()
+                    tool.LeftClickRemote:FireServer(dir, n) 
+                end)
+                n += 1
+                task.wait(0.03)
+            end
+        end
+    else
+        local mainHead, hitTable
+        hitTable = {}
+        for _, mob in ipairs(targets) do
+            if not mob:GetAttribute("IsBoat") then
+                local head = mob:FindFirstChild("Head")
+                if head then 
+                    table.insert(hitTable, {mob, head})
+                    mainHead = mainHead or head 
                 end
             end
-            local function FireAttack(tool, target, count)
-                if not can_call() then return end
-                local click = tool:FindFirstChild("LeftClickRemote")
-                if click then
-                    pcall(function()
-                    local hrp = HRP()
-                    local dir = (target.Position - hrp.Position).Unit
-                        click:FireServer(dir, count)
-                    end)
-                    return
-                end
-                local Net = ReplicatedStorage:FindFirstChild("Modules") and ReplicatedStorage.Modules:FindFirstChild("Net")
-                if Net then
-                    pcall(function()
-                        Net["RE/RegisterAttack"]:FireServer(0.1)
-                        Net["RE/RegisterHit"]:FireServer(target, {{target.Parent, target}})
-                        
-                    end)
-                end
+        end
+        if mainHead then
+            local ok, Net = pcall(function() return game:GetService("ReplicatedStorage").Modules and game:GetService("ReplicatedStorage").Modules.Net end)
+            if ok and Net and Net["RE/RegisterAttack"] and Net["RE/RegisterHit"] then
+                pcall(function()
+                    Net["RE/RegisterAttack"]:FireServer(0.1)
+                    Net["RE/RegisterHit"]:FireServer(mainHead, hitTable)
+                end)
             end
-            local counter = 1
-            while task.wait() do
-                task.wait(MIN_LOOP + math.random() * JITTER)
-                local char = Player.Character
-                if not char then continue end
-                local tool = char:FindFirstChildOfClass("Tool")
-                if not tool then continue end
-                local typ = (tool:GetAttribute("WeaponType") or ""):lower()
-                if typ ~= "melee" and typ ~= "sword" then continue end
-                local target = GetEnemyInRange(EXTENDED_RANGE)
-                if not target then continue end
-                PlayToolAnim(tool)
-                task.wait(WINDUP_TIME)
-                FireAttack(tool, target, counter)
-                counter += 1
-            end
+        end
+    end
+end
+
+function FastAttackLoop()
+    while task.wait(0.05 + math.radom() * 0.005) do
+        pcall(function()
+            AttackNoCoolDown()
         end)
-    end)
+        task.wait(0.08)
+    end
 end
 
 function EquipTool(ToolSe)
@@ -519,9 +491,9 @@ task.spawn(function()
               if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                   repeat
-					task.wait()
-                    AutoHaki(0.8)
-					StartFastAttack()						
+					task.wait(0.8)
+                    AutoHaki()
+					FastAttackLoop()						
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
                     v.HumanoidRootPart.CanCollide = false
                   until not _G.AutoBones or v.Humanoid.Health <= 0
@@ -790,6 +762,7 @@ task.spawn(function()
                     repeat
 					  task.wait(0.8)
                       AutoHaki()
+					  FastAttackLoop()
                       TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
                       v.Humanoid.WalkSpeed = 0
                       v.HumanoidRootPart.CanCollide = false
