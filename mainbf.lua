@@ -398,8 +398,8 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF
   end
 })
 
-Taps.Shop:AddButton({
-  Title = "Ari Jump",
+Tabs.Shop:AddButton({
+  Title = "Air Jump",
   Description = "",
   Callback = function()
     local args = {
@@ -423,8 +423,8 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF
 })
 
 Tabs.Shop:AddButton({
-  Title = "Flash Steap",
-  Descript = "",
+  Title = "Flash Step",
+  Description = "",
   Callback = function()
     local args = {
 	"BuyHaki",
