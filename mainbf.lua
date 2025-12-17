@@ -517,6 +517,7 @@ task.spawn(function()
               if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
                 if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                   repeat
+					task.wait()
                     AutoHaki()
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
                     v.Humanoid.JumpPower = 0
