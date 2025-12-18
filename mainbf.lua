@@ -596,31 +596,62 @@ task.spawn(function()
             task.wait(0.5)
           end
         end)
-      elseif _G.AutoBones and not _G.AcceptQuest then
-        pcall(function()
-          if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
-            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-              if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
-                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                  repeat
-                    game:GetService("RunService").Heartbeat:wait()
-                    AutoHaki()
-					Fly()
-                    v.HumanoidRootPart.CanCollide = false
-                    v.Humanoid.WalkSpeed = 0
-                    v.Head.CanCollide = false
-                    TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-                    FastAttackLoop()
-                  until not _G.AutoBones or _G.AccpetQuest or not v.Parent or v.Humanoid.Health <= 0
-                end
-              end
-            end
-          else
-		    TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
-          end
-        end)
       end
     end
+end)
+
+task.spawn(function()
+  while task.wait() do
+    if not _G.AccpetQuest and _G.AutoBones then
+      pcall(function()
+        if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+          for i, v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
+            if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+              if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                repeat
+                  task.wait(0.15)
+                  Fly()
+                  v.HumanoidRootPart.CanCollide = false
+                  v.Humanoid.WalkSpeed = 0
+                  v.Head.CanCollide = false
+                  TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
+                  AutoHaki()
+                  FastAttackLoop()
+                until not _G.AutoBones or _G.AcceptQuest or v.Humanoid.Health <= 0
+              end
+            end
+          end
+        else
+          TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
+        end
+      end)
+    end
+  end
+end)
+
+task.spawn(function()
+  while task.wait() do
+    if _G.AutoTS and not _G.AccpetQuest then
+      if game:GetService("Workspace").Enemies:FindFirstChild("Isle Outlaw") or game:GetService("Workspace").Enemies:FindFirstChild("Island Boy") or game:GetService("Workspace").Enemies:FindFirstChild("Isle Champion") or game:GetService("Workspace").Enemies:FindFirstChild("Skull Slayer") or game:GetService("Workspace").Enemies:FindFirstChild("Serpent Hunter") or game:GetService("Workspace").Enemies:FindFirstChild("Sun-kissed Warrior") then
+        for i, v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
+          if v.Name == "Isle Outlaw" or v.Name == "Island Boy" or v.Name == "Sun-kissed Warrior" or v.Name == "Isle Champion" or v.Name == "Skull Slayer" or v.Name == "Serpent Hunter" then
+            if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+              repeat
+			  task.wait(0.2)
+              Fly()
+              v.HumanoidRootPart.CanCollide = false
+              v.Humanoid.WalkSpeed = 0
+              v.Head.CanCollide = false
+              TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
+              AutoHaki()
+              FastAttackLoop()
+              until v.Humanoid.Health <= 0 or not _G.AutoTS or _G.AccpetQuest
+            end
+          end
+        end
+      end
+    end
+  end
 end)
 
 Tabs.Main:AddToggle("MyToggle", {
