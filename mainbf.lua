@@ -23,48 +23,60 @@ task.spawn(function()
   end)
 end)
 
-function TP(Pos)
-  task.spawn(function()
-    pcall(function()
-      local player = game.Players.LocalPlayer
-      local char = player.Character
-      if not char then return end
-      local hum = char:WaitForChild("Humanoid")
-      local hrp = char:WaitForChild("HumanoidRootPart")
-      if not hum or not hrp then return end
-      if hum.Sit then hum.Sit = false end
-      if not char:FindFirstChild("Root") then
-        local root = Instance.new("Part")
-        root.Size = Vector3.new(1, 1, 1)
-        root.Name = "Root"
-        root.Transparency = 1
-        root.CanCollide = false
-        root.Anchored = true
-        root.CFrame = hrp.CFrame
-        root.Parent = char
-      end
-      local root = char.Root
-      local TweenService = game:GetService("TweenService")
-      local dist = (hrp.Position - Pos.Position).Magnitude
-      local tweenInfo = TweenInfo.new(dist / 375, Enum.EasingStyle.Linear)
-      local tween = TweenService:Create(root, tweenInfo, { CFrame = Pos })
-      tween:Play()
-      tween.Completed:Wait()
+
+local RootTween
+local IsTweening = false
+
+local function GetChar()
+    return game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+end
+
+function TP(cf)
+    if IsTweening then return end
+    IsTweening = true
+
+    task.spawn(function()
+        pcall(function()
+            local char = GetChar()
+            local hum = char:WaitForChild("Humanoid")
+            local hrp = char:WaitForChild("HumanoidRootPart")
+
+            hum.Sit = false
+
+            local root = char:FindFirstChild("Root")
+            if not root then
+                root = Instance.new("Part")
+                root.Name = "Root"
+                root.Size = Vector3.new(1,1,1)
+                root.Transparency = 1
+                root.CanCollide = false
+                root.Anchored = true
+                root.CFrame = hrp.CFrame
+                root.Parent = char
+            end
+
+            local dist = (hrp.Position - cf.Position).Magnitude
+            local tweenInfo = TweenInfo.new(dist / 375, Enum.EasingStyle.Linear)
+
+            if RootTween then RootTween:Cancel() end
+            RootTween = game:GetService("TweenService"):Create(root, tweenInfo, {CFrame = cf})
+            RootTween:Play()
+            RootTween.Completed:Wait()
+        end)
+        IsTweening = false
     end)
-  end)
 end
 
 task.spawn(function()
     while task.wait() do
         pcall(function()
-            local char = game.Players.LocalPlayer.Character
+            local char = game:GetService("Players").LocalPlayer.Character
             if not char then return end
-          local hrp = char:FindFirstChild("HumanoidRootPart")
+
+            local hrp = char:FindFirstChild("HumanoidRootPart")
             local root = char:FindFirstChild("Root")
-            if not hrp or not root then return end
-          hrp.CFrame = root.CFrame
-          if (root.Position - hrp.Position).Magnitude >= 1 then
-                root.CFrame = hrp.CFrame
+            if hrp and root then
+                hrp.CFrame = root.CFrame
             end
         end)
     end
