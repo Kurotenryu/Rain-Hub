@@ -48,6 +48,13 @@ task.spawn(function()
     end
 end)
 
+function Fly()
+  local BodyVelocityClip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyAntiVelocityClip") or Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+BodyVelocityClip.Name = "BodyAntiVelocityClip"
+BodyVelocityClip.MaxForce = Vector3.new(0, math.huge, 0)
+BodyVelocityClip.Velocity = Vector3.new(0, 0, 0)
+end
+
 function QuestLevel()
   local MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
   if FirstSea then
@@ -569,6 +576,7 @@ local function FarmNearestMob()
 
     repeat
         task.wait(0.25)
+		Fly()
         TP(hrp.CFrame * CFrame.new(0, 25, 0))
         AutoHaki()
         FastAttackLoop()
@@ -597,6 +605,7 @@ task.spawn(function()
                   repeat
                     game:GetService("RunService").Heartbeat:wait()
                     AutoHaki()
+					Fly()
                     v.HumanoidRootPart.CanCollide = false
                     v.Humanoid.WalkSpeed = 0
                     v.Head.CanCollide = false
