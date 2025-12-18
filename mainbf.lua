@@ -637,7 +637,7 @@ task.spawn(function()
           if v.Name == "Isle Outlaw" or v.Name == "Island Boy" or v.Name == "Sun-kissed Warrior" or v.Name == "Isle Champion" or v.Name == "Skull Slayer" or v.Name == "Serpent Hunter" then
             if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
               repeat
-			  task.wait(0.2)
+			  task.wait()
               Fly()
               v.HumanoidRootPart.CanCollide = false
               v.Humanoid.WalkSpeed = 0
