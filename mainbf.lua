@@ -495,30 +495,46 @@ end
 
 local function TakeQuest()
   if not CFrameQuest then return false end
+
   TP(CFrameQuest)
-  local t0 = tick()
-  repeat task.wait(0.15) until not game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") or (game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position - CFrameQuest.Position).Magnitude <= 20 or tick()-t0>6
-  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
-  local t1 = tick()
-  repeat
-    task.wait(0.2)
-    local title = GetQuestTitle()
-    if title and (not NameMon or string.find(title, NameMon)) then
-      return true
-    end
-  until tick()-t1>6
-  return false
+  task.wait(0.8)
+
+  local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+  if hrp then
+    repeat task.wait()
+    until (hrp.Position - CFrameQuest.Position).Magnitude <= 15
+  end
+
+  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+    "StartQuest", NameQuest, LevelQuest
+  )
+
+  task.wait(0.5)
+
+  local title = GetQuestTitle()
+  return title and NameMon and string.find(title, NameMon)
 end
 
 local function EnsureQuest()
-    QuestBone()
-  local title = GetQuestTitle()
-    if title and NameMon and string.find(title, NameMon) then
-        return true 
-    end
+  QuestBone()
+
+  if game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+    return true 
+  end
+
   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
   task.wait(0.2)
-  return TakeQuest()
+
+  if CFrameQuest then
+    TP(CFrameQuest)
+    task.wait(0.8)
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+      "StartQuest", NameQuest, LevelQuest
+    )
+    task.wait(0.5)
+  end
+
+  return game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true
 end
 
 local function GetNearestBoneMob()
@@ -553,7 +569,7 @@ local function FarmNearestMob()
 
     repeat
         task.wait(0.25)
-        TP(hrp.CFrame * CFrame.new(0,25,0))
+        TP(hrp.CFrame * CFrame.new(0, 25, 0))
         AutoHaki()
         FastAttackLoop()
         hrp.CanCollide = false
@@ -586,7 +602,7 @@ task.spawn(function()
                     v.Head.CanCollide = false
                     TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
                     FastAttackLoop()
-                  until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0
+                  until not _G.AutoBones or _G.AccpetQuest or not v.Parent or v.Humanoid.Health <= 0
                 end
               end
             end
