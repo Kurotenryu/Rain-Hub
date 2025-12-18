@@ -184,7 +184,7 @@ end
 
 local function GetEnemiesInRange(character, range)
     local list = {}
-    local Enemies = Workspace:FindFirstChild("Enemies") or Workspace:WaitForChild("Enemies")
+    local Enemies = game:GetService("Workspace"):FindFirstChild("Enemies") or game:GetService("Workspace"):WaitForChild("Enemies")
     if not character then return list end
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if not hrp then return list end
@@ -474,75 +474,118 @@ Tabs.Main:AddToggle("MyToggle", {
   _G.AutoBones = Value
 end)
 
-task.spawn(function()
-  while task.wait() do
-    pcall(function()
-      if _G.AutoBones then
-        local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
-        if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-          if game:GetService("Players").LocalPlayer.Data.Level.Value >= 1975 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2000 then
-            if not string.find(QuestTitle, "Reborn Skeleton") then
-              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-            end
-            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-              TP(CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0))
-              if (CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest1",1)
-              end
-            end
-          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2000 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2025 then
-            if not string.find(QuestTitle, "Living Zombie") then
-              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-            end
-            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-              TP(CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0))
-              if (CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest1",2)
-              end
-            end
-          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2050 then
-            if not string.find(QuestTitle, "Demonic Soul") then
-              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-            end
-            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-              TP(CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0))
-              if (CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest2",1)
-              end
-            end
-          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 then
-            if not string.find(QuestTitle, "Posessed Mummy") then
-              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-            end
-            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-              TP(CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0))
-              if (CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest2",2)
-              end
-            end
-          end
-        elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
-          if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
-            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-              if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
-                if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-                  repeat
-					task.wait(1.5)
-                    AutoHaki()
-					FastAttackLoop()						
-                    TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-                    v.HumanoidRootPart.CanCollide = false
-                  until not _G.AutoBones or v.Humanoid.Health <= 0
-                end
-              else
-                TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
-              end
-            end
-          end
-        end
-      end
-    end)
+function QuestBone()
+  if game:GetService("Players").LocalPlayer.Data.Level.Value >= 1975 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2000 then
+    Mon = "Reborn Skeleton"
+    LevelQuest = 1
+    NameQuest = "HauntedQuest1"
+    NameMon = "Reborn Skeleton"
+    CFrameQuest = CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2000 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2025 then
+    Mon = "Living Zombie"
+    LevelQuest = 2
+    NameQuest = "HauntedQuest1"
+    NameMon = "Living Zombie"
+    CFrameQuest = CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+  elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2050 then
+    Mon = "Demonic Soul"
+    LevelQuest = 1
+    NameQuest = "HauntedQuest2"
+    CFrameQuest = CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+  elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 then
+    Mon = "Posessed Mummy"
+    LevelQuest = 2
+    NameQuest = "HauntedQuest2"
+    CFrameQuest = CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0)
   end
+end
+
+local function TakeQuest()
+    if not CFrameQuest then return false end
+  TP(CFrameQuest)
+    local t0 = tick()
+    repeat task.wait(0.15) until not game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") or (game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position - CFrameQuest.Position).Magnitude <= 20 or tick()-t0>6
+  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
+    local t1 = tick()
+    repeat
+        task.wait(0.2)
+        local title = GetQuestTitle()
+        if title and (not NameMon or string.find(title, NameMon)) then
+            return true
+        end
+    until tick()-t1>6
+    return false
+end
+
+local function EnsureQuest()
+    QuestBone()
+  local title = GetQuestTitle()
+    if title and NameMon and string.find(title, NameMon) then
+        return true 
+    end
+
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+    task.wait(0.2)
+    return TakeQuest()
+end
+
+local function GetNearestBoneMob()
+    local player = game.Players.LocalPlayer
+    local char = player.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+
+    local nearest, shortest = nil, math.huge
+
+    for _, v in ipairs(workspace.Enemies:GetChildren()) do
+        if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+            local hum = v:FindFirstChildOfClass("Humanoid")
+            local mobHRP = v:FindFirstChild("HumanoidRootPart")
+
+            if hum and mobHRP and hum.Health > 0 then
+                local dist = (mobHRP.Position - hrp.Position).Magnitude
+                if dist < shortest then
+                    shortest = dist
+                    nearest = v
+                end
+            end
+        end
+    end
+
+    return nearest
+end
+
+local function FarmNearestMob()
+    local mob = GetNearestBoneMob()
+    if not mob then return false end
+
+    local hum = mob:FindFirstChildOfClass("Humanoid")
+    local hrp = mob:FindFirstChild("HumanoidRootPart")
+    if not hum or not hrp then return false end
+
+    repeat
+        task.wait(0.25)
+        TP(hrp.CFrame * CFrame.new(0,25,0))
+        AutoHaki()
+        FastAttackLoop()
+        hrp.CanCollide = false
+    until not _G.AutoBones or not _G.AcceptQuest or hum.Health <= 0
+
+    return true
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+      if _G.AutoBones and _G.AcceptQuest then
+        pcall(function()
+          EnsureQuest()
+          if not FarmNearestMob() then
+            TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
+            task.wait(0.5)
+          end
+        end)
+      end
+    end
 end)
 
 Tabs.Main:AddToggle("MyToggle", {
