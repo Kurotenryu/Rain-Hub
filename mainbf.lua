@@ -23,60 +23,26 @@ task.spawn(function()
   end)
 end)
 
-
-local RootTween
-local IsTweening = false
-
-local function GetChar()
-    return game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
-end
-
-function TP(cf)
-    if IsTweening then return end
-    IsTweening = true
-
-    task.spawn(function()
-        pcall(function()
-            local char = GetChar()
-            local hum = char:WaitForChild("Humanoid")
-            local hrp = char:WaitForChild("HumanoidRootPart")
-
-            hum.Sit = false
-
-            local root = char:FindFirstChild("Root")
-            if not root then
-                root = Instance.new("Part")
-                root.Name = "Root"
-                root.Size = Vector3.new(1,1,1)
-                root.Transparency = 1
-                root.CanCollide = false
-                root.Anchored = true
-                root.CFrame = hrp.CFrame
-                root.Parent = char
-            end
-
-            local dist = (hrp.Position - cf.Position).Magnitude
-            local tweenInfo = TweenInfo.new(dist / 375, Enum.EasingStyle.Linear)
-
-            if RootTween then RootTween:Cancel() end
-            RootTween = game:GetService("TweenService"):Create(root, tweenInfo, {CFrame = cf})
-            RootTween:Play()
-            RootTween.Completed:Wait()
-        end)
-        IsTweening = false
-    end)
+function TP(Pos)
+  local HRP = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+  local Distance = (Pos.Position - HRP.Position).Magnitude
+  local TweenSV = game:GetService("TweenService")
+  local TweenDis = {CFrame = Pos}
+  local TweenMain = TweenInfo.new(Distance / 375, Enum.EasingStyle.Linear)
+  local Tween = TweenSV:Create(HRP, TweenMain, TweenDis)
+  Tween:Play()
+  Tween.Completed:Wait()
 end
 
 task.spawn(function()
     while task.wait() do
         pcall(function()
-            local char = game:GetService("Players").LocalPlayer.Character
-            if not char then return end
-
-            local hrp = char:FindFirstChild("HumanoidRootPart")
+          local char = game:GetService("Players").LocalPlayer.Character
+          if not char then return end
+          local hrp = char:FindFirstChild("HumanoidRootPart")
             local root = char:FindFirstChild("Root")
             if hrp and root then
-                hrp.CFrame = root.CFrame
+              hrp.CFrame = root.CFrame
             end
         end)
     end
@@ -263,7 +229,7 @@ function AttackNoCoolDown()
 end
 
 function FastAttackLoop()
-    while task.wait(0.05 + math.radom() * 0.005) do
+    while task.wait(0.05 + math.random() * 0.005) do
         pcall(function()
             AttackNoCoolDown()
         end)
@@ -484,6 +450,21 @@ Tabs.Main:AddToggle("MyToggle", {
   Default = false
 }):OnChanged(function(Value)
   _G.AutoBones = Value
+end)         
+
+Tabs.Main:AddToggle("MyToggle", {
+  Title = "Auto Tyrant of the Skies",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoTS = Value
+end)
+    
+Tabs.Main:AddToggle("MyToggle", {
+  Title = "Accept Quest",
+  Description = "For Level/Cake Pirnce/Bones/Tyrant of the Skies",
+  Default = true
+}):OnChanged(function(Value)
+  _G.AcceptQuest = Value
 end)
 
 function QuestBone()
@@ -513,20 +494,20 @@ function QuestBone()
 end
 
 local function TakeQuest()
-    if not CFrameQuest then return false end
+  if not CFrameQuest then return false end
   TP(CFrameQuest)
-    local t0 = tick()
-    repeat task.wait(0.15) until not game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") or (game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position - CFrameQuest.Position).Magnitude <= 20 or tick()-t0>6
+  local t0 = tick()
+  repeat task.wait(0.15) until not game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") or (game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position - CFrameQuest.Position).Magnitude <= 20 or tick()-t0>6
   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
-    local t1 = tick()
-    repeat
-        task.wait(0.2)
-        local title = GetQuestTitle()
-        if title and (not NameMon or string.find(title, NameMon)) then
-            return true
-        end
-    until tick()-t1>6
-    return false
+  local t1 = tick()
+  repeat
+    task.wait(0.2)
+    local title = GetQuestTitle()
+    if title and (not NameMon or string.find(title, NameMon)) then
+      return true
+    end
+  until tick()-t1>6
+  return false
 end
 
 local function EnsureQuest()
@@ -535,36 +516,31 @@ local function EnsureQuest()
     if title and NameMon and string.find(title, NameMon) then
         return true 
     end
-
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-    task.wait(0.2)
-    return TakeQuest()
+  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+  task.wait(0.2)
+  return TakeQuest()
 end
 
 local function GetNearestBoneMob()
-    local player = game.Players.LocalPlayer
-    local char = player.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return nil end
-
-    local nearest, shortest = nil, math.huge
-
-    for _, v in ipairs(workspace.Enemies:GetChildren()) do
-        if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
-            local hum = v:FindFirstChildOfClass("Humanoid")
-            local mobHRP = v:FindFirstChild("HumanoidRootPart")
-
-            if hum and mobHRP and hum.Health > 0 then
-                local dist = (mobHRP.Position - hrp.Position).Magnitude
-                if dist < shortest then
-                    shortest = dist
-                    nearest = v
-                end
-            end
+  local player = game.Players.LocalPlayer
+  local char = player.Character
+  local hrp = char and char:FindFirstChild("HumanoidRootPart")
+  if not hrp then return nil end
+  local nearest, shortest = nil, math.huge
+  for _, v in ipairs(workspace.Enemies:GetChildren()) do
+    if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+      local hum = v:FindFirstChildOfClass("Humanoid")
+      local mobHRP = v:FindFirstChild("HumanoidRootPart")
+      if hum and mobHRP and hum.Health > 0 then
+        local dist = (mobHRP.Position - hrp.Position).Magnitude
+        if dist < shortest then
+          shortest = dist
+          nearest = v
         end
+      end
     end
-
-    return nearest
+  end
+  return nearest
 end
 
 local function FarmNearestMob()
@@ -581,7 +557,7 @@ local function FarmNearestMob()
         AutoHaki()
         FastAttackLoop()
         hrp.CanCollide = false
-    until not _G.AutoBones or not _G.AcceptQuest or hum.Health <= 0
+    until not _G.AutoBones or hum.Health <= 0
 
     return true
 end
@@ -596,23 +572,30 @@ task.spawn(function()
             task.wait(0.5)
           end
         end)
+      elseif _G.AutoBones and not _G.AcceptQuest then
+        pcall(function()
+          if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                  repeat
+                    game:GetService("RunService").Heartbeat:wait()
+                    AutoHaki()
+                    v.HumanoidRootPart.CanCollide = false
+                    v.Humanoid.WalkSpeed = 0
+                    v.Head.CanCollide = false
+                    TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
+                    FastAttackLoop()
+                  until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0
+                end
+              end
+            end
+          else
+		    TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
+          end
+        end)
       end
     end
-end)
-
-Tabs.Main:AddToggle("MyToggle", {
-  Title = "Auto Tyrant of the Skies",
-  Default = false
-}):OnChanged(function(Value)
-  _G.AutoTS = Value
-end)
-    
-Tabs.Main:AddToggle("MyToggle", {
-  Title = "Accept Quest",
-  Description = "For Level/Cake Pirnce/Bones/Tyrant of the Skies",
-  Default = true
-}):OnChanged(function(Value)
-  _G.AcceptQuest = Value
 end)
 
 Tabs.Main:AddToggle("MyToggle", {
