@@ -24,14 +24,34 @@ task.spawn(function()
 end)
 
 function TP(Pos)
-  local HRP = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-  local Distance = (Pos.Position - HRP.Position).Magnitude
-  local TweenSV = game:GetService("TweenService")
-  local TweenDis = {CFrame = Pos}
-  local TweenMain = TweenInfo.new(Distance / 375, Enum.EasingStyle.Linear)
-  local Tween = TweenSV:Create(HRP, TweenMain, TweenDis)
-  Tween:Play()
-  Tween.Completed:Wait()
+  task.spawn(function()
+    pcall(function()
+      local player = game.Players.LocalPlayer
+      local char = player.Character
+      if not char then return end
+      local hum = char:FindFirstChildOfClass("Humanoid")
+      local hrp = char:FindFirstChild("HumanoidRootPart")
+      if not hum or not hrp then return end
+      if hum.Sit then hum.Sit = false end
+      if not char:FindFirstChild("Root") then
+        local root = Instance.new("Part")
+        root.Size = Vector3.new(1, 1, 1)
+        root.Name = "Root"
+        root.Transparency = 1
+        root.CanCollide = false
+        root.Anchored = true
+        root.CFrame = hrp.CFrame
+        root.Parent = char
+      end
+      local root = char.Root
+      local TweenService = game:GetService("TweenService")
+      local dist = (hrp.Position - Pos.Position).Magnitude
+      local tweenInfo = TweenInfo.new(dist / 45, Enum.EasingStyle.Linear)
+      local tween = TweenService:Create(root, tweenInfo, { CFrame = Pos })
+      tween:Play()
+      tween.Completed:Wait()
+    end)
+  end)
 end
 
 task.spawn(function()
