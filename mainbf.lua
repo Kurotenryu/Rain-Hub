@@ -46,7 +46,7 @@ function TP(Pos)
       local root = char.Root
       local TweenService = game:GetService("TweenService")
       local dist = (hrp.Position - Pos.Position).Magnitude
-      local tweenInfo = TweenInfo.new(dist / 45, Enum.EasingStyle.Linear)
+      local tweenInfo = TweenInfo.new(dist / 375, Enum.EasingStyle.Linear)
       local tween = TweenService:Create(root, tweenInfo, { CFrame = Pos })
       tween:Play()
       tween.Completed:Wait()
@@ -630,6 +630,8 @@ task.spawn(function()
               if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
                 repeat
                   task.wait(0.15)
+				if not _G.AutoBones or _G.AcceptQuest then break end
+                if not v.Parent or hum.Health <= 0 then break end						
                   Fly()
                   v.HumanoidRootPart.CanCollide = false
                   v.Humanoid.WalkSpeed = 0
@@ -658,6 +660,8 @@ task.spawn(function()
             if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
               repeat
 			  task.wait()
+			    if not _G.AutoTS or _G.AcceptQuest then break end
+                if not v.Parent or hum.Health <= 0 then break end
               Fly()
               v.HumanoidRootPart.CanCollide = false
               v.Humanoid.WalkSpeed = 0
