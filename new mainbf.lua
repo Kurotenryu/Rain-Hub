@@ -1,3 +1,4 @@
+
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
   FirstSea = true
 elseif game.PlaceId == 4442272183  or game.PlaceId == 79091703265657 then
@@ -32,7 +33,7 @@ local Tabs = {
   Offshore = Window:AddTab({ Title = "Offshore", Icon = ""}),
   SE = Window:AddTab({ Title = "Sea Events", Icon = ""}),
   RA = Window:AddTab({ Title = "Race Awakening", Icon = ""}),
-  Setting = WindowTab({ Title = "Setting", Icon = ""}),
+  Setting = Window:AddTab({ Title = "Setting", Icon = ""}),
   
 }
 
@@ -46,49 +47,49 @@ Fluent:Notify({
 
 --TabsShop
 Tabs.Shop:AddSection("F.Styles")
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuySuperhuman", {
   Title = "Tween Buy Superhuman", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuySuperhuman = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuyDeathStep", {
   Title = "Tween Buy Death Step", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuyDeathStep = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuySharkmanKarate", {
   Title = "Tween Buy Sharkman Karate", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuySharkmanKarate = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuyElectricClaw", {
   Title = "Tween Buy Electric Claw", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuyElectricClaw = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuyDragonTalon", {
   Title = "Tween Buy DragonTalon", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuyDragonTalon = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuyGodhuman", {
   Title = "Tween Buy Godhuman", 
   Default = false
 }):OnChanged(function(Value)
   _G.BuyGodhuman = Value
 end
 
-Tabs.Shop:AddToggle("MyToggle", {
+Tabs.Shop:AddToggle("ToggleBuySanguineArt", {
   Title = "Tween Buy Sanguine Art", 
   Default = false
 }):OnChanged(function(Value)
@@ -96,56 +97,56 @@ Tabs.Shop:AddToggle("MyToggle", {
 end
 --TabMain
 Tabs.Main:AddSection("Farms")
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoLevel", {
   Title = "Auto Level",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoLevel = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoDisCK", {
   Title = "Auto Dismiss Cake Prince",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoDismissCakePrince = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoCK", {
   Title = "Auto Cake Prince",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoCakePrince = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoCKH", {
   Title = "Auto Cake Prince Hop",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoCakePrinceHop = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoBones", {
   Title = "Auto Bones",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoBones = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleDisTS", {
   Title = "Auto Dismiss Tyrant of the Skies",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoDismissTS = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoTS", {
   Title = "Auto Tyrant of the Skies",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoTS = Value
 end)
     
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAQ", {
   Title = "Accept Quest",
   Description = "For Level/Cake Pirnce/Bones/Tyrant of the Skies",
   Default = true
@@ -153,14 +154,14 @@ Tabs.Main:AddToggle("MyToggle", {
   _G.AcceptQuest = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleHS", {
   Title = "Holding Sword",
   Default = false
 }):OnChanged(function(Value)
   _G.HoldingSword = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleCF", {
   Title = "Click Fruits",
   Default = false
 }):OnChanged(function(Value)
@@ -168,7 +169,7 @@ Tabs.Main:AddToggle("MyToggle", {
 end)
 
 Tabs.Main:AddSection("Mastery")
-Tabs.Main:AddDropdown("Dropdown", {
+Tabs.Main:AddDropdown("DropdownMethodMastery", {
   Title = "Method Mastery",
   Values = {"Fruits", "Guns"},
   Multi = false,
@@ -177,7 +178,7 @@ Tabs.Main:AddDropdown("Dropdown", {
   _G.MethodMastery = Value
 end)
 
-Tabs.Main:AddSlider("Slider", {
+Tabs.Main:AddSlider("SliderPercentMastery", {
   Title = "Percent Mastery",
   Description = "",
   Default = 20,
@@ -189,7 +190,7 @@ Tabs.Main:AddSlider("Slider", {
   end
 })
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoMastery", {
   Title = "Auto Mastery",
   Description = "",
   Default = false
@@ -216,33 +217,33 @@ if ThirdSea then
     end)
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoElite", {
     Title = "Auto Elite",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoElite = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoEliteHop", {
     Title = "Auto Elite Hop",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoEliteHop = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("TogglePirateRaid", {
     Title = "Pirate Raid",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.PirateRaid = Value
   end)
 end
 
 if SecondSea then
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleCore", {
     Title = "Auto Core",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoCore = Value
   end)
 end
@@ -265,10 +266,10 @@ if ThirdSea then
     end)
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleEPB", {
     Title = "Equip To Press The Buttons",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoEPB = Value
   end)
   
@@ -289,24 +290,24 @@ if ThirdSea then
     end)
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleSpawnRip", {
     Title = "Auto Spawn rip_indra True Form",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.SpawnRip = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoRip", {
     Title = "Auto rip_indra True Form",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoRip = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoRipHop", {
     Title = "Auto rip_indra True Form Hop",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoRipHop = Value
   end)
 end
@@ -328,24 +329,24 @@ if SecondSea then
       end
     end)
   end)
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleSpawmDark", {
     Title = "Auto Spawn Darkbeard",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.SpawnDarkbeard = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoDark", {
     Title = "Auto Darkbeard",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoDarkbeard = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleDarkHop", {
     Title = "Auto Darkbeard Hop",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoDarkbeardHop = Value
   end)
   
@@ -366,17 +367,17 @@ if SecondSea then
     end)
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoCC", {
     Title = "Auto Cursed Captain",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoCursedCaptain = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoCCH", {
     Title = "Auto Cursed Captain Hop",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoCursedCaptainHop = Value
   end)
 end
@@ -388,28 +389,28 @@ if ThirdSea then
   })
   
   task.spawn(function()
-    pcall(function()
-      while task.wait() do
+    while task.wait() do
+      pcall(function()
         if game:GetService("ReplicatedStorage"):FindFirstChild("Soul Reaper") or game:GetService("Workspace").Enemies:FindFirstChild("Soul Reaper") then
           SoulReaperStatus:SetTitle("Soul Reaper: 🟢")
         else
           SoulReaperStatus:SetTitle("Soul Reaper: 🔴")
         end
-      end
-    end)
+      end)
+    end
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoSpawnSR", {
     Title = "Auto Spawn Soul Reaper",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoSpawnSoulReaper = Value
   end)
   
-  Tabs.Farming:AddToggle("MyToggle", {
+  Tabs.Farming:AddToggle("ToggleAutoSR", {
     Title = "Auto Soul Reaper",
     Default = false
-  }):OnChanged(function()
+  }):OnChanged(function(Value)
     _G.AutoSoulReaper = Value
   end)
 end
@@ -485,14 +486,14 @@ Tabs.Status:AddParagraph({
   Content = ""
 })
 
-local InputJoin = Tabs.Status:AddInput("Input", {
+local InputJoin = Tabs.Status:AddInput("InputJoinServer", {
   Title = "Input Join Server",
   Default = "",
   Placeholder = "",
   Numeric = false, 
   Finished = false,
   Callback = function(Value)
-    _G.InputJoin=Value
+    _G.InputJoin =Value
   end
 })
 
@@ -500,7 +501,8 @@ Tabs.Status:AddButton({
   Title = "Delete Jobid",
   Description = "",
   Callback = function()
-    _G.DeleteJobid = Value
+    _G.InputJoin = ""
+    InputJoin:SetValue("")
   end
 })
 
@@ -508,7 +510,7 @@ Tabs.Status:AddButton({
   Title = "Join JobId",
   Description = "",
   Callback = function()
-    _G.JoinJobId = Value
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, _G.InputJoin, game:GetService("Players").LocalPlayer)
   end
 })
 
@@ -520,11 +522,57 @@ Tabs.Status:AddButton({
   end
 })
 
+function Hop()
+  local HttpService = game:GetService("HttpService")
+  local TeleportService = game:GetService("TeleportService")
+  local Players = game:GetService("Players")
+  local PlaceID = game.PlaceId
+  local VisitedServers = {}
+  local Cursor = nil
+  local LastHour = os.date("!*t").hour
+  local function ResetIfNewHour()
+    local hour = os.date("!*t").hour
+    if hour ~= LastHour then
+      VisitedServers = {}
+      LastHour = hour
+    end
+  end
+  
+  local function GetServer()
+    local url = "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?limit=100"
+    if Cursor then
+      url = url .. "&cursor=" .. Cursor
+    end
+    
+    local data = HttpService:JSONDecode(game:HttpGet(url))
+    Cursor = data.nextPageCursor
+    for _, server in pairs(data.data) do
+      if server.playing < server.maxPlayers and not VisitedServers[server.id] then
+        return server.id
+      end
+    end
+  end
+  
+  task.spawn(function()
+    while task.wait(1.5) do
+      pcall(function()
+        ResetIfNewHour()
+        local ServerID = GetServer()
+        if ServerID then
+          VisitedServers[ServerID] = true
+          task.wait(1)
+          TeleportService:TeleportToPlaceInstance(PlaceID, ServerID, Players.LocalPlayer)
+        end
+      end)
+    end
+  end)
+end
+
 Tabs.Status:AddButton({
   Title = "Hop Server",
   Description = "",
   Callback = function()
-    _G.HopServer = Value
+    Hop()
   end
 })
 
@@ -570,12 +618,12 @@ Tabs.LP:AddButton({
 })
 
 local NPCList = {}
-for i, v in ipairs(game:GetService("ReplicatedStorage").NPCs:GetChildren) do
-  if v:IsA("Model") and v:FindFirstChild("Humnanoid") then
+for i, v in ipairs(game:GetService("ReplicatedStorage").NPCs:GetChildren()) do
+  if v:IsA("Model") and v:FindFirstChild("Humanoid") then
     table.insert(NPCList, v.Name)
   end
 end
-Tabs.LP:AddDropdown("Dropdown", {
+Tabs.LP:AddDropdown("DropdownSelectNpc", {
   Title = "Select NPC",
   Values = NPCList,
   Multi = false,
@@ -584,21 +632,21 @@ Tabs.LP:AddDropdown("Dropdown", {
   _G.SelectNPC = Value
 end)
 
-Tabs.LP:AddToggle("MyToggle", {
+Tabs.LP:AddToggle("ToggleTweenNpc", {
   Title = "Tween NPC",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.TweenNPC = Value
 end)
 
 local IslandList = {}
-for i, v ipairs(game:GetService.workspace.Map:GetChildren()) do
+for i, v in ipairs(game:GetService.workspace.Map:GetChildren()) do
   if v:IsA("Model") then
     table.insert(IslandList, v.Name)
   end
 end
 
-Tabs.LP:AddDropdown("Dropdown", {
+Tabs.LP:AddDropdown("DropdownSelectIsland", {
   Title = "Select Island",
   Values = IslandList,
   Multi = false,
@@ -607,14 +655,14 @@ Tabs.LP:AddDropdown("Dropdown", {
   _G.SelectIsland = Value
 end
 
-Tabs.LP:AddToggle("MyToggle", {
+Tabs.LP:AddToggle("ToggleTweenIsland", {
   Title = "Tween Island",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.TweenIsland = Value
 end)
 --TabFruitsRaid
-local FruitsStatus = Tabs.RF:AddParagraph({
+local FruitsStatus = Tabs.FR:AddParagraph({
   Title = "Fruits: ",
   Content = ""
 })
@@ -622,133 +670,121 @@ local FruitsStatus = Tabs.RF:AddParagraph({
 task.spawn(function()
   while task.wait() do
     pcall(function()
-      FruitsStatus:SetTitle("Fruits:" .. tostring(game.Players.LocalPlayer.Data.DevilFruit.Value))
+      FruitsStatus:SetTitle("Fruits:" .. tostring(game:GetService("Players").LocalPlayer.Data.DevilFruit.Value))
     end)
   end
 end)
 
-Tabs.FR:AddButton({
-  Title = "Open Blox Fruit Dealer",
-  Description = "",
-  Callback = function()
-    _G.OpenBlox = Value
-  end
-})
-  
-Tabs.FR:AddButton({
-  Title = "Open Advanced Fruit Dealer",
-  Description = "Can't Buy",
-  Callback = function()
-    _G.OpenAdvanced = Value
-  end
-})
-
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("TogglePickFruits", {
   Title = "Picked Fruits",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.PickedFruits = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("TogglePFH", {
   Title = "Picked Fruits Hop",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.PickedFruitsHop = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAutoGachaFruits", {
   Title = "Auto Gacha Fruits",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AutoGachaFruits = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAutoStoreFruits", {
   Title = "Auto Store Fruits",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AutoStoreFruits = Value
 end)
 
-Tabs.FR:AddDropdown("Dropdown", {
+local Remote_GetFruits = game.ReplicatedStorage:FindFirstChild("Remotes").CommF_:InvokeServer("GetFruits")
+local Table_DevilFruitSniper = {}
+local ShopDevilSell = {}
+for i, v in next, Remote_GetFruits do
+    table.insert(Table_DevilFruitSniper, v.Name)
+    if v.OnSale then 
+        table.insert(ShopDevilSell, v.Name)
+    end
+end
+Tabs.FR:AddDropdown("DropdownSelectBFD", {
   Title = "Select Blox Fruit Dealer",
-  Values = ,
+  Values = Table_DevilFruitSniper,
   Multi = false,
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectBloxFruitDealer = Value
 end
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleBuyBFD", {
   Title = "Buy Blox Fruit Dealer",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.BuyBloxFruitDealer = Value
 end)
 
-Tabs.FR:AddDropdown("Dropdown", {
-  Title = "Select Advanced Fruit Dealer",
-  Values = ,
-  Multi = false,
-  Default = 1,
-}):OnChanged(function(Value)
-  _G.SelectAdvancedFruitDealer = Value
-end
-
-Tabs.FR:AddToggle("MyToggle", {
-  Title = "Buy Blox Fruit Dealer",
-  Default = false
-}):OnChanged(function()
-  _G.BuyAdvancedFruitDealer = Value
+task.spawn(function()
+  while task.wait() do
+    pcall(function()
+      if _G.BuyBloxFruitDealer then
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("GetFruits")
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PurchaseRawFruit", _G.SelectBloxFruitDealer, false)
+      end
+    end)
+  end
 end)
 
 Tabs.FR:AddSection("Raids")
-Tabs.FR:AddDropdown("Dropdown", {
+Tabs.FR:AddDropdown("DropdownSelectMapRaids", {
   Title = "Select Map Raids",
-  Values = ,
+  Values = {"Flame","Ice","Quake","Light","Dark","Spider","Magma","Buddha","Sand","Phoenix","Dough"},
   Multi = false,
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectMapRaids = Value
 end
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAutoRaids", {
   Title = "Auto Raids",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AutoRaids = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleTFFTW", {
   Title = "Take Fruits From The Warehouse",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.TFTW = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAutoRaidHop", {
   Title = "Auto Raids Hop",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AutoRaidsHop = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAutoAwakeninhFruits", {
   Title = "Auto Awakening Fruits",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AwakeningFruits = Value
 end)
 
 Tabs.FR:AddSection("Raids Mutis")
 local PlayerRaid = {}
-for _, v in pairs(game.Players:GetPlayers()) do
-    if v ~= game.Players.LocalPlayer then
-        table.insert(PlayerRaid, v.Name)
+for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+    if v ~= game:GetService("Players").LocalPlayer then
+												table.insert(PlayerRaid, v.Name)
     end
 end
-Tabs.FR:AddDropdown("Dropdown", {
+Tabs.FR:AddDropdown("DropdownSelectHelpsRaid", {
   Title = "Select Helps Raid",
   Values = PlayerRaid,
   Multi = true,
@@ -757,30 +793,30 @@ Tabs.FR:AddDropdown("Dropdown", {
   _G.SelectHelpRaids = Value
 end
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleChipBuyAccount", {
   Title = "Chip Buy Account",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.ChipBuyAccount = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAFR", {
   Title = "Account Follow Raid",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AccountFollow = Value
 end)
 
-Tabs.FR:AddToggle("MyToggle", {
+Tabs.FR:AddToggle("ToggleAMR", {
   Title = "Account Muti Raids",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AccountMutiRaids = Value
 end)
 
 --TabItemsMateriry
 Tabs.IM:AddSection("Materials")
-Tabs.IM:AddDropdown("Dropdown", {
+Tabs.IM:AddDropdown("DropdownSelectMaterials", {
   Title = "Select Materials",
   Values = {"Angel Wings","Leather","Scrap Metal","Yeti Fur","Fish Tail","Ectoplasm","Radioactive Material","Vampire Fang","Mystic Droplet","Magma Ore","Meteorite","Wooden Plank","Blaze Ember","Gunpowder","Dragon Scale","Volt Capsule","Conjured Cocoa ","Mini Tusk"},
   Multi = false,
@@ -789,10 +825,10 @@ Tabs.IM:AddDropdown("Dropdown", {
   _G.SelectMaterials = Value
 end
 
-Tabs.IM:AddToggle("MyToggle", {
+Tabs.IM:AddToggle("ToggleAutoMaterials", {
   Title = "AutobMaterials",
   Default = false
-}):OnChanged(function()
+}):OnChanged(function(Value)
   _G.AutoMaterials = Value
 end)
 
@@ -803,3 +839,4 @@ SaveManager:SetIgnoreIndexes({})
 InterfaceManager:SetFolder("Rain Hub")
 SaveManager:SetFolder("Rain Hub")
 SaveManager:LoadAutoloadConfig()
+												
