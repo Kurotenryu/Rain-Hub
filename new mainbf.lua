@@ -413,8 +413,14 @@ if ThirdSea then
   }):OnChanged(function(Value)
     _G.AutoSoulReaper = Value
   end)
-end
 
+Tabs.Farming:AddToggle("ToggleAutoSR", {
+    Title = "Auto Soul Reaper Hop",
+    Default = false
+  }):OnChanged(function(Value)
+    _G.AutoSoulReaperHop = Value
+  end)
+end							
 --TabStatus
 local ServerRunTimePara = Tabs.Status:AddParagraph({
     Title = "Timer: 00 H-00 M-00 S",
