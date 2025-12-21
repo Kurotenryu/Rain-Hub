@@ -309,18 +309,17 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
   Shop = Window:AddTab({ Title = "Shops", Icon = "" }),
   Main = Window:AddTab({ Title = "Main", Icon = "" }),
-  Status = Window:AddTab({ Title = "Server Status", Icon = ""}),
   Farming = Window:AddTab({ Title = "Farming", Icon = ""}),
+  Status = Window:AddTab({ Title = "Server Status", Icon = ""}),
   LPlayer = Window:AddTab({ Title = "Local Player", Icon = ""}),
-  FO = Window:AddTab({ Title = "Farm OutSide", Icon = ""}),
-  RM = Window:AddTab({ Title = "Raid-Material", Icon = ""}),
-  FE = Window:AddTab({ Title = "Fruits-Events", Icon = ""}),
-  PI = Window:AddTab({ Title = "Prehistoric Island", Icon = ""}),
-  RA = Window:AddTab({ Title = "Race Awakening", Icon = ""}),
-  SE = Window:AddTab({ Title = "Sea Events", Icon = ""}),
+  FruitRaid = Window:AddTab({ Title = "Fruits-Raids", Icon = ""}),
+  ItemMaterial = Window:AddTab({ Title = "Items-Materials", Icon = ""}),
+  FarmOther = Window:AddTab({ Title = "Farm Other", Icon = ""}),
+  Offshore = Window:AddTab({ Title = "Offshore", Icon = ""}),
+  SeaEvent = Window:AddTab({ Title = "Sea Events", Icon = ""}),
+  RaceAwken = Window:AddTab({ Title = "Race Awakening", Icon = ""}),
   Setting = Window:AddTab({ Title = "Seting", Icon = ""}),
 }
-
 local Options = Fluent.Options
 
 Fluent:Notify({
@@ -957,7 +956,7 @@ Tabs.LPlayer:AddButton({
 
 
 --RaceAwkening
-Tabs.RA:AddParagraph({
+Tabs.RaceAwken:AddParagraph({
   Title = "Race: " .. tostring(game:GetService("Players").LocalPlayer.Data.Race.Value),
   Content = ""
 })
