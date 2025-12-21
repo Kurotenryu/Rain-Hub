@@ -329,79 +329,55 @@ Fluent:Notify({
 })
 
 --TabsShop
-Tabs.Shop:AddButton({
-        Title = "Shift First Sea",
-        Description = "",
-        Callback = function()
-          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
-        end
-    })
+Tabs.Shop:AddSection("Fighting styles")
+Tabs.Shop:AddToggle("ToggleBuySuperhuman", {
+  Title = "Tween Buy Superhuman", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuySuperhuman = Value
+end)
 
-Tabs.Shop:AddButton({
-        Title = "Shift Seacond Sea",
-        Description = "",
-        Callback = function()
-          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
-        end
-    })
+Tabs.Shop:AddToggle("ToggleBuyDeathStep", {
+  Title = "Tween Buy Death Step", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuyDeathStep = Value
+end)
 
-Tabs.Shop:AddButton({
-        Title = "Shift Third Sea",
-        Description = "",
-        Callback = function()
-          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
-        end
-    })
+Tabs.Shop:AddToggle("ToggleBuySharkmanKarate", {
+  Title = "Tween Buy Sharkman Karate", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuySharkmanKarate = Value
+end)
 
-Tabs.Shop:AddButton({
-  Title = "Changing Race [f 3,000]",
-  Description = "",
-  Callback = function()
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward", "Reroll", "1")
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward", "Reroll", "2")
-  end
-})
+Tabs.Shop:AddToggle("ToggleBuyElectricClaw", {
+  Title = "Tween Buy Electric Claw", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuyElectricClaw = Value
+end)
 
-Tabs.Shop:AddButton({
-  Title = "Swith Cyborg [f 2500]",
-  Description = "",
-  Callback = function()
-          local args = {
-	"CyborgTrainer",
-	"Buy"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+Tabs.Shop:AddToggle("ToggleBuyDragonTalon", {
+  Title = "Tween Buy DragonTalon", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuyDragonTalon = Value
+end)
 
-        end
-    })
+Tabs.Shop:AddToggle("ToggleBuyGodhuman", {
+  Title = "Tween Buy Godhuman", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuyGodhuman = Value
+end)
 
-Tabs.Shop:AddButton({
-  Title = "Swith Draco",
-  Description = "",
-  Callback = function()
-    local args = {
-	{
-		NPC = "Dragon Wizard",
-		Command = "DragonRace"
-	}
-}
-game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RF/InteractDragonQuest"):InvokeServer(unpack(args))
-  end
-})
-
-Tabs.Shop:AddButton({
-  Title = "Swith Ghoul",
-  Description = "",
-  Callback = function()
-    local args = {
-	"Ectoplasm",
-	"Change",
-	4
-}
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
-  end
-})
-
+Tabs.Shop:AddToggle("ToggleBuySanguineArt", {
+  Title = "Tween Buy Sanguine Art", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.BuySanguineArt = Value
+end)
 Tabs.Shop:AddButton({
   Title = "Air Jump",
   Description = "",
@@ -447,45 +423,49 @@ Tabs.Main:AddToggle("ToggleAutoLevel", {
   _G.AutoLevel = Value
 end)
 
-Tabs.Main:AddToggle("MyToggle", {
-  Title = "Auto Cake Prince",
-  Default = false
-}):OnChanged(function(Value)
-  _G.AutoCakePrince = Value
-end)
-
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoDisCK", {
   Title = "Auto Dismiss Cake Prince",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoDismissCakePrince = Value
 end)
 
+Tabs.Main:AddToggle("ToggleAutoCK", {
+  Title = "Auto Cake Prince",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoCakePrince = Value
+end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoCKH", {
   Title = "Auto Cake Prince Hop",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoCakePrinceHop = Value
 end)
 
-
-
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoBones", {
   Title = "Auto Bones",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoBones = Value
-end)         
+end)
 
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleDisTS", {
+  Title = "Auto Dismiss Tyrant of the Skies",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDismissTS = Value
+end)
+
+Tabs.Main:AddToggle("ToggleAutoTS", {
   Title = "Auto Tyrant of the Skies",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoTS = Value
 end)
     
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAQ", {
   Title = "Accept Quest",
   Description = "For Level/Cake Pirnce/Bones/Tyrant of the Skies",
   Default = true
@@ -519,6 +499,17 @@ function QuestBone()
   end
 end
 
+local function GetQuestTitle()
+    local gui  = Player:FindFirstChild("PlayerGui")
+    local main = gui and gui:FindFirstChild("Main")
+    local quest= main and main:FindFirstChild("Quest")
+    local cont = quest and quest:FindFirstChild("Container")
+    local titf = cont and cont:FindFirstChild("QuestTitle")
+    local lab  = titf and titf:FindFirstChild("Title")
+    if quest and quest.Visible and lab then return lab.Text end
+    return nil
+end
+
 local function TakeQuest()
   if not CFrameQuest then return false end
 
@@ -528,7 +519,7 @@ local function TakeQuest()
   local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
   if hrp then
     repeat task.wait()
-    until (hrp.Position - CFrameQuest.Position).Magnitude <= 15
+    until (hrp.Position - CFrameQuest.Position).Magnitude <= 5
   end
 
   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
@@ -621,7 +612,7 @@ end)
 
 task.spawn(function()
   while task.wait() do
-    if not _G.AccpetQuest and _G.AutoBones then
+    if not _G.AcceptQuest and _G.AutoBones then
       pcall(function()
         if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
           for i, v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
@@ -652,7 +643,7 @@ end)
 
 task.spawn(function()
   while task.wait() do
-    if _G.AutoTS and not _G.AccpetQuest then
+    if _G.AutoTS and not _G.AcceptQuest then
       if game:GetService("Workspace").Enemies:FindFirstChild("Isle Outlaw") or game:GetService("Workspace").Enemies:FindFirstChild("Island Boy") or game:GetService("Workspace").Enemies:FindFirstChild("Isle Champion") or game:GetService("Workspace").Enemies:FindFirstChild("Skull Slayer") or game:GetService("Workspace").Enemies:FindFirstChild("Serpent Hunter") or game:GetService("Workspace").Enemies:FindFirstChild("Sun-kissed Warrior") then
         for i, v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
           if v.Name == "Isle Outlaw" or v.Name == "Island Boy" or v.Name == "Sun-kissed Warrior" or v.Name == "Isle Champion" or v.Name == "Skull Slayer" or v.Name == "Serpent Hunter" then
@@ -783,74 +774,6 @@ local EliteStatus = Tabs.Status:AddParagraph({
   Content = ""
 })
 
-task.spawn(function()
-  pcall(function()
-    while task.wait() do
-      if game:GetService("ReplicatedStorage"):FindFirstChild("Diablo") or game:GetService("ReplicatedStorage"):FindFirstChild("Deandre") or game:GetService("ReplicatedStorage"):FindFirstChild("Urban") or game:GetService("Workspace").Enemies:FindFirstChild("Diablo") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre") or game:GetService("Workspace").Enemies:FindFirstChild("Urban") then
-        EliteStatus:SetTitle("Elite Hunter: 🟢")
-      else
-        EliteStatus:SetTitle("Elite Hunter: 🔴")
-      end
-    end
-  end)
-end)
-
-local MirageStatus = Tabs.Status:AddParagraph({
-  Title = "Mirage Island: ",
-  Content = ""
-})
-
-task.spawn(function()
-  while task.wait() do
-    if game.Workspace.Map:FindFirstChild("MysticIsland") then
-      pcall(function()
-        MirageStatus:SetTitle("Mirage Island: 🟢")
-      end)
-    else
-      pcall(function()
-        MirageStatus:SetTitle("Mirage Island: 🔴")
-      end)
-    end
-  end
-end)
-
-local FrozenDimensionStatus = Tabs.Status:AddParagraph({
-  Title = "Frozen Dimension: ",
-  Content = ""
-})
-
-task.spawn(function()
-  while task.wait() do
-    if game:GetService("Workspace").Map:FindFirstChild("FrozenDimension") then
-      pcall(function()
-        FrozenDimensionStatus:SetTitle("Frozen Dimension: 🟢")
-      end)
-    else 
-      pcall(function()
-        FrozenDimensionStatus:SetTitle("Frozen Dimension: 🔴")
-      end)
-    end
-  end
-end)
-
-local PrehistoricIslandStatus = Tabs.Status:AddParagraph({
-  Title = "Prehistoric Island: ",
-  Content = ""
-})
-
-task.spawn(function()
-  while task.wait() do
-    if game:GetService("Workspace").Map:FindFirstChild("PrehistoricIsland") then
-      pcall(function()
-        PrehistoricIslandStatus:SetTitle("Prehistoric Island: 🟢")
-      end)
-    else
-      pcall(function()
-        PrehistoricIslandStatus:SetTitle("Prehistoric Island: 🔴")
-      end)
-    end
-  end
-end)
 
 local CakePrinceStatus = Tabs.Status:AddParagraph({
   Title = "Cake Prince: ",
@@ -901,57 +824,38 @@ Tabs.Farming:AddToggle("MyToggle", {
   _G.AutoElite = Value
 end)
 
-task.spawn(function()
-  while task.wait() do
-    pcall(function()
-      if _G.AutoElite then
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EliteHunter")
-        if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
-          if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,"Diablo") or string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,"Deandre") or string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,"Urban") then
-            if game:GetService("Workspace").Enemies:FindFirstChild("Diablo") or game:GetService("Workspace").Enemies:FindFirstChild("Deandre") or game:GetService("Workspace").Enemies:FindFirstChild("Urban") then
-              for i,v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
-                if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
-                  if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                    repeat
-					  task.wait(1.5)
-                      AutoHaki()
-					  FastAttackLoop()
-                      TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-                      v.Humanoid.WalkSpeed = 0
-                      v.HumanoidRootPart.CanCollide = false
-                    until not _G.AutoElite or v.Humanoid.Health <= 0
-                  end
-                end
-              end
-            else 
-              if game:GetService("ReplicatedStorage"):FindFirstChild("Diablo") then
-                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Diablo").HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-              elseif game:GetService("ReplicatedStorage"):FindFirstChild("Deandre") then
-                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Deandre").HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-              elseif game:GetService("ReplicatedStorage"):FindFirstChild("Urban") then
-                TP(game:GetService("ReplicatedStorage"):FindFirstChild("Urban").HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
-              end
-            end
-          end
-        end
-      end
-    end)
-  end
-end)
 
-
-
---LocalPkayrs
+--LocalPlayers
 Tabs.LPlayer:AddButton({
-  Title = "Fruits Awakening",
+  Title = "Shift First Sea",
   Description = "",
   Callback = function()
-    local args = {
-	"AwakeningChanger",
-	"Check"
-}
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
   end
+})
+
+Tabs.LPlayer:AddButton({
+  Title = "Shift Seacond Sea",
+  Description = "",
+  Callback = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
+  end
+})
+
+Tabs.LP:AddButton({
+  Title = "Shift Third Sea",
+  Description = "",
+  Callback = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
+  end
+})
+
+Tabs.LPlayer:AddButton({
+  Title = "Open Titles Specialist",
+  Description = "",
+  Callback = function()
+			game:GetService("Players").LocalPlayer.PlayerGui.Main.Titles.Visible = true
+		end
 })
 
 
