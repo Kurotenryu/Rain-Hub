@@ -519,7 +519,7 @@ local function TakeQuest()
   local hrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
   if hrp then
     repeat task.wait()
-    until (hrp.Position - CFrameQuest.Position).Magnitude <= 5
+    until (hrp.Position - CFrameQuest.Position).Magnitude <= 3
   end
 
   game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
@@ -759,7 +759,7 @@ local function UpdateServerRuntime()
 
     ServerRunTimePara:SetTitle(
         "Timer: " ..
-        string.format("%02d Hour %02d Minute %02d Second", Hour, Minute, Second)
+        string.format("%02d H %02d M %02d S", Hour, Minute, Second)
     )
 end
 
