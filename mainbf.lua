@@ -769,12 +769,6 @@ task.spawn(function()
     end
 end)
 
-local EliteStatus = Tabs.Status:AddParagraph({
-  Title = "Elite Hunter: ",
-  Content = ""
-})
-
-
 local CakePrinceStatus = Tabs.Status:AddParagraph({
   Title = "Cake Prince: ",
   Content = ""
@@ -817,12 +811,6 @@ local SpyStatus = Tabs.Status:AddParagraph({
 })
 
 --Farming
-Tabs.Farming:AddToggle("MyToggle", {
-  Title = "Auto Elite",
-  Default = false
-}):OnChanged(function()
-  _G.AutoElite = Value
-end)
 
 
 --LocalPlayers
@@ -842,7 +830,7 @@ Tabs.LPlayer:AddButton({
   end
 })
 
-Tabs.LP:AddButton({
+Tabs.LPlayer:AddButton({
   Title = "Shift Third Sea",
   Description = "",
   Callback = function()
@@ -858,6 +846,36 @@ Tabs.LPlayer:AddButton({
 		end
 })
 
+Tabs.LP:AddButton({
+  Title = "Open Awakenings Expert",
+  Description = "",
+  Callback = function()
+    game:GetService("Players").LocalPlayer.PlayerGui.Main.AwakeningToggler.Visible = true
+  end
+})
+
+local NPCList = {}
+for i, v in ipairs(game:GetService("ReplicatedStorage").NPCs:GetChildren()) do
+  if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+    table.insert(NPCList, v.Name)
+  end
+end
+
+Tabs.LPlayer:AddDropdown("DropdownSelectNpc", {
+  Title = "Select NPC",
+  Values = NPCList,
+  Multi = false,
+  Default = 1,
+}):OnChanged(function(Value)
+  _G.SelectNPC = Value
+end)
+
+Tabs.LPlayer:AddToggle("ToggleTweenNpc", {
+  Title = "Tween NPC",
+  Default = false
+}):OnChanged(function(Value)
+  _G.TweenNPC = Value
+end)
 
 --RaceAwkening
 Tabs.RaceAwken:AddParagraph({
