@@ -441,7 +441,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF
 
 --TabsMain
 Tabs.Main:AddSection("Farms")
-Tabs.Main:AddToggle("MyToggle", {
+Tabs.Main:AddToggle("ToggleAutoLevel", {
   Title = "Auto Level",
   Default = false
 }):OnChanged(function(Value)
