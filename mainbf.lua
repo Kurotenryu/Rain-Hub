@@ -846,7 +846,7 @@ Tabs.LPlayer:AddButton({
 		end
 })
 
-Tabs.LP:AddButton({
+Tabs.LPlayer:AddButton({
   Title = "Open Awakenings Expert",
   Description = "",
   Callback = function()
