@@ -1,4 +1,7 @@
-repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+repeat task.wait() until game.Players.LocalPlayer
 _G.NoClip = true
 --coder
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
@@ -685,7 +688,7 @@ elseif SecondSea then
 			"KingDon Of Rose1",
 			"KingDon Of Rose2",
 			"The Cafe",
-			"Don Swan Mansion"
+			"Don Swan Mansion",
 			"Graveyard",
 			"Cursed Ship",
 			"Hot Island",
@@ -702,7 +705,7 @@ elseif ThirdSea then
 		IslandList = {
 			"Port Town",
 			"Hydra Island1",
-			"Hydra Island2"
+			"Hydra Island2",
 			"Dragon Dojo",
 			"Caste on the Sea",
 			"Great Tree",
