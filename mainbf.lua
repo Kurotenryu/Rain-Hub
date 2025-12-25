@@ -280,6 +280,19 @@ function FastAttackLoop()
     end
 end
 
+local function UseFruit()
+    local char = game:GetService("Players").LocalPlayer.Character
+    if not char then return end
+	    local tool = char:FindFirstChildOfClass("Tool")
+    if not tool then return end
+    if not tool:FindFirstChild("LeftClickRemote") then return end
+	    local target = GetEnemiesInRange(char, 120)
+    if not target then return end
+	    local remote = tool.LeftClickRemote
+    remote:FireServer(Vector3.new(0, -500, 0), 1, true)
+    remote:FireServer(false)
+end
+
 function EquipTool(ToolSe)
   if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
     local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
@@ -530,6 +543,14 @@ task.spawn(function()
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(ToolHuman)
           end
         end
+local tick = 0
+game:GetService("RunService").Heartbeat:Connect(function(dt)
+    tick += dt
+    if tick > 0.05 then
+        tick = 0
+        UseFruit()
+    end
+end)
       end)
     end
   end
