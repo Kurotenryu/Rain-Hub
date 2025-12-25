@@ -63,11 +63,11 @@ function TP(Pos)
         local dist = (hrp.Position - Pos.Position).Magnitude
         local tween = game:GetService("TweenService"):Create(
             root,
-            TweenInfo.new(dist / 375, Enum.EasingStyle.Linear),
+            TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
             {CFrame = Pos}
         )
         tween:Play()
-    	    tween.Completed:Wait()
+    	tween.Completed:Wait()
     end)
 end
 
