@@ -681,7 +681,7 @@ if FirstSea then
 		"Underwater City",
 		"Colosseum",
 		"Fountain City",
-		},
+		}
 elseif SecondSea then
 		IslandList = {
 			"Green Zone",
@@ -700,14 +700,14 @@ elseif SecondSea then
 			"Secret Laboratory",
 			"Raid Lab",
 			
-		},
+		}
 elseif ThirdSea then
 		IslandList = {
 			"Port Town",
 			"Hydra Island1",
 			"Hydra Island2",
 			"Dragon Dojo",
-			"Caste on the Sea",
+			"Castle on the Sea",
 			"Great Tree",
 			"Floating Turtle",
 			"Mansion",
@@ -720,7 +720,7 @@ elseif ThirdSea then
 			"Cake Land",
 			"Chocolate Land",
 			"Candy Cane Land",
-		},
+		}
 end
 
 Tabs.LPlayer:AddDropdown("DropdownSelectIsland", {
@@ -814,7 +814,7 @@ task.spawn(function()
             TP(CFrame.new(5564.22168, 1005.5036, 95.1717377, -0.635244727, 1.01565156e-07, 0.772310913, 3.49387328e-08, 1, -1.02770151e-07, -0.772310913, -3.83006302e-08, -0.635244727))
           elseif _G.SelectIsland == "Dragon Dojo" then
             TP(CFrame.new(5721.39062, 1206.81177, 958.388855, 0.35146594, 4.76143533e-08, -0.936200678, -7.6260136e-08, 1, 2.22297558e-08, 0.936200678, 6.35817869e-08, 0.35146594))
-          elseif _G.SelectIsland == "Caste on the Sea" then
+          elseif _G.SelectIsland == "Castle on the Sea" then
             TP(CFrame.new(-5125.10547, 314.187622, -2963.05835, -0.473895282, 1.96359711e-08, 0.8805812, 5.72839642e-09, 1, -1.92160705e-08, -0.8805812, -4.06208667e-09, -0.473895282))
           elseif _G.SelectIsland == "Great Tree" then
             TP(CFrame.new(4176.01221, 565.7995, -6311.15039, 0.607411861, 6.50904894e-08, 0.794387102, -1.22795996e-07, 1, 1.19554526e-08, -0.794387102, -1.04809438e-07, 0.607411861))
