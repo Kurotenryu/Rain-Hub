@@ -753,7 +753,7 @@ Tabs.LPlayer:AddToggle("ToggleTweenIsland", {
 end)											
 
 task.spawn(function()
-		while task.wait(3) do
+		while task.wait(1) do
     pcall(function()
       if _G.TweenIsland then
           if _G.SelectIsland == "Pirate Starter Island" then
