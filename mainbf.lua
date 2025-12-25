@@ -756,7 +756,6 @@ task.spawn(function()
   while task.wait() do
     pcall(function()
       if _G.TweenIsland then
-        repeat
           if _G.SelectIsland == "Pirate Starter Island" then
             TP(CFrame.new(1037.63538, 80.6225815, 1594.75391, -0.803820193, 2.38998634e-08, 0.594872296, 3.68290962e-08, 1, 9.58879376e-09, -0.594872296, 2.96162757e-08, -0.803820193))
           elseif _G.SelectIsland == "Marine Starter Island" then
@@ -853,8 +852,7 @@ task.spawn(function()
             TP(CFrame.new(207.767883, 126.583794, -12598.5234, -0.39604488, 6.89493174e-09, 0.91823113, -2.20901364e-09, 1, -8.46170423e-09, -0.91823113, -5.37959988e-09, -0.39604488))
           elseif _G.SelectIsland == "Candy Cane Land" then
             TP(CFrame.new(-997.224243, 60.1506805, -14477.9951, 0.12927182, 4.01811562e-09, -0.991609216, 6.05907502e-09, 1, 4.84201168e-09, 0.991609216, -6.63417055e-09, 0.12927182))
-          end
-        until not _G.TweenIsland
+		end
       end
     end)
   end
