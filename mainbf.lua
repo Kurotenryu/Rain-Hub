@@ -753,6 +753,7 @@ Tabs.LPlayer:AddToggle("ToggleTweenIsland", {
 end)											
 
 task.spawn(function()
+		while task.wait(3) do
     pcall(function()
       if _G.TweenIsland then
           if _G.SelectIsland == "Pirate Starter Island" then
@@ -854,6 +855,7 @@ task.spawn(function()
 		end
       end
     end)
+		end
 end)											
 --RaceAwkening
 Tabs.RaceAwken:AddParagraph({
