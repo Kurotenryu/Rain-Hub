@@ -84,13 +84,6 @@ task.spawn(function()
     end
 end)
 
-function Fly()
-  local BodyVelocityClip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyAntiVelocityClip") or Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
-BodyVelocityClip.Name = "BodyAntiVelocityClip"
-BodyVelocityClip.MaxForce = Vector3.new(0, math.huge, 0)
-BodyVelocityClip.Velocity = Vector3.new(0, 0, 0)
-end
-
 function QuestLevel()
   local MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
   if FirstSea then
