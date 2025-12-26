@@ -267,13 +267,6 @@ if ThirdSea then
     end)
   end)
   
-  Tabs.Farming:AddToggle("ToggleEPB", {
-    Title = "Equip To Press The Buttons",
-    Default = false
-  }):OnChanged(function(Value)
-    _G.AutoEPB = Value
-  end)
-  
   local RipIndraStatus = Tabs.Farming:AddParagraph({
     Title = "rip_indra True Form: ",
     Content = ""
@@ -290,6 +283,13 @@ if ThirdSea then
       end
     end)
   end)
+
+Tabs.Farming:AddToggle("ToggleEPB", {
+    Title = "Equip To Press The Buttons",
+    Default = false
+  }):OnChanged(function(Value)
+    _G.AutoEPB = Value
+  end)	
   
   Tabs.Farming:AddToggle("ToggleSpawnRip", {
     Title = "Auto Spawn rip_indra True Form",
@@ -413,6 +413,13 @@ if ThirdSea then
     Default = false
   }):OnChanged(function(Value)
     _G.AutoSoulReaper = Value
+  end)
+
+	Tabs.Farming:AddToggle("ToggleAutoSR", {
+    Title = "Auto Soul Reaper Hop",
+    Default = false
+  }):OnChanged(function(Value)
+    _G.AutoSoulReaperHop = Value
   end)
 end
 
