@@ -58,12 +58,12 @@ function TP(Pos)
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
 
-        if not hum or not hrp or not root then repeat task.wait() until hum or hrp or root end
+        if not hum or not hrp or not root then repeat task.wait() until hum and hrp and root end
         hum.Sit = false
         local dist = (hrp.Position - Pos.Position).Magnitude
         local tween = game:GetService("TweenService"):Create(
             root,
-            TweenInfo.new(dist / 375, Enum.EasingStyle.Linear),
+            TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
             {CFrame = Pos}
         )
     	    _G.CurrentTween = tween
@@ -92,7 +92,7 @@ function QuestLevel()
   local MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
   if FirstSea then
     if MyLevel == 1 and MyLevel < 10 then
-      Mon = "Badit"
+      Mon = "Bandit"
       LevelQuest = 1
       NameQuest = "BanditQuest1"
       NameMon = "Bandit"
@@ -540,13 +540,16 @@ task.spawn(function()
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(ToolHuman)
           end
         end
-local tick = 0
-game:GetService("RunService").Heartbeat:Connect(function(dt)
-    tick += dt
-    if tick > 0.05 then
-        tick = 0
+if not _G.FruitConnection then
+    _G.FruitConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
         UseFruit()
-    end
+    end)
+					end
+
+					if _G.FruitConnection then
+    _G.FruitConnection:Disconnect()
+    _G.FruitConnection = nil
+					end
 end)
       end)
     end
