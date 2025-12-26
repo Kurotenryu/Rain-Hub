@@ -883,6 +883,13 @@ Tabs.RD:AddToggle("ToggleAMR", {
 }):OnChanged(function(Value)
   _G.AccountMutiRaids = Value
 end)
+Tabs.RD:AddSection("Dungeons")
+Tabs.RD:AddToggle("ToggleAutoDungeons", {
+  Title = "Auto Dungeons",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDungeons = Value
+end)
 
 --TabItemsMateriry
 Tabs.IM:AddSection("Materials")
@@ -902,7 +909,7 @@ Tabs.IM:AddToggle("ToggleAutoMaterials", {
   _G.AutoMaterials = Value
 end)
 
-
+--
 
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
