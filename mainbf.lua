@@ -1,7 +1,4 @@
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
-repeat task.wait() until game.Players.LocalPlayer
+repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
 _G.NoClip = true
 --coder
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
@@ -26,6 +23,8 @@ task.spawn(function()
   end)
 end)
 
+_G.StopAll = false
+_G.CurrentTween = nil
 local function SetupCharacter(char)
 	local hum = char:WaitForChild("Humanoid")
 	local hrp = char:WaitForChild("HumanoidRootPart")
@@ -42,7 +41,7 @@ local function SetupCharacter(char)
 	root.Parent = char
 end
 
-task.spawn(function()
+task.spawm(function()
 	game:GetService("Players").LocalPlayer.CharacterAdded:Connect(SetupCharacter)
 	if game:GetService("Players").LocalPlayer.Character then
 		SetupCharacter(game:GetService("Players").LocalPlayer.Character)
@@ -51,6 +50,7 @@ end)
 
 function TP(Pos)
     task.spawn(function()
+    	if _G.StopAll then return end
         local char = game:GetService("Players").LocalPlayer.Character
         if not char then repeat task.wait() until char end
 
@@ -63,16 +63,19 @@ function TP(Pos)
         local dist = (hrp.Position - Pos.Position).Magnitude
         local tween = game:GetService("TweenService"):Create(
             root,
-            TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
+            TweenInfo.new(dist / 375, Enum.EasingStyle.Linear),
             {CFrame = Pos}
         )
+    	    _G.CurrentTween = tween
         tween:Play()
-    	tween.Completed:Wait()
+    	    tween.Completed:Wait()
+    	    _G.CurrentTween = nil
     end)
 end
 
 task.spawn(function()
     while task.wait() do
+    	if _G.StopAll then return end
         local char = game:GetService("Players").LocalPlayer.Character
         if not char then task.wait() end
     	    local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -81,6 +84,7 @@ task.spawn(function()
         if hrp and root then
             hrp.CFrame = root.CFrame
         end
+    end
     end
 end)
 
@@ -594,7 +598,7 @@ local function UpdateServerRuntime()
 
     ServerRunTimePara:SetTitle(
         "Timer: " ..
-        string.format("%02d H %02d M %02d S", Hour, Minute, Second)
+        string.format("%02d Hour %02d Minute %02d Second", Hour, Minute, Second)
     )
 end
 
@@ -603,6 +607,25 @@ task.spawn(function()
         pcall(UpdateServerRuntime)
     end
 end)
+
+local TimeEvent = Tabs.Status:AddParagraph({
+	Title = "CountDown: ",
+	Content = ""
+})
+
+function TimeEnvent()
+local countdown = workspace:WaitForChild("Countdown")
+
+for _, v in ipairs(countdown:GetChildren()) do
+    if v:IsA("SurfaceGui") then
+        local label = v:FindFirstChild("TextLabel")
+        label:GetPropertyChangedSignal("Text"):Connect(function()
+        local timeText = label.Text
+				TimeEvent:SetTitle("CountDown: " .. timeText)
+end)
+    end
+end
+	
 
 local CakePrinceStatus = Tabs.Status:AddParagraph({
   Title = "Cake Prince: ",
@@ -649,6 +672,35 @@ local SpyStatus = Tabs.Status:AddParagraph({
 
 
 --LocalPlayers
+Tabs.LPlayer:AddButton({
+    Title = "Stop Tween",
+    Description = "",
+    Callback = function()
+        _G.StopAll = true
+    	    _G.NoClip = false
+        if _G.CurrentTween then
+            pcall(function()
+                _G.CurrentTween:Cancel()
+            end)
+            _G.CurrentTween = nil
+        end
+
+        local char = game:GetService("Players").LocalPlayer.Character
+        if char then
+            if char:FindFirstChild("Root") then
+                char.Root:Destroy()
+            end
+
+            local hum = char:FindFirstChildOfClass("Humanoid")
+            if hum then
+                hum.Sit = false
+                hum.PlatformStand = false
+                hum.AutoRotate = true
+            end
+        end
+    end
+})
+
 Tabs.LPlayer:AddButton({
   Title = "Shift First Sea",
   Description = "",
