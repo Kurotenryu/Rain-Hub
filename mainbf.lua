@@ -609,23 +609,27 @@ task.spawn(function()
 end)
 
 local TimeEvent = Tabs.Status:AddParagraph({
-	Title = "CountDown: ",
-	Content = ""
+    Title = "CountDown:",
+    Content = ""
 })
 
-function TimeEnvent()
-local countdown = workspace:WaitForChild("Countdown")
+local function SetupCountdown()
+    local countdown = workspace:WaitForChild("Countdown")
 
-for _, v in ipairs(countdown:GetChildren()) do
-    if v:IsA("SurfaceGui") then
-        local label = v:FindFirstChild("TextLabel")
-        label:GetPropertyChangedSignal("Text"):Connect(function()
-        local timeText = label.Text
-				TimeEvent:SetTitle("CountDown: " .. timeText)
-end)
+    for _, v in ipairs(countdown:GetChildren()) do
+        if v:IsA("SurfaceGui") then
+            local label = v:FindFirstChildWhichIsA("TextLabel", true)
+            if label then
+                label:GetPropertyChangedSignal("Text"):Connect(function()
+                    local timeText = label.Text
+                    TimeEvent:SetTitle("CountDown: " .. timeText)
+                end)
+            end
+        end
     end
 end
-	
+
+SetupCountdown()
 
 local CakePrinceStatus = Tabs.Status:AddParagraph({
   Title = "Cake Prince: ",
