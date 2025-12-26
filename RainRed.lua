@@ -667,6 +667,16 @@ Tabs.FE:AddToggle("ToggleAutoGachaFruits", {
   _G.AutoGachaFruits = Value
 end)
 
+task.spawn(function()
+	while task.wait(0.5) do
+		if _G.AutoGachaFruits then
+			pcall(function()
+				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "Buy")
+			end)
+		end
+	end
+end)
+
 Tabs.FE:AddToggle("ToggleAutoGachaEvent", {
 	Title = "Auto Gacha Candy",
 	Default = false
@@ -675,7 +685,7 @@ Tabs.FE:AddToggle("ToggleAutoGachaEvent", {
 end)	
 
 task.spawn(function()
-	while task.wait() do
+	while task.wait(0.5) do
 		if _G.AutoGachaEvent then
 			pcall(function()
 				local args = {
@@ -694,6 +704,21 @@ Tabs.FE:AddToggle("ToggleAutoStoreFruits", {
   Default = false
 }):OnChanged(function(Value)
   _G.AutoStoreFruits = Value
+end)
+
+spawn(function()
+	while task.wait(0.5) do
+		if _G.AutoStoreFruits then
+			pcall(function()
+						for _, tool in ipairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+							if string.match(tool.Name, " Fruit$") then
+								local fruitName = tool.Name:gsub(" Fruit", "")
+				  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit",fruitName .. "-" .. fruitName,tool)
+				             end
+			             end
+		    end)
+     	end
+	end
 end)
 
 Tabs.FE:AddToggle("ToggleAutoStoreHoliday", {
