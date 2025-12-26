@@ -707,7 +707,7 @@ Tabs.FE:AddToggle("ToggleAutoStoreFruits", {
 end)
 
 spawn(function()
-	while task.wait(0.5) do
+	while task.wait(1.5) do
 		if _G.AutoStoreFruits then
 local Players = game:GetService("Players")
 local LP = Players.LocalPlayer
@@ -731,7 +731,7 @@ Backpack.ChildAdded:Connect(function(tool)
 				tool
 			)
 		end)
-		task.wait(0.5)
+		task.wait(1.5)
 	end
 end)
      	end
