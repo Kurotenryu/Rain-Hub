@@ -41,18 +41,23 @@ local function SetupCharacter(char)
 	root.Parent = char
 end
 
-task.spawm(function()
+task.spawn(function()
+		if game:GetService("Players").LocalPlayer.Character.Humanoid.Health > 0 then
 	game:GetService("Players").LocalPlayer.CharacterAdded:Connect(SetupCharacter)
 	if game:GetService("Players").LocalPlayer.Character then
 		SetupCharacter(game:GetService("Players").LocalPlayer.Character)
 	end
+		end
 end)
 
 function TP(Pos)
     task.spawn(function()
     	if _G.StopAll then return end
         local char = game:GetService("Players").LocalPlayer.Character
-        if not char then repeat task.wait() until char end
+        while not char do 
+				task.wait()
+				char = game.Players.LocalPlayer.Character
+		end
 
         local hum = char:FindFirstChildOfClass("Humanoid")
         local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -78,13 +83,12 @@ task.spawn(function()
     	if _G.StopAll then return end
         local char = game:GetService("Players").LocalPlayer.Character
         if not char then task.wait() end
-    	    local hrp = char:FindFirstChild("HumanoidRootPart")
+    	local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
 
         if hrp and root then
             hrp.CFrame = root.CFrame
         end
-    end
     end
 end)
 
@@ -540,15 +544,15 @@ task.spawn(function()
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(ToolHuman)
           end
         end
-if not _G.FruitConnection then
-    _G.FruitConnection = game:GetService("RunService").Heartbeat:Connect(function(dt)
-        UseFruit()
-    end)
-					end
-
-					if _G.FruitConnection then
-    _G.FruitConnection:Disconnect()
-    _G.FruitConnection = nil
+					if _G.ClickFruits then
+    if not _G.FruitConnection then
+        _G.FruitConnection = RunService.Heartbeat:Connect(UseFruit)
+    end
+else
+    if _G.FruitConnection then
+        _G.FruitConnection:Disconnect()
+        _G.FruitConnection = nil
+    end
 					end
 end)
       end)
