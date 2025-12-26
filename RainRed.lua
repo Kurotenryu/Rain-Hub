@@ -26,7 +26,7 @@ local Tabs = {
   Farming = Window:AddTab({ Title = "Farming", Icon = ""}),
   Status = Window:AddTab({ Title = "Status", Icon = ""}),
   LP = Window:AddTab({ Title = "Local Player", Icon = ""}),
-  FE = Windows:AddTab({ Title = "Fruits Event", Icon = ""}),
+  FE = Window:AddTab({ Title = "Fruits Event", Icon = ""}),
   RD = Window:AddTab({ Title = "Raids Awakening", Icon = ""}),
   IM = Window:AddTab({ Title = "Items-Materials", Icon= ""}),
   FO = Window:AddTab({Title = "Farms Other", Icon = ""}),
@@ -672,7 +672,22 @@ Tabs.FE:AddToggle("ToggleAutoGachaEvent", {
 	Default = false
 }):OnChanged(function(Value)
 	_G.AutoGachaEvent = Value
-end)		
+end)	
+
+task.spawn(function()
+	while task.wait() do
+		if _G.AutoGachaEvent then
+			pcall(function()
+				local args = {
+	"Cousin",
+	"F2PXmasWeek2Gacha25"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+				end)
+		end
+	end
+end)
+						
 
 Tabs.FE:AddToggle("ToggleAutoStoreFruits", {
   Title = "Auto Store Fruits",
