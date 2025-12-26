@@ -632,6 +632,15 @@ Tabs.LP:AddButton({
   end
 })
 
+Tabs.LP:AddButton({
+		Title = "Open Blox Fruits Deal",
+		Description= "",
+		Callback = function()
+			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("GetFruits")
+	        game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop.Visible = true
+		end
+})
+
 --TabFruitsRaid
 local FruitsStatus = Tabs.FE:AddParagraph({
   Title = "Fruits: ",
