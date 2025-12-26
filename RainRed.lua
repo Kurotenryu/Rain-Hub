@@ -45,7 +45,7 @@ Fluent:Notify({
 })
 
 --TabsShop
-Tabs.Shop:AddSection("F.Styles")
+Tabs.Shop:AddSection("Styles")
 Tabs.Shop:AddToggle("ToggleBuySuperhuman", {
   Title = "Tween Buy Superhuman", 
   Default = false
@@ -675,7 +675,7 @@ Tabs.FR:AddDropdown("DropdownSelectBFD", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectBloxFruitDealer = Value
-end
+end)
 
 Tabs.FR:AddToggle("ToggleBuyBFD", {
   Title = "Buy Blox Fruit Dealer",
@@ -703,7 +703,7 @@ Tabs.FR:AddDropdown("DropdownSelectMapRaids", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectMapRaids = Value
-end
+end)
 
 Tabs.FR:AddToggle("ToggleAutoRaids", {
   Title = "Auto Raids",
@@ -747,7 +747,7 @@ Tabs.FR:AddDropdown("DropdownSelectHelpsRaid", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectHelpRaids = Value
-end
+end)
 
 Tabs.FR:AddToggle("ToggleChipBuyAccount", {
   Title = "Chip Buy Account",
@@ -779,7 +779,7 @@ Tabs.IM:AddDropdown("DropdownSelectMaterials", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectMaterials = Value
-end
+end)
 
 Tabs.IM:AddToggle("ToggleAutoMaterials", {
   Title = "AutobMaterials",
