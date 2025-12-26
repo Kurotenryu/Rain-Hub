@@ -709,14 +709,31 @@ end)
 spawn(function()
 	while task.wait(0.5) do
 		if _G.AutoStoreFruits then
-			pcall(function()
-						for _, tool in ipairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-							if string.match(tool.Name, " Fruit$") then
-								local fruitName = tool.Name:gsub(" Fruit", "")
-				  game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit",fruitName .. "-" .. fruitName,tool)
-				             end
-			             end
-		    end)
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+local Backpack = LP:WaitForChild("Backpack")
+local CommF = game.ReplicatedStorage.Remotes.CommF_
+local MAX_TRY = 3
+local tried = {}
+
+Backpack.ChildAdded:Connect(function(tool)
+	if not (tool:IsA("Tool") and string.match(tool.Name, " Fruit$")) then return end
+
+	local fruitName = tool.Name:gsub(" Fruit", "")
+	tried[fruitName] = 0
+
+	while tried[fruitName] < MAX_TRY do
+		tried[fruitName] += 1
+		pcall(function()
+			CommF:InvokeServer(
+				"StoreFruit",
+				fruitName .. "-" .. fruitName,
+				tool
+			)
+		end)
+		task.wait(0.5)
+	end
+end)
      	end
 	end
 end)
