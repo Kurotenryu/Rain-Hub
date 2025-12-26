@@ -735,7 +735,7 @@ end)
 
 Tabs.FR:AddSection("Raids Mutis")
 local PlayerRaid = {}
-for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+for _, v in pairs(game:GetService("Players"):GetChildren()) do
     if v ~= game:GetService("Players").LocalPlayer then
         table.insert(PlayerRaid, v.Name)
     end
