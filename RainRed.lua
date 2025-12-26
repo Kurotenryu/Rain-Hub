@@ -26,7 +26,8 @@ local Tabs = {
   Farming = Window:AddTab({ Title = "Farming", Icon = ""}),
   Status = Window:AddTab({ Title = "Status", Icon = ""}),
   LP = Window:AddTab({ Title = "Local Player", Icon = ""}),
-  FR = Window:AddTab({ Title = "Fruits-Raids", Icon = ""}),
+  FE = Windows:AddTab({ Title = "Fruits Event", Icon = ""}),
+  RD = Window:AddTab({ Title = "Raids Awakening", Icon = ""}),
   IM = Window:AddTab({ Title = "Items-Materials", Icon= ""}),
   FO = Window:AddTab({Title = "Farms Other", Icon = ""}),
   Offshore = Window:AddTab({ Title = "Offshore", Icon = ""}),
@@ -632,7 +633,7 @@ Tabs.LP:AddButton({
 })
 
 --TabFruitsRaid
-local FruitsStatus = Tabs.FR:AddParagraph({
+local FruitsStatus = Tabs.FE:AddParagraph({
   Title = "Fruits: ",
   Content = ""
 })
@@ -645,33 +646,59 @@ task.spawn(function()
   end
 end)
 
-Tabs.FR:AddToggle("TogglePickFruits", {
+Tabs.FE:AddToggle("TogglePickFruits", {
   Title = "Picked Fruits",
   Default = false
 }):OnChanged(function(Value)
   _G.PickedFruits = Value
 end)
 
-Tabs.FR:AddToggle("TogglePFH", {
+Tabs.FE:AddToggle("TogglePFH", {
   Title = "Picked Fruits Hop",
   Default = false
 }):OnChanged(function(Value)
   _G.PickedFruitsHop = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAutoGachaFruits", {
+Tabs.FE:AddToggle("ToggleAutoGachaFruits", {
   Title = "Auto Gacha Fruits",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoGachaFruits = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAutoStoreFruits", {
+Tabs.FE:AddToggle("ToggleAutoGachaEvent", {
+	Title = "Auto Gacha Candy",
+	Default = false
+}):OnChanged(function(Value)
+	_G.AutoGachaEvent = Value
+end)		
+
+Tabs.FE:AddToggle("ToggleAutoStoreFruits", {
   Title = "Auto Store Fruits",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoStoreFruits = Value
 end)
+
+Tabs.FE:AddToggle("ToggleAutoStoreHoliday", {
+  Title = "Auto Store Holiday",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoStoreHoliday = Value
+end)
+
+task.spawn(function()
+	while task.wait() do
+		if _G.AutoStoreHoliday then
+				pcall(function()
+					local args = {"StoreHolidayGift"}
+						game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
+				end)
+		end
+	end
+end)
+						
 
 local Remote_GetFruits = game.ReplicatedStorage:FindFirstChild("Remotes").CommF_:InvokeServer("GetFruits")
 local Table_DevilFruitSniper = {}
@@ -682,7 +709,7 @@ for i, v in next, Remote_GetFruits do
         table.insert(ShopDevilSell, v.Name)
     end
 end
-Tabs.FR:AddDropdown("DropdownSelectBFD", {
+Tabs.FE:AddDropdown("DropdownSelectBFD", {
   Title = "Select Blox Fruit Dealer",
   Values = Table_DevilFruitSniper,
   Multi = false,
@@ -691,7 +718,7 @@ Tabs.FR:AddDropdown("DropdownSelectBFD", {
   _G.SelectBloxFruitDealer = Value
 end)
 
-Tabs.FR:AddToggle("ToggleBuyBFD", {
+Tabs.FE:AddToggle("ToggleBuyBFD", {
   Title = "Buy Blox Fruit Dealer",
   Default = false
 }):OnChanged(function(Value)
@@ -708,9 +735,9 @@ task.spawn(function()
     end)
   end
 end)
-
-Tabs.FR:AddSection("Raids")
-Tabs.FR:AddDropdown("DropdownSelectMapRaids", {
+--Raid
+Tabs.RD:AddSection("Raids")
+Tabs.RD:AddDropdown("DropdownSelectMapRaids", {
   Title = "Select Map Raids",
   Values = {"Flame","Ice","Quake","Light","Dark","Spider","Magma","Buddha","Sand","Phoenix","Dough"},
   Multi = false,
@@ -719,42 +746,42 @@ Tabs.FR:AddDropdown("DropdownSelectMapRaids", {
   _G.SelectMapRaids = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAutoRaids", {
+Tabs.RD:AddToggle("ToggleAutoRaids", {
   Title = "Auto Raids",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoRaids = Value
 end)
 
-Tabs.FR:AddToggle("ToggleTFFTW", {
+Tabs.RD:AddToggle("ToggleTFFTW", {
   Title = "Take Fruits From The Warehouse",
   Default = false
 }):OnChanged(function(Value)
   _G.TFTW = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAutoRaidHop", {
+Tabs.RD:AddToggle("ToggleAutoRaidHop", {
   Title = "Auto Raids Hop",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoRaidsHop = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAutoAwakeninhFruits", {
+Tabs.RD:AddToggle("ToggleAutoAwakeninhFruits", {
   Title = "Auto Awakening Fruits",
   Default = false
 }):OnChanged(function(Value)
   _G.AwakeningFruits = Value
 end)
 
-Tabs.FR:AddSection("Raids Mutis")
+Tabs.RD:AddSection("Raids Mutis")
 local PlayerRaid = {}
 for _, v in pairs(game:GetService("Players"):GetChildren()) do
     if v ~= game:GetService("Players").LocalPlayer then
         table.insert(PlayerRaid, v.Name)
     end
 end
-Tabs.FR:AddDropdown("DropdownSelectHelpsRaid", {
+Tabs.RD:AddDropdown("DropdownSelectHelpsRaid", {
   Title = "Select Helps Raid",
   Values = PlayerRaid,
   Multi = true,
@@ -763,21 +790,21 @@ Tabs.FR:AddDropdown("DropdownSelectHelpsRaid", {
   _G.SelectHelpRaids = Value
 end)
 
-Tabs.FR:AddToggle("ToggleChipBuyAccount", {
+Tabs.RD:AddToggle("ToggleChipBuyAccount", {
   Title = "Chip Buy Account",
   Default = false
 }):OnChanged(function(Value)
   _G.ChipBuyAccount = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAFR", {
+Tabs.RD:AddToggle("ToggleAFR", {
   Title = "Account Follow Raid",
   Default = false
 }):OnChanged(function(Value)
   _G.AccountFollow = Value
 end)
 
-Tabs.FR:AddToggle("ToggleAMR", {
+Tabs.RD:AddToggle("ToggleAMR", {
   Title = "Account Muti Raids",
   Default = false
 }):OnChanged(function(Value)
