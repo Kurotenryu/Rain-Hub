@@ -1,4 +1,5 @@
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer
+local RunService = game:GetService("RunService")
 _G.NoClip = true
 --coder
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
