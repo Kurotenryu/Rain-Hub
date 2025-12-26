@@ -744,7 +744,7 @@ Tabs.FR:AddDropdown("DropdownSelectHelpsRaid", {
   Title = "Select Helps Raid",
   Values = PlayerRaid,
   Multi = true,
-  Default = 1,
+  Default = {},
 }):OnChanged(function(Value)
   _G.SelectHelpRaids = Value
 end)
