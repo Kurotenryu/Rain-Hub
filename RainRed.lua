@@ -14,7 +14,7 @@ local Window = Fluent:CreateWindow({
 	Title = "Rain Hub | Communuty",
 	SubTitle = "discord.com/rainhub",
 	TabWidth = 160,
-	Size = UDim2.fromOffset(555, 320),
+	Size = UDim2.fromOffset(555, 280),
 	Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
 	Theme = "Dark",
 	MinimizeKey = Enum.KeyCode.LeftControl 
@@ -440,6 +440,20 @@ task.spawn(function()
     end
 end)
 
+local CountdownPara = Tabs.Status:AddParagraph({
+	Title = "CountDown: ",
+	Content = ""
+})
+
+task.spawn(function()
+    while task.wait() do
+		local textLabel = workspace.Countdown.SurfaceGui.TextLabel	
+        if textLabel and textLabel.Parent then
+            CountdownPara:SetTitle("Countdown: " .. tostring(textLabel.Text))
+        end
+    end
+end)
+
 local CakePrinceStatus = Tabs.Status:AddParagraph({
   Title = "Cake Prince: ",
   Content = ""
@@ -782,11 +796,13 @@ Tabs.IM:AddDropdown("DropdownSelectMaterials", {
 end)
 
 Tabs.IM:AddToggle("ToggleAutoMaterials", {
-  Title = "AutobMaterials",
+  Title = "Auto Materials",
   Default = false
 }):OnChanged(function(Value)
   _G.AutoMaterials = Value
 end)
+
+
 
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
