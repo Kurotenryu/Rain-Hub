@@ -646,14 +646,12 @@ Tabs.LP:AddDropdown("DropdownSelectTeams", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectTeams = Value
-end)
-
-task.spawn(function()
-  if _G.SelectTeams == "Pirates" then
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
-  elseif _G.SelectTeams == "Marines" then
-    game:GetService("ReplicatedStorage")).Remotes.CommF_:InvokeServer("SetTeam", "Marines")
-  end
+local CommF = game:GetService("ReplicatedStorage").Remotes.CommF_
+ if Value == "Pirates" then
+    CommF:InvokeServer("SetTeam", "Pirates")
+ elseif Value == "Marines" then
+    CommF:InvokeServer("SetTeam", "Marines")
+ end
 end)
 
 Tabs.LP:AddButton({
