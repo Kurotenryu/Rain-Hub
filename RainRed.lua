@@ -900,6 +900,7 @@ Tabs.RD:AddToggle("ToggleAMR", {
 }):OnChanged(function(Value)
   _G.AccountMutiRaids = Value
 end)
+
 Tabs.RD:AddSection("Dungeons")
 Tabs.RD:AddToggle("ToggleAutoDungeons", {
   Title = "Auto Dungeons",
@@ -934,16 +935,16 @@ Tabs.SE:AddDropdown("DropdownSelectSeaDangerLevel", {
   Default = {},
 }):OnChanged(function(Value)
   _G.SelectSeaDanger = Value
-	end
+	end)
 	
 Tabs.SE:AddDropdown("DropdownSelectBoat", {
   Title = "Select Boat",
   Values = {"Dinghu","Sloop","Brigade","Grand Brigade","Miracle","The Sentinel","Guardian","Lantern","Sleigh","Beast Hunter"},
   Multi = false,
-  Default = 1,
+  Default = 7,
 }):OnChanged(function(Value)
   _G.SelectBoat = Value
-		end
+		end)
 
 		
 SaveManager:SetLibrary(Fluent)
