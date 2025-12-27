@@ -639,6 +639,23 @@ Tabs.LP:AddButton({
   end
 })
 
+Tabs.LP:AddDropdown("DropdownSelectTeams", {
+  Title = "Select Teams",
+  Values = {"Pirates","Marines"},
+  Multi = false,
+  Default = 1,
+}):OnChanged(function(Value)
+  _G.SelectTeams = Value
+end
+
+task.spawn(function()
+  if _G.SelectTeams == "Pirates" then
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetTeam", "Pirates")
+  elseif _G.SelectTeams == "Marines" then
+    game:GetService("ReplicatedStorage")).Remotes.CommF_:InvokeServer("SetTeam", "Marines")
+  end
+end)
+
 Tabs.LP:AddButton({
 		Title = "Open Blox Fruits Deal",
 		Description= "",
@@ -909,8 +926,26 @@ Tabs.IM:AddToggle("ToggleAutoMaterials", {
   _G.AutoMaterials = Value
 end)
 
---
+--SeaEvent
+Tabs.SE:AddDropdown("DropdownSelectSeaDangerLevel", {
+  Title = "Select Sea Danger Level",
+  Values = {"Sea Danger Level 1","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 4","Sea Danger Level 5","Sea Danger Level 6"},
+  Multi = false,
+  Default = {},
+}):OnChanged(function(Value)
+  _G.SelectSeaDanger = Value
+	end
+	
+Tabs.SE:AddDropdown("DropdownSelectBoat", {
+  Title = "Select Boat",
+  Values = {"Dinghu","Sloop","Brigade","Grand Brigade","Miracle","The Sentinel","Guardian","Lantern","Sleigh","Beast Hunter"},
+  Multi = false,
+  Default = 1,
+}):OnChanged(function(Value)
+  _G.SelectBoat = Value
+		end
 
+		
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
