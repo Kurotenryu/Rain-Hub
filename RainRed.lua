@@ -646,7 +646,7 @@ Tabs.LP:AddDropdown("DropdownSelectTeams", {
   Default = 1,
 }):OnChanged(function(Value)
   _G.SelectTeams = Value
-end
+end)
 
 task.spawn(function()
   if _G.SelectTeams == "Pirates" then
@@ -913,7 +913,7 @@ end)
 Tabs.IM:AddSection("Materials")
 Tabs.IM:AddDropdown("DropdownSelectMaterials", {
   Title = "Select Materials",
-  Values = {"Angel Wings","Leather","Scrap Metal","Yeti Fur","Fish Tail","Ectoplasm","Radioactive Material","Vampire Fang","Mystic Droplet","Magma Ore","Meteorite","Wooden Plank","Blaze Ember","Gunpowder","Dragon Scale","Volt Capsule","Conjured Cocoa ","Mini Tusk"},
+  Values = {"Angel Wings","Leather","Scrap Metal","Yeti Fur","Fish Tail","Ectoplasm","Radioactive Material","Vampire Fang","Mystic Droplet","Magma Ore","Meteorite","Wooden Plank","Blaze Ember","Gunpowder","Dragon Scale","Volt Capsule","Conjured Cocoa","Mini Tusk"},
   Multi = false,
   Default = 1,
 }):OnChanged(function(Value)
@@ -930,16 +930,16 @@ end)
 --SeaEvent
 Tabs.SE:AddDropdown("DropdownSelectSeaDangerLevel", {
   Title = "Select Sea Danger Level",
-  Values = {"Sea Danger Level 1","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 4","Sea Danger Level 5","Sea Danger Level 6"},
+  Values = {"Sea Danger Level 1","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 3","Sea Danger Level 4","Sea Danger Level 5","Sea Danger Level 6"},
   Multi = false,
-  Default = {},
+  Default = 6,
 }):OnChanged(function(Value)
   _G.SelectSeaDanger = Value
 	end)
 	
 Tabs.SE:AddDropdown("DropdownSelectBoat", {
   Title = "Select Boat",
-  Values = {"Dinghu","Sloop","Brigade","Grand Brigade","Miracle","The Sentinel","Guardian","Lantern","Sleigh","Beast Hunter"},
+  Values = {"Dinghy","Sloop","Brigade","Grand Brigade","Miracle","The Sentinel","Guardian","Lantern","Sleigh","Beast Hunter"},
   Multi = false,
   Default = 7,
 }):OnChanged(function(Value)
