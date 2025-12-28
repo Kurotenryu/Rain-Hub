@@ -900,6 +900,15 @@ Tabs.RD:AddToggle("ToggleAMR", {
 end)
 
 Tabs.RD:AddSection("Dungeons")
+Tabs.RD:AddDropdown("DropdownSelectDifficulty", {
+  Title = "Select Difficulty",
+  Values = {"Normal","Hard","Challenge"},
+  Multi = false,
+  Default = nil,
+}):OnChanged(function(Value)
+  _G.SelectDifficulty = Value
+end)
+
 Tabs.RD:AddDropdown("DropdownSelectPlayerDungeon", {
   Title = "Select Player Dungeon",
   Values = SelectPlayer,
@@ -908,6 +917,21 @@ Tabs.RD:AddDropdown("DropdownSelectPlayerDungeon", {
 }):OnChanged(function(Value)
   _G.SelectPlayerDungeons = Value
 end)
+
+Tabs.RD:AddToggle("ToggleAutoJoinDifficulty", {
+  Title = "Auto Join Difficulty",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDungeonDifficulty = Value
+end)
+
+Tabs.RD:AddToggle("ToggleAutoDungeonOtherPlayer", {
+  Title = "Auto Dungeon With Other Player",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDungeonOtherPlayer = Value
+end)
+
 Tabs.RD:AddToggle("ToggleAutoDungeons", {
   Title = "Auto Dungeons",
   Default = false
