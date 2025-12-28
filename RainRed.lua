@@ -266,6 +266,21 @@ if ThirdSea then
       end
     end)
   end)
+
+  Tabs.Farming:AddToggle("ToggleAutoDoughKing", {
+    Title = "Auto Dough King",
+    Default = false
+  }):OnChanged(function(Value)
+    _G.AutoDoughKing = Value
+  end)
+
+Tabs.Farming:AddToggle("ToggleAutoDoughKingHop", {
+    Title = "Auto Dough King Hop",
+    Default = false
+  }):OnChanged(function(Value)
+    _G.AutoDoughKingHop = Value
+  end)
+	
   
   local RipIndraStatus = Tabs.Farming:AddParagraph({
     Title = "rip_indra True Form: ",
@@ -502,6 +517,20 @@ local SpyStatus = Tabs.Status:AddParagraph({
   Title = "Bribery Information: ",
   Content = ""
 })
+
+task.spawn(function()
+  while task.wait() do
+    pcall(function()
+      if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("InfoLeviathan","1") == -1 then
+        SpyStatus:SetTitle("Bribery Information: " .. "I don't know anything yet")
+      elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("InfoLeviathan","1") == 5 then
+        SpyStatus:SetTitle("Bribery Information: " .. "The Leviathan is out there")
+      elseif game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("InfoLeviathan","1") == -2 then
+        SpyStatus:SetTitle("Bribery Information: " .. "I heard it's been a bit chilly outside")
+      end
+    end)
+  end
+end)
 
 Tabs.Status:AddParagraph({
   Title = "PlaceId: " .. tostring(game.PlaceId),
