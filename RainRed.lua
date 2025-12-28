@@ -871,8 +871,8 @@ for _, v in pairs(game:GetService("Players"):GetChildren()) do
 end
 Tabs.RD:AddDropdown("DropdownSelectHelpsRaid", {
   Title = "Select Helps Raid",
-  Values = PlayerRaid,
-  Multi = true,
+  Values = SelectPlayer,
+  Multi = false,
   Default = {},
 }):OnChanged(function(Value)
   _G.SelectHelpRaids = Value
@@ -952,6 +952,84 @@ Tabs.SE:AddDropdown("DropdownSelectBoat", {
   _G.SelectBoat = Value
 		end)
 
+local SeaEventList = {}
+if SecondSea then
+  SeaEventList = {
+    "Piranha",
+    "Ship Raid"
+    "Shark",
+    "Sea Beast",
+  }
+elseif ThirdSea then
+  SeaEventList = {
+    "Piranhaa",
+    "Ship Raid",
+    "Sea Beast",
+    "Terrorshark",
+    "Haunted Ship Raid",
+  }
+end
+
+Tabs.SE:AddDropdown("DropdownSelectSeaEvent", {
+  Title = "Select Sea Events",
+  Values = SeaEventList,
+  Multi = true,
+  Default = {},
+}):OnChanged(function(Value)
+  _G.SelectSeaEvents = Value
+	end)
+
+Tabs.SE:AddToggle("ToggleAutoDodgeSeaBeast", {
+  Title = "Auto Dodge Skill Sea Beast",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDodgeSeaBeast = Value
+end)
+
+
+Tabs.SE:AddToggle("ToggleAutoDodgeTerrorshark", {
+  Title = "Auto Dodge Skill Terrorshark",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoDodgeTerrorshark = Value
+end)
+
+Tabs.SE:AddToggle("ToggleAutoMoveAwayRoughSea", {
+  Title = "Auto Move Away From Rough Sea",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoMoveAwayRoughSea = Value
+end)
+
+Tabs.SE:AddDropdown("DropdownSelectPlayerSeaEvent", {
+  Title = "Select Player Go Sea Event",
+  Values = SelectPlayer,
+  Multi = false,
+  Default = {},
+}):OnChanged(function(Value)
+  _G.SelectPlayerGoSeaEvent = Value
+	end)
+
+Tabs.SE:AddToggle("ToggleAutoSeaEventWOP, {
+  Title = "Auto Sea Event With Other Players",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoSeaEventWOP = Value
+end)
+
+Tabs.SE:AddToggle("ToggleAutoRepairBoat", {
+  Title = "Auto Repair Boat",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoRepairBoat = Value
+end)
+
+Tabs.SE:AddToggle("ToggleAutoSeaEvent", {
+  Title = "Auto Sea Events",
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoSeaEvent = Value
+end)
 		
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
