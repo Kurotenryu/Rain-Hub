@@ -866,14 +866,14 @@ Tabs.RD:AddSection("Raids Mutis")
 local SelectPlayer = {}
 for _, v in pairs(game:GetService("Players"):GetChildren()) do
     if v ~= game:GetService("Players").LocalPlayer then
-        table.insert(Select Player, v.Name)
+        table.insert(SelectPlayer, v.Name)
     end
 end
 Tabs.RD:AddDropdown("DropdownSelectHelpsRaid", {
   Title = "Select Helps Raid",
   Values = SelectPlayer,
   Multi = false,
-  Default = {},
+  Default = nil,
 }):OnChanged(function(Value)
   _G.SelectHelpRaids = Value
 end)
@@ -904,7 +904,7 @@ Tabs.RD:AddDropdown("DropdownSelectPlayerDungeon", {
   Title = "Select Player Dungeon",
   Values = SelectPlayer,
   Multi = false,
-  Default = {},
+  Default = nil,
 }):OnChanged(function(Value)
   _G.SelectPlayerDungeons = Value
 end)
@@ -956,7 +956,7 @@ local SeaEventList = {}
 if SecondSea then
   SeaEventList = {
     "Piranha",
-    "Ship Raid"
+    "Ship Raid",
     "Shark",
     "Sea Beast",
   }
@@ -1005,12 +1005,12 @@ Tabs.SE:AddDropdown("DropdownSelectPlayerSeaEvent", {
   Title = "Select Player Go Sea Event",
   Values = SelectPlayer,
   Multi = false,
-  Default = {},
+  Default = nil,
 }):OnChanged(function(Value)
   _G.SelectPlayerGoSeaEvent = Value
 	end)
 
-Tabs.SE:AddToggle("ToggleAutoSeaEventWOP, {
+Tabs.SE:AddToggle("ToggleAutoSeaEventWOP", {
   Title = "Auto Sea Event With Other Players",
   Default = false
 }):OnChanged(function(Value)
