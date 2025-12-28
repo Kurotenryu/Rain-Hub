@@ -863,10 +863,10 @@ Tabs.RD:AddToggle("ToggleAutoAwakeninhFruits", {
 end)
 
 Tabs.RD:AddSection("Raids Mutis")
-local PlayerRaid = {}
+local SelectPlayer = {}
 for _, v in pairs(game:GetService("Players"):GetChildren()) do
     if v ~= game:GetService("Players").LocalPlayer then
-        table.insert(PlayerRaid, v.Name)
+        table.insert(Select Player, v.Name)
     end
 end
 Tabs.RD:AddDropdown("DropdownSelectHelpsRaid", {
@@ -900,6 +900,14 @@ Tabs.RD:AddToggle("ToggleAMR", {
 end)
 
 Tabs.RD:AddSection("Dungeons")
+Tabs.RD:AddDropdown("DropdownSelectPlayerDungeon", {
+  Title = "Select Player Dungeon",
+  Values = SelectPlayer,
+  Multi = false,
+  Default = {},
+}):OnChanged(function(Value)
+  _G.SelectPlayerDungeons = Value
+end)
 Tabs.RD:AddToggle("ToggleAutoDungeons", {
   Title = "Auto Dungeons",
   Default = false
@@ -928,7 +936,7 @@ end)
 --SeaEvent
 Tabs.SE:AddDropdown("DropdownSelectSeaDangerLevel", {
   Title = "Select Sea Danger Level",
-  Values = {"Sea Danger Level 1","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 3","Sea Danger Level 4","Sea Danger Level 5","Sea Danger Level 6"},
+  Values = {"Sea Danger Level 1","Sea Danger Level 2","Sea Danger Level 3","Sea Danger Level 4","Sea Danger Level 5","Sea Danger Level 6"},
   Multi = false,
   Default = 6,
 }):OnChanged(function(Value)
