@@ -995,11 +995,6 @@ Tabs.FO:AddToggle("ToggleTradeBone", {
 end)
 
 local SavedCFrame = nil
-local ToaDoStatus = Tabs.FO:AddParagraph({
-  Title = "Coordinates: ",
-  Content = ""
-})
-
 Tabs.FO:AddButton({
   Title = "Save Cordinates",
   Description = "",
@@ -1007,7 +1002,6 @@ Tabs.FO:AddButton({
     local char = game:GetService("Players").LocalPlayer.Character
     local hrp = char:FindFirstChild("HumanoidRootPart")
     SavedCFrame = hrp.CFrame
-    ToaDoStatus:SetTitle(tostring(SavedCFrame))
   end
 })
 
@@ -1144,6 +1138,14 @@ Tabs.SE:AddToggle("ToggleAutoSeaEvent", {
 }):OnChanged(function(Value)
   _G.AutoSeaEvent = Value
 end)
+
+--RaceAwkening
+Tabs.RA:AddParagraph({
+  Title = "Race: " .. tostring(game:GetService("Players").LocalPlayer.Data.Race.Value),
+  Content = ""
+})
+
+
 		
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
