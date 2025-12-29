@@ -986,6 +986,67 @@ Tabs.IM:AddToggle("ToggleAutoMaterials", {
   _G.AutoMaterials = Value
 end)
 
+--FarmOther
+Tabs.FO:AddToggle("ToggleTradeBone", {
+  Title = "Auto Trade Bones", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.TradeBones = Value
+end)
+
+local SavedCFrame = nil
+local ToaDoStatus = Tabs.FO:AddParagraph({
+  Title = "Coordinates: ",
+  Content = ""
+})
+
+Tabs.FO:AddButton({
+  Title = "Save Cordinates",
+  Description = "",
+  Callback = function()
+    local char = game:GetService("Players").LocalPlayer.Character
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    SavedCFrame = hrp.CFrame
+    ToaDoStatus:SetTitle(tostring(SavedCFrame))
+  end
+})
+
+Tabs.FO:AddDropdown("DropdownSelectBaits", {
+  Title = "Select Baits",
+  Values = {"Basic Bait","Kelp Bait","Good Bait","Abyssal Bait","Frozen Bait","Epic Bait","Carnivore Bait"},
+  Multi = false,
+  Default = 1,
+}):OnChanged(function(Value)
+  _G.SelectBait = Value
+end)
+
+Tabs.FO:AddToggle("ToggleAcceptAngler", {
+  Title = "Auto Accept Angler", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoAcceptAngler = Value
+end)
+
+Tabs.FO:AddToggle("ToggleBuyBait", {
+  Title = "Auto Buy Baits", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoBuyBait = Value
+end)
+
+Tabs.FO:AddToggle("ToggleFarmChest", {
+  Title = "Auto Farm Chest", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoFarmChest = Value
+end)
+
+Tabs.FO:AddToggle("ToggleFarmChestHop", {
+  Title = "Auto Farm Chest Hop", 
+  Default = false
+}):OnChanged(function(Value)
+  _G.AutoFarmChestHop = Value
+end)
 --SeaEvent
 Tabs.SE:AddDropdown("DropdownSelectSeaDangerLevel", {
   Title = "Select Sea Danger Level",
