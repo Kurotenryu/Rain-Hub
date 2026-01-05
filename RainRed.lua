@@ -58,9 +58,6 @@ task.spawn(function()
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
 		local hum = char:FindFirstChildOfClass("Humanoid")	
-        if hum.Health <= 0 then
-            break
-		end
         if hrp and root then
             hrp.CFrame = root.CFrame
         end
