@@ -958,8 +958,6 @@ task.spawn(function()
           elseif _G.SelectIsland == "Candy Cane Land" then
             TP(CFrame.new(-997.224243, 60.1506805, -14477.9951, 0.12927182, 4.01811562e-09, -0.991609216, 6.05907502e-09, 1, 4.84201168e-09, 0.991609216, -6.63417055e-09, 0.12927182))		
 		  end
-	    else
-		  	CancelTween()	
         end
       end)
     end
