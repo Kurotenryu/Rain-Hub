@@ -6,6 +6,70 @@ elseif game.PlaceId == 7449423635 or game.PlaceId == 100117331123089 then
   ThirdSea = true
 end
 
+local function SetupCharacter(char)
+	local hum = char:WaitForChild("Humanoid")
+	local hrp = char:WaitForChild("HumanoidRootPart")
+	if char:FindFirstChild("Root") then
+		char.Root:Destroy()
+	end
+	local root = Instance.new("Part")
+	root.Name = "Root"
+	root.Size = Vector3.new(1,1,1)
+	root.Transparency = 1
+	root.CanCollide = false
+	root.Anchored = false
+	root.CFrame = hrp.CFrame
+	root.Parent = char
+end
+
+task.spawn(function()
+	game:GetService("Players").LocalPlayer.CharacterAdded:Connect(SetupCharacter)
+	if game:GetService("Players").LocalPlayer.Character then
+		SetupCharacter(game:GetService("Players").LocalPlayer.Character)
+	end
+end)
+
+function TP(Pos)
+    task.spawn(function()
+        local char = game:GetService("Players").LocalPlayer.Character
+        if not char then repeat task.wait() until char end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local root = char:FindFirstChild("Root")
+        repeat task.wait() until hum and hrp and root
+        if not root or hum.Health <= 0 then return end
+        hum.Sit = false
+        local dist = (hrp.Position - Pos.Position).Magnitude
+        local tween = game:GetService("TweenService"):Create(
+            root,
+            TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
+            {CFrame = Pos}
+        )
+        tween:Play()
+    	tween.Completed:Wait()
+    	if not hum or hum.Health <= 0 then
+    		tween:Cancel()
+    	end
+    end)
+end
+
+task.spawn(function()
+    while task.wait() do
+        local char = game:GetService("Players").LocalPlayer.Character
+        if not char then task.wait() end
+    	    local hrp = char:FindFirstChild("HumanoidRootPart")
+        local root = char:FindFirstChild("Root")
+        if not hum or hum.Health <= 0 then
+            break
+        end
+        if hrp and root then
+            hrp.CFrame = root.CFrame
+        end
+    end
+end)
+
+
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
