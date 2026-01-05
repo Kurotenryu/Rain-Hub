@@ -84,6 +84,8 @@ task.spawn(function()
   end)
 end)
 
+
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -706,6 +708,23 @@ Tabs.Status:AddButton({
 })
 
 --TabLocalPlayer
+function CancelTween()
+    if _G.TweenBeta then
+        _G.TweenBeta:Cancel()
+        _G.TweenBeta = nil
+    end
+
+    _G.IsTweening = false
+    _G.NoClip = false
+end
+
+Tabs.LP:AddButton({
+  Title = "Cancel Tween",
+  Description = "",
+  Callback = function()
+         CancelTween()
+  end    
+    })
 Tabs.LP:AddButton({
   Title = "Shift First Sea",
   Description = "",
@@ -938,6 +957,8 @@ task.spawn(function()
             TP(CFrame.new(207.767883, 126.583794, -12598.5234, -0.39604488, 6.89493174e-09, 0.91823113, -2.20901364e-09, 1, -8.46170423e-09, -0.91823113, -5.37959988e-09, -0.39604488))
           elseif _G.SelectIsland == "Candy Cane Land" then
             TP(CFrame.new(-997.224243, 60.1506805, -14477.9951, 0.12927182, 4.01811562e-09, -0.991609216, 6.05907502e-09, 1, 4.84201168e-09, 0.991609216, -6.63417055e-09, 0.12927182))
+		  else	
+			_G.IsTweening = false				
 		  end
         end
       end)
