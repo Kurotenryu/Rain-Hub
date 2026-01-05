@@ -1,5 +1,5 @@
 _G.NoClip = true
-
+_G.IsTweening = false
 
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
   FirstSea = true
@@ -41,7 +41,7 @@ function TP(Pos)
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
 
-        if not hum or not hrp or not root then repeat task.wait() until hum or hrp or root end
+        if not hum or not hrp or not root then repeat task.wait() until hum and hrp and root end
         hum.Sit = false
         local dist = (hrp.Position - Pos.Position).Magnitude
         local tween = game:GetService("TweenService"):Create(
@@ -49,13 +49,16 @@ function TP(Pos)
             TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
             {CFrame = Pos}
         )
+		_G.IsTweening = true	
         tween:Play()
     	tween.Completed:Wait()
+		_G.IsTweening = false	
     end)
 end
 
 task.spawn(function()
     while task.wait() do
+			if _G.IsTweening then
         local char = game:GetService("Players").LocalPlayer.Character
         if not char then task.wait() end
     	    local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -64,6 +67,7 @@ task.spawn(function()
         if hrp and root then
             hrp.CFrame = root.CFrame
         end
+			end
     end
 end)
 
