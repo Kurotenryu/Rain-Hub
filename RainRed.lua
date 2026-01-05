@@ -238,6 +238,78 @@ Tabs.Main:AddToggle("ToggleAQ", {
 }):OnChanged(function(Value)
   _G.AcceptQuest = Value
 end)
+	
+task.spawn(function()
+  while task.wait(0.3) do
+    pcall(function()
+      if _G.AutoBones then
+        local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+        if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+          if game:GetService("Players").LocalPlayer.Data.Level.Value >= 1975 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2000 then
+            if not string.find(QuestTitle, "Reborn Skeleton") then
+              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+            end
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+              TP(CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0))
+              if (CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest1",1)
+              end
+            end
+          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2000 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2025 then
+            if not string.find(QuestTitle, "Living Zombie") then
+              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+            end
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+              TP(CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0))
+              if (CFrame.new(-9479.2168, 141.214996, 5566.09277, 0, 0, 1, 0, 1, 0, -1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest1",2)
+              end
+            end
+          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 and game:GetService("Players").LocalPlayer.Data.Level.Value < 2050 then
+            if not string.find(QuestTitle, "Demonic Soul") then
+              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+            end
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+              TP(CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0))
+              if (CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest2",1)
+              end
+            end
+          elseif game:GetService("Players").LocalPlayer.Data.Level.Value >= 2025 then
+            if not string.find(QuestTitle, "Posessed Mummy") then
+              game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+            end
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+              TP(CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0))
+              if (CFrame.new(-9516.99316, 172.016998, 6078.46484, 0, 0, -1, 0, 1, 0, 1, 0, 0).Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest2",2)
+              end
+            end
+          end
+        elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+          if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+            for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+              if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+                if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                  repeat
+                    task.wait(0.5)
+                    AutoHaki()
+                    TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 25, 0))
+                    v.Humanoid.JumpPower = 0
+                    v.Humanoid.WalkSpeed = 0
+                    v.HumanoidRootPart.CanCollide = false
+                  until not _G.AutoBones or v.Humanoid.Health <= 0
+                end
+              else
+                TP(CFrame.new(-9498.63574, 172.139816, 6104.71143, 0.999950886, -9.36211251e-08, 0.00991109852, 9.33304989e-08, 1, 2.97860687e-08, -0.00991109852, -2.88595974e-08, 0.999950886))
+              end
+            end
+          end
+        end
+      end
+    end)
+  end
+end)
 
 Tabs.Main:AddToggle("ToggleHS", {
   Title = "Holding Sword",
