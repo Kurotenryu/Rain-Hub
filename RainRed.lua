@@ -49,9 +49,13 @@ function TP(Pos)
             TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
             {CFrame = Pos}
         )
+			if hum.Health > 0 then
 		_G.IsTweening = true	
         tween:Play()
     	tween.Completed:Wait()	
+			else
+				tween:Cancel()
+			end
     end)
 end
 
