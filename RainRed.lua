@@ -747,6 +747,189 @@ local CommF = game:GetService("ReplicatedStorage").Remotes.CommF_
  end
 end)
 
+local IslandList = {}
+if FirstSea then
+		IslandList = {
+		"Pirate Starter Island",
+		"Marine Starter Island",
+		"Middle Town",
+		"Jungle",
+		"Pirate Village",
+		"Desert",
+		"Frozen Village",
+		"Marine Fortress",
+		"Skyland1",
+		"Skyland2",
+		"Skyland3",
+		"Prison",
+		"Magma Village",
+		"Underwater City",
+		"Colosseum",
+		"Fountain City",
+		}
+elseif SecondSea then
+		IslandList = {
+			"Green Zone",
+			"KingDon Of Rose1",
+			"KingDon Of Rose2",
+			"The Cafe",
+			"Don Swan Mansion",
+			"Graveyard",
+			"Cursed Ship",
+			"Hot Island",
+			"Cold Island",
+			"Forgotten Island",
+			"Ice Castle",
+			"Snow Mountain",
+			"Dark Arena",
+			"Secret Laboratory",
+			"Raid Lab",
+			
+		}
+elseif ThirdSea then
+		IslandList = {
+			"Port Town",
+			"Hydra Island1",
+			"Hydra Island2",
+			"Dragon Dojo",
+			"Castle on the Sea",
+			"Great Tree",
+			"Floating Turtle",
+			"Mansion",
+			"Temple of Time",
+			"Haunted Castle",
+			"Submerged Island",
+			"Tiki Outpost",
+			"Peanut Land",
+			"Ice Cream Land",
+			"Cake Land",
+			"Chocolate Land",
+			"Candy Cane Land",
+		}
+end
+
+Tabs.LPlayer:AddDropdown("DropdownSelectIsland", {
+  Title = "Select Island",
+  Values = IslandList,
+  Multi = false,
+  Default = nil,
+}):OnChanged(function(Value)
+  _G.SelectIsland = Value
+end)
+											
+Tabs.LPlayer:AddToggle("ToggleTweenIsland", {
+  Title = "Tween Island",
+  Default = false
+}):OnChanged(function(Value)
+  _G.TweenIsland = Value
+end)											
+
+task.spawn(function()
+		while task.wait(0.5) do
+			pcall(function()
+					if _G.TweenIsland then
+						if _G.SelectIsland == "Pirate Starter Island" then
+							TP(CFrame.new(1037.63538, 80.6225815, 1594.75391, -0.803820193, 2.38998634e-08, 0.594872296, 3.68290962e-08, 1, 9.58879376e-09, -0.594872296, 2.96162757e-08, -0.803820193))
+                        elseif _G.SelectIsland == "Marine Starter Island" then
+                            TP(CFrame.new(-2835.49097, 41.4808655, 2029.42749, -0.234630495, 3.04188781e-08, -0.972084641, -9.81363755e-08, 1, 5.49794379e-08, 0.972084641, 1.08296717e-07, -0.234630495))
+                        elseif _G.SelectIsland == 	"Middle Town" then
+                            TP(CFrame.new(-689.856323, 15.0865364, 1582.84546, 0.261085629, 7.73279254e-08, -0.96531564, -4.28698499e-08, 1, 6.85114969e-08, 0.96531564, 2.34955664e-08, 0.261085629))
+                        elseif _G.SelectIsland == "Jungle" then
+                            TP(CFrame.new(-1493.78308, 22.8438587, 380.050079, -0.872975945, 6.21927327e-08, -0.487763286, 7.86620191e-08, 1, -1.32796369e-08, 0.487763286, -4.99612476e-08, -0.872975945))
+                        elseif _G.SelectIsland == "Pirate Village" then
+                            TP(CFrame.new(-1149.27649, 65.1931534, 4162.57812, 0.958204508, 1.03980781e-07, -0.286084056, -1.1670241e-07, 1, -2.74185012e-08, 0.286084056, 5.96592358e-08, 0.958204508))
+                        elseif _G.SelectIsland == "Desert" then
+                            TP(CFrame.new(944.402466, 20.9120159, 4367.8623, -0.978600085, 3.64656252e-08, -0.205771372, 2.3351383e-08, 1, 6.61606165e-08, 0.205771372, 5.99397438e-08, -0.978600085))
+                       elseif _G.SelectIsland == "Frozen Village" then
+                            TP(CFrame.new(1398.38843, 87.6798325, -1348.87878, -0.999439061, 1.80932407e-08, -0.0334898271, 1.67280714e-08, 1, 4.10438865e-08, 0.0334898271, 4.04606446e-08, -0.999439061))
+                       elseif _G.SelectIsland == "Marine Fortress" then
+                            TP(CFrame.new(-4818.18848, 20.6439495, 4372.75635, 0.836107016, 1.52223976e-08, -0.548566401, -5.62457103e-08, 1, -5.79784576e-08, 0.548566401, 7.93306967e-08, 0.836107016))
+                       elseif _G.SelectIsland == "Skyland1" then
+                            TP(CFrame.new(-4960.05176, 3.89969921, -2400.67969, -0.238063425, -6.34105568e-09, -0.97124964, 1.56037849e-08, 1, -1.03534106e-08, 0.97124964, -1.76199393e-08, -0.238063425))
+                       elseif _G.SelectIsland == "Skyland2" then
+                            TP(CFrame.new(-4842.59912, 867.093689, -1839.96863, -0.344263732, -4.36699921e-08, -0.938872993, -4.99862658e-08, 1, -2.81843597e-08, 0.938872993, 3.7227899e-08, -0.344263732))
+                       elseif _G.SelectIsland == "Skyland3" then
+                            TP(CFrame.new(-8000.49512, 5813.98584, -1938.35303, -0.826513827, 6.07665243e-08, -0.562916458, 3.98148359e-08, 1, 4.94904882e-08, 0.562916458, 1.84921465e-08, -0.826513827))
+                       elseif _G.SelectIsland == "Prison" then
+                            TP(CFrame.new(5022.46045, 88.6441879, 737.350647, -0.0183219928, 3.15113233e-08, 0.999832153, 1.06221485e-08, 1, -3.13219637e-08, -0.999832153, 1.00464845e-08, -0.0183219928))
+                       elseif _G.SelectIsland == "Magma Village" then
+                            TP(CFrame.new(-5514.2793, 62.7915611, 8577.38672, 0.782042027, 3.03634486e-08, -0.623225689, -2.45559022e-08, 1, 1.79063555e-08, 0.623225689, 1.30034572e-09, 0.782042027))
+                     elseif _G.SelectIsland == "Underwater City" then
+            TP(CFrame.new(61334.0586, 92.7145615, 1281.68799, -0.99927181, -8.84563711e-09, -0.0381552316, -9.1567065e-09, 1, 7.97798361e-09, 0.0381552316, 8.32155056e-09, -0.99927181))
+          elseif _G.SelectIsland == "Colosseum" then
+            TP(CFrame.new(-1719.22778, 150.323837, -3168.36108, -0.737930298, 7.04111436e-09, -0.674876928, 1.0342772e-08, 1, -8.75908179e-10, 0.674876928, -7.6264568e-09, -0.737930298))
+          elseif _G.SelectIsland == "Fountain City" then
+            TP(CFrame.new(5777.04297, 579.550476, 4379.62451, 0.33506006, 1.16727632e-08, -0.942196786, 3.49154838e-08, 1, 2.48053791e-08, 0.942196786, -4.12085477e-08, 0.33506006))
+          elseif _G.SelectIsland == "Green Zone" then
+            TP(CFrame.new(-2455.45117, 90.1054153, -3148.56299, -0.895971894, -1.11538561e-07, -0.444110751, -1.00914697e-07, 1, -4.75598299e-08, 0.444110751, 2.20503149e-09, -0.895971894))
+          elseif _G.SelectIsland == "KingDon Of Rose1" then
+            TP(CFrame.new(-141.301849, 75.8591385, 2746.67358, -0.18109335, -1.57117057e-08, -0.98346591, -1.24137829e-08, 1, -1.36900038e-08, 0.98346591, 9.72936398e-09, -0.18109335))
+          elseif _G.SelectIsland == "KingDon Of Rose2" then
+            TP(CFrame.new(-335.976471, 121.381874, 1296.84363, 0.999305665, -3.26305489e-08, 0.0372586064, 3.38490551e-08, 1, -3.20731992e-08, -0.0372586064, 3.3312098e-08, 0.999305665))
+          elseif _G.SelectIsland == "The Cafe" then
+            TP(CFrame.new(-371.097809, 149.211838, 223.628616, 0.992276549, 1.12928422e-08, 0.124045365, -5.9967844e-09, 1, -4.3067903e-08, -0.124045365, 4.19913952e-08, 0.992276549))
+          elseif _G.SelectIsland == "Don Swan Mansion" then
+            TP(CFrame.new(-310.079926, 375.452881, 644.331482, -0.0713519603, 2.82691364e-08, 0.997451186, -3.98390121e-08, 1, -3.11912274e-08, -0.997451186, -4.19630233e-08, -0.0713519603))
+          elseif _G.SelectIsland == "Graveyard" then
+            TP(CFrame.new(-5646.97607, 185.325729, -886.009644, 0.76935333, 4.21680274e-10, 0.638823509, -2.50014143e-08, 1, 2.94498257e-08, -0.638823509, -3.86288121e-08, 0.76935333))
+          elseif _G.SelectIsland == "Cursed Ship" then
+            TP(CFrame.new(922.56134, 182.649857, 33242.3242, 0.999953091, -4.53051774e-09, -0.00968338363, 4.48791804e-09, 1, -4.42098136e-09, 0.00968338363, 4.37731584e-09, 0.999953091))
+          elseif _G.SelectIsland == "Hot Island" then
+            TP(CFrame.new(-5111.96387, 188.650177, -5339.42578, -0.268935323, -1.94999412e-08, 0.96315825, -2.65990141e-09, 1, 1.95031298e-08, -0.96315825, 2.68317435e-09, -0.268935323))
+          elseif _G.SelectIsland == "Cold Island" then
+            TP(CFrame.new(-6149.0083, 315.118561, -4993.97559, 0.288855702, 2.00316794e-08, -0.957372665, 2.09551452e-08, 1, 2.72461236e-08, 0.957372665, -2.79320815e-08, 0.288855702))
+          elseif _G.SelectIsland == "Forgotten Island" then
+            TP(CFrame.new(-2683.70679, 708.082397, -10967.8828, -0.998628438, 5.40225003e-08, 0.052356869, 5.75173047e-08, 1, 6.52429648e-08, -0.052356869, 6.81649084e-08, -0.998628438))
+          elseif _G.SelectIsland == "Ice Castle" then
+            TP(CFrame.new(5836.04541, 99.4163589, -6505.72754, -0.850549638, -3.26488738e-08, 0.525894761, -2.23612613e-08, 1, 2.59168029e-08, -0.525894761, 1.02838573e-08, -0.850549638))
+          elseif _G.SelectIsland == "Snow Mountain" then
+            TP(CFrame.new(1182.48352, 467.612976, -5000.10645, 0.742966235, -9.61186597e-09, 0.669328868, 9.50431289e-09, 1, 3.81050658e-09, -0.669328868, 3.5304335e-09, 0.742966235))
+          elseif _G.SelectIsland == "Dark Arena" then
+            TP(CFrame.new(3861.64551, 37.690361, -3112.50708, 0.962457478, -7.04189063e-08, 0.271432489, 4.99679871e-08, 1, 8.22556032e-08, -0.271432489, -6.56045884e-08, 0.962457478))
+          elseif _G.SelectIsland == "Secret Laboratory" then
+            TP(CFrame.new(-5474.74121, 401.944824, -5830.67871, -0.965090394, 7.67189121e-08, -0.261916995, 6.37885762e-08, 1, 5.78701069e-08, 0.261916995, 3.91425736e-08, -0.965090394))
+          elseif _G.SelectIsland == "Raid Lab" then
+            TP(CFrame.new(-6515.19531, 250.611908, -4479.91211, 0.344380856, -7.30057259e-09, -0.938830018, -1.64662843e-08, 1, -1.38163943e-08, 0.938830018, 2.02171435e-08, 0.344380856))
+          elseif _G.SelectIsland == "Port Town" then
+            TP(CFrame.new(-332.99823, 20.6029835, 5512.76318, 0.973622024, 1.70947665e-08, -0.228166997, -1.47030894e-08, 1, 1.21819328e-08, 0.228166997, -8.5058387e-09, 0.973622024))
+          elseif _G.SelectIsland == "Hydra Island1" then
+            TP(CFrame.new(5039.2749, 173.399658, -2009.88977, 0.97077167, -3.42456197e-08, 0.240004972, 3.65463428e-08, 1, -5.1354605e-09, -0.240004972, 1.37566634e-08, 0.97077167))
+          elseif _G.SelectIsland == "Hydra Island2" then
+            TP(CFrame.new(5564.22168, 1005.5036, 95.1717377, -0.635244727, 1.01565156e-07, 0.772310913, 3.49387328e-08, 1, -1.02770151e-07, -0.772310913, -3.83006302e-08, -0.635244727))
+          elseif _G.SelectIsland == "Dragon Dojo" then
+            TP(CFrame.new(5721.39062, 1206.81177, 958.388855, 0.35146594, 4.76143533e-08, -0.936200678, -7.6260136e-08, 1, 2.22297558e-08, 0.936200678, 6.35817869e-08, 0.35146594))
+          elseif _G.SelectIsland == "Castle on the Sea" then
+            TP(CFrame.new(-5125.10547, 314.187622, -2963.05835, -0.473895282, 1.96359711e-08, 0.8805812, 5.72839642e-09, 1, -1.92160705e-08, -0.8805812, -4.06208667e-09, -0.473895282))
+          elseif _G.SelectIsland == "Great Tree" then
+            TP(CFrame.new(4176.01221, 565.7995, -6311.15039, 0.607411861, 6.50904894e-08, 0.794387102, -1.22795996e-07, 1, 1.19554526e-08, -0.794387102, -1.04809438e-07, 0.607411861))
+          elseif _G.SelectIsland == "Floating Turtle" then
+            TP(CFrame.new(-10053.6602, 331.754517, -8318.57324, -0.184462786, -4.72932342e-08, 0.982839525, -4.72455035e-08, 1, 3.92517805e-08, -0.982839525, -3.9194255e-08, -0.184462786))
+          elseif _G.SelectIsland == "Mansion" then
+            TP(CFrame.new(-12549.1973, 459.472931, -7560.86182, 0.999207139, -1.06063762e-08, 0.0398129523, 8.52913828e-09, 1, 5.23447987e-08, -0.0398129523, -5.1963724e-08, 0.999207139))
+          elseif _G.SelectIsland == "Temple of Time" then
+            TP(CFrame.new(28556.7324, 14890.5449, -87.6962585, 0.122791506, -8.02967648e-08, -0.992432475, 4.79143623e-08, 1, -7.49807043e-08, 0.992432475, -3.83447762e-08, 0.122791506))
+          elseif _G.SelectIsland == "Haunted Castle" then
+            TP(CFrame.new(-9504.72559, 172.096664, 6034.88721, 0.99913311, 4.78551456e-08, 0.0416297391, -4.78035176e-08, 1, -2.23558549e-09, -0.0416297391, 2.43599418e-10, 0.99913311))
+          elseif _G.SelectIsland == "Submerged Island" then
+            TP(CFrame.new(11155.8887, -1912.77783, 9796.59668, 0.297251135, -1.80704074e-08, -0.954799354, -2.89712752e-08, 1, -2.79452976e-08, 0.954799354, 3.59685259e-08, 0.297251135))
+          elseif _G.SelectIsland == "Tiki Outpost" then
+            TP(CFrame.new(-16394.0156, 527.745544, 428.658081, -0.00244545401, -1.17462697e-08, -0.99999702, 4.6226031e-08, 1, -1.18593491e-08, 0.99999702, -4.62548932e-08, -0.00244545401))
+          elseif _G.SelectIsland == "Peanut Land" then
+            TP(CFrame.new(-2150.43774, 47.7138023, -10015.8799, -0.954429924, -1.97848471e-09, -0.298435152, -1.52040691e-09, 1, -1.76709347e-09, 0.298435152, -1.23282395e-09, -0.954429924))
+          elseif _G.SelectIsland == "Ice Cream Land" then
+            TP(CFrame.new(-889.874939, 65.8113098, -10894.4619, -0.807582796, 5.22889501e-08, 0.589754164, 5.82707358e-08, 1, -8.86895801e-09, -0.589754164, 2.72029919e-08, -0.807582796))
+          elseif _G.SelectIsland == "Cake Land" then
+            TP(CFrame.new(-1897.57703, 9.52338028, -11499.2812, -0.955638766, -4.81486069e-08, -0.29454124, -4.60265426e-08, 1, -1.4136762e-08, 0.29454124, 4.70767036e-11, -0.955638766))
+          elseif _G.SelectIsland == "Chocolate Land" then
+            TP(CFrame.new(207.767883, 126.583794, -12598.5234, -0.39604488, 6.89493174e-09, 0.91823113, -2.20901364e-09, 1, -8.46170423e-09, -0.91823113, -5.37959988e-09, -0.39604488))
+          elseif _G.SelectIsland == "Candy Cane Land" then
+            TP(CFrame.new(-997.224243, 60.1506805, -14477.9951, 0.12927182, 4.01811562e-09, -0.991609216, 6.05907502e-09, 1, 4.84201168e-09, 0.991609216, -6.63417055e-09, 0.12927182))
+		end
+      end
+    end)
+		end
+end)											
+
 Tabs.LP:AddButton({
 		Title = "Open Blox Fruits Deal",
 		Description= "",
