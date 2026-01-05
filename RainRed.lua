@@ -1,3 +1,6 @@
+_G.NoClip = true
+
+
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
   FirstSea = true
 elseif game.PlaceId == 4442272183  or game.PlaceId == 79091703265657 then
@@ -38,7 +41,7 @@ function TP(Pos)
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
 
-        if not hum or not hrp or not root then repeat task.wait() until hum and hrp and root end
+        if not hum or not hrp or not root then repeat task.wait() until hum or hrp or root end
         hum.Sit = false
         local dist = (hrp.Position - Pos.Position).Magnitude
         local tween = game:GetService("TweenService"):Create(
@@ -52,16 +55,30 @@ function TP(Pos)
 end
 
 task.spawn(function()
-    while task.wait(0.5) do
+    while task.wait() do
         local char = game:GetService("Players").LocalPlayer.Character
-        if not char then task.wait(1.3) end
-        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not char then task.wait() end
+    	    local hrp = char:FindFirstChild("HumanoidRootPart")
         local root = char:FindFirstChild("Root")
-		local hum = char:FindFirstChildOfClass("Humanoid")	
+
         if hrp and root then
             hrp.CFrame = root.CFrame
         end
     end
+end)
+
+task.spawn(function()
+  pcall(function()
+    while task.wait() do
+      if _G.NoClip then
+        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+          if v:IsA("BasePart") or v:IsA("Part") then
+            v.CanCollide = false
+          end
+        end
+      end
+    end
+  end)
 end)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -817,9 +834,9 @@ Tabs.LP:AddToggle("ToggleTweenIsland", {
 }):OnChanged(function(Value)
   _G.TweenIsland = Value
 end)											
-          								
+
 task.spawn(function()
-  while task.wait(0.5) do
+		while task.wait(1) do
     pcall(function()
       if _G.TweenIsland then
           if _G.SelectIsland == "Pirate Starter Island" then
@@ -918,13 +935,11 @@ task.spawn(function()
             TP(CFrame.new(207.767883, 126.583794, -12598.5234, -0.39604488, 6.89493174e-09, 0.91823113, -2.20901364e-09, 1, -8.46170423e-09, -0.91823113, -5.37959988e-09, -0.39604488))
           elseif _G.SelectIsland == "Candy Cane Land" then
             TP(CFrame.new(-997.224243, 60.1506805, -14477.9951, 0.12927182, 4.01811562e-09, -0.991609216, 6.05907502e-09, 1, 4.84201168e-09, 0.991609216, -6.63417055e-09, 0.12927182))
-          end
-      end
-    end)
-  end
-end)
-
-
+		  end
+        end
+      end)
+    end
+end)											
 
 Tabs.LP:AddButton({
 		Title = "Open Blox Fruits Deal",
