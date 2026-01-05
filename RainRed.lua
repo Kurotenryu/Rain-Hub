@@ -51,8 +51,7 @@ function TP(Pos)
         )
 		_G.IsTweening = true	
         tween:Play()
-    	tween.Completed:Wait()
-		_G.IsTweening = false	
+    	tween.Completed:Wait()	
     end)
 end
 
