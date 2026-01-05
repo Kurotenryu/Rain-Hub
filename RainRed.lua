@@ -19,14 +19,9 @@ local function SetupCharacter(char)
 	root.Size = Vector3.new(1,1,1)
 	root.Transparency = 1
 	root.CanCollide = false
-	root.Anchored = false
+	root.Anchored = true
 	root.CFrame = hrp.CFrame
 	root.Parent = char
-
-	local weld = Instance.new("WeldConstraint")
-	weld.Part0 = root
-	weld.Part1 = hrp
-	weld.Parent = root
 end
 
 task.spawn(function()
@@ -59,6 +54,7 @@ function TP(Pos)
 		)
 
 		tween:Play()
+		tween.Completed:Wait()	
 
 		while tween.PlaybackState == Enum.PlaybackState.Playing do
 			if hum.Health <= 0 then
@@ -73,8 +69,6 @@ end
 task.spawn(function()
 	while task.wait() do
 		local char = game:GetService("Players").LocalPlayer.Character
-		if not char then continue end
-
 		local hum = char:FindFirstChildOfClass("Humanoid")
 		local hrp = char:FindFirstChild("HumanoidRootPart")
 		local root = char:FindFirstChild("Root")
