@@ -808,7 +808,7 @@ elseif ThirdSea then
 		}
 end
 
-Tabs.LPlayer:AddDropdown("DropdownSelectIsland", {
+Tabs.LP:AddDropdown("DropdownSelectIsland", {
   Title = "Select Island",
   Values = IslandList,
   Multi = false,
@@ -817,7 +817,7 @@ Tabs.LPlayer:AddDropdown("DropdownSelectIsland", {
   _G.SelectIsland = Value
 end)
 											
-Tabs.LPlayer:AddToggle("ToggleTweenIsland", {
+Tabs.LP:AddToggle("ToggleTweenIsland", {
   Title = "Tween Island",
   Default = false
 }):OnChanged(function(Value)
