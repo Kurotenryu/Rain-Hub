@@ -9,11 +9,9 @@ end
 local function SetupCharacter(char)
 	local hum = char:WaitForChild("Humanoid")
 	local hrp = char:WaitForChild("HumanoidRootPart")
-
 	if char:FindFirstChild("Root") then
 		char.Root:Destroy()
 	end
-
 	local root = Instance.new("Part")
 	root.Name = "Root"
 	root.Size = Vector3.new(1,1,1)
@@ -25,58 +23,48 @@ local function SetupCharacter(char)
 end
 
 task.spawn(function()
-	local plr = game:GetService("Players").LocalPlayer
-	plr.CharacterAdded:Connect(SetupCharacter)
-	if plr.Character then
-		SetupCharacter(plr.Character)
+	game:GetService("Players").LocalPlayer.CharacterAdded:Connect(SetupCharacter)
+	if game:GetService("Players").LocalPlayer.Character then
+		SetupCharacter(game:GetService("Players").LocalPlayer.Character)
 	end
 end)
 
 function TP(Pos)
-	task.spawn(function()
-		local plr = game:GetService("Players").LocalPlayer
-		local char = plr.Character
-		if not char then return end
+    task.spawn(function()
+        local char = game:GetService("Players").LocalPlayer.Character
+        if not char then repeat task.wait() until char end
 
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		local hrp = char:FindFirstChild("HumanoidRootPart")
-		local root = char:FindFirstChild("Root")
-		if not hum or not hrp or not root then return end
-		if hum.Health <= 0 then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local root = char:FindFirstChild("Root")
 
-		hum.Sit = false
-
-		local dist = (hrp.Position - Pos.Position).Magnitude
-		local tween = game:GetService("TweenService"):Create(
-			root,
-			TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
-			{CFrame = Pos}
-		)
-
-		tween:Play()
-		tween.Completed:Wait()	
-
-		while tween.PlaybackState == Enum.PlaybackState.Playing do
-			if hum.Health <= 0 then
-				tween:Cancel()
-				return
-			end
-			task.wait()
-		end
-	end)
+        if not hum or not hrp or not root then repeat task.wait() until hum and hrp and root end
+        hum.Sit = false
+        local dist = (hrp.Position - Pos.Position).Magnitude
+        local tween = game:GetService("TweenService"):Create(
+            root,
+            TweenInfo.new(dist / 350, Enum.EasingStyle.Linear),
+            {CFrame = Pos}
+        )
+        tween:Play()
+    	tween.Completed:Wait()
+    end)
 end
 
 task.spawn(function()
-	while task.wait() do
-		local char = game:GetService("Players").LocalPlayer.Character
-		local hum = char:FindFirstChildOfClass("Humanoid")
-		local hrp = char:FindFirstChild("HumanoidRootPart")
-		local root = char:FindFirstChild("Root")
-
-		if hum and hrp and root and hum.Health > 0 then
-			hrp.CFrame = root.CFrame
+    while task.wait(0.5) do
+        local char = game:GetService("Players").LocalPlayer.Character
+        if not char then task.wait(1.3) end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local root = char:FindFirstChild("Root")
+		local hum = char:FindFirstChildOfClass("Humanoid")	
+        if hum.Health <= 0 then
+            break
 		end
-	end
+        if hrp and root then
+            hrp.CFrame = root.CFrame
+        end
+    end
 end)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
