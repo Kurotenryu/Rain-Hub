@@ -115,8 +115,6 @@ task.spawn(function()
             v.CanCollide = false
           end
         end
-      else 
-        CancelTween()
       end
     end)
   end
@@ -163,7 +161,7 @@ function AttackNoCoolDown()
                     tool.LeftClickRemote:FireServer(dir, n) 
                 end)
                 n += 1
-                task.wait(0.1)
+                task.wait(0.05)
             end
         end
     else
@@ -359,7 +357,6 @@ task.spawn(function()
                   v.HumanoidRootPart.Anchored = true
                   task.wait(0.05 + math.random() * 0.005)
                   AttackNoCoolDown()
-                  task.wait(0.1)
                 until v.Humanoid.Health <= 0
               end
             end
