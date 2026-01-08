@@ -1,4 +1,3 @@
-_G.NoClip = true
 _G.IsTweening = false
 
 if game.PlaceId == 2753915549 or game.PlaceId == 85211729168715 then
@@ -74,19 +73,19 @@ task.spawn(function()
     end
 end)
 
-task.spawn(function()
-  pcall(function()
-    while task.wait() do
-      if _G.NoClip then
-        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-          if v:IsA("BasePart") or v:IsA("Part") then
-            v.CanCollide = false
-          end
-        end
-      end
+function CancelTween()
+    if _G.TweenBeta then
+        _G.TweenBeta:Cancel()
+        _G.TweenBeta = nil
     end
-  end)
-end)
+
+    _G.IsTweening = false
+    for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+          if v:IsA("BasePart") or v:IsA("Part") then
+            v.CanCollide = true
+          end
+	end
+end
 
 
 
@@ -714,16 +713,6 @@ Tabs.Status:AddButton({
 })
 
 --TabLocalPlayer
-function CancelTween()
-    if _G.TweenBeta then
-        _G.TweenBeta:Cancel()
-        _G.TweenBeta = nil
-    end
-
-    _G.IsTweening = false
-    _G.NoClip = false
-end
-
 Tabs.LP:AddButton({
   Title = "Cancel Tween",
   Description = "",
