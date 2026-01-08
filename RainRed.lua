@@ -87,6 +87,108 @@ function CancelTween()
 	end
 end
 
+function AutoHaki()
+  if not game:GetService("Players").LocalPlayer.Character:FindFirstChild("HasBuso") then
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
+  end
+end
+
+function EquipTool(ToolSe)
+  if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+    local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
+    task.wait(0.3)
+    game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+  end
+end
+
+task.spawn(function()
+  while task.wait(1.5) do
+    pcall(function()
+      if _G.AutoTS then
+        _G.IsTweening = true
+        local BodyVelocityClip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyAntiVelocityClip") or Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+        BodyVelocityClip.Name = "BodyAntiVelocityClip"
+        BodyVelocityClip.MaxForce = Vector3.new(0, math.huge, 0)
+        BodyVelocityClip.Velocity = Vector3.new(0, 0, 0)
+        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+          if v:IsA("BasePart") or v:IsA("Part") then
+            v.CanCollide = false
+          end
+        end
+      else 
+        CancelTween()
+      end
+    end)
+  end
+end)
+
+local function GetEnemiesInRange(character, range)
+    local list = {}
+    local Enemies = game:GetService("Workspace"):FindFirstChild("Enemies") or game:GetService("Workspace"):WaitForChild("Enemies")
+    if not character then return list end
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return list end
+    for _, mob in ipairs(Enemies:GetChildren()) do
+        local mhrp = mob:FindFirstChild("HumanoidRootPart")
+        local mhum = mob:FindFirstChildOfClass("Humanoid")
+        if mhrp and mhum and mhum.Health > 0 then
+            if (mhrp.Position - hrp.Position).Magnitude <= range then
+                table.insert(list, mob)
+            end
+        end
+    end
+    return list
+end
+
+function AttackNoCoolDown()
+    local char = game:GetService("Players").LocalPlayer.Character
+  if not char then return end
+    local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    for _, it in ipairs(char:GetChildren()) do
+        if it:IsA("Tool") then
+            tool = it 
+            break 
+        end
+    end
+    if not tool then return end
+    local targets = GetEnemiesInRange(char, 120)
+    if #targets == 0 then return end
+    if tool:FindFirstChild("LeftClickRemote") then
+        local n = 1
+        for _, mob in ipairs(targets) do
+            local root = mob:FindFirstChild("HumanoidRootPart")
+            if root then
+                local dir = (root.Position - char:GetPivot().Position).Unit
+                pcall(function()
+                    tool.LeftClickRemote:FireServer(dir, n) 
+                end)
+                n += 1
+                task.wait(0.1)
+            end
+        end
+    else
+        local mainHead, hitTable
+        hitTable = {}
+        for _, mob in ipairs(targets) do
+            if not mob:GetAttribute("IsBoat") then
+                local head = mob:FindFirstChild("Head")
+                if head then 
+                    table.insert(hitTable, {mob, head})
+                    mainHead = mainHead or head 
+                end
+            end
+        end
+        if mainHead then
+            local ok, Net = pcall(function() return game:GetService("ReplicatedStorage").Modules and game:GetService("ReplicatedStorage").Modules.Net end)
+            if ok and Net and Net["RE/RegisterAttack"] and Net["RE/RegisterHit"] then
+                pcall(function()
+                    Net["RE/RegisterAttack"]:FireServer(0.1)
+                    Net["RE/RegisterHit"]:FireServer(mainHead, hitTable)
+                end)
+            end
+        end
+    end
+end
 
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -238,7 +340,37 @@ Tabs.Main:AddToggle("ToggleAQ", {
   _G.AcceptQuest = Value
 end)
 	
-
+task.spawn(function()
+  while task.wait(1.3) do
+    if _G.AutoTS then
+      pcall(function()
+        if ThirdSea then
+          for i, v in ipairs(game:GetService("Workspace").Enemies:GetChildren()) do
+            if v.Name == "Isle Outlaw" or v.Name == "Island Boy" or v.Name == "Sun-kissed Warrior" or v.Name == "Isle Champion" or v.Name == "Skull Slayer" or v.Name == "Serpent Hunter" then
+              if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                repeat
+                  task.wait(0.8)
+                  TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
+                  AutoHaki()
+                  v.Humanoid.AutoJumpEnabled = false
+                  v.Humanoid.JumpPower = false
+                  v.Humanoid.UseJumpPower = false
+                  v.HumanoidRootPart.CanCollide = false
+                  v.HumanoidRootPart.Anchored = true
+                  task.wait(0.05 + math.random() * 0.005)
+                  AttackNoCoolDown()
+                  task.wait(0.1)
+                until v.Humanoid.Health <= 0
+              end
+            end
+          end
+        else
+          game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
+        end
+      end)
+    end
+  end
+end)
 
 Tabs.Main:AddToggle("ToggleHS", {
   Title = "Holding Sword",
