@@ -162,7 +162,7 @@ function AttackNoCoolDown()
                         tool.LeftClickRemote:FireServer(dir, n)
                     end)
                     n += 1
-                    task.wait(0.05)
+                    task.wait(0.03)
                 end
             end
         else
@@ -524,22 +524,7 @@ task.spawn(function()
         if _G.AutoEliteHop then
             pcall(function()
                 for i, v in ipairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-                    if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
-                        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                            repeat
-                                task.wait(0.8)
-                                TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
-                                AutoHaki()
-                                v.Humanoid.WalkSpeed = 0
-                                v.Humanoid.AutoJumpEnabled = false
-                                v.Humanoid.JumpPower = false
-                                v.Humanoid.UseJumpPower = false
-                                v.HumanoidRootPart.CanCollide = false
-                                v.HumanoidRootPart.Anchored = true
-                                AttackNoCoolDown()
-                            until v.Humanoid.Health <= 0
-                        end
-                    else
+                    if not v.Name == "Diablo" or not v.Name == "Deandre" or not v.Name == "Urban" or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("God's Chalice") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("God's Chalice") or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Fist of Darkness") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Fist of Darkness") then
                         Hop()
                     end
                 end
