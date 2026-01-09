@@ -139,55 +139,102 @@ local function GetEnemiesInRange(character, range)
 end
 
 function AttackNoCoolDown()
-    local char = game:GetService("Players").LocalPlayer.Character
-  if not char then return end
-    local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
-    for _, it in ipairs(char:GetChildren()) do
-        if it:IsA("Tool") then
-            tool = it 
-            break 
-        end
-    end
-    if not tool then return end
-    local targets = GetEnemiesInRange(char, 120)
-    if #targets == 0 then return end
-    if tool:FindFirstChild("LeftClickRemote") then
-        local n = 1
-        for _, mob in ipairs(targets) do
-            local root = mob:FindFirstChild("HumanoidRootPart")
-            if root then
-                local dir = (root.Position - char:GetPivot().Position).Unit
-                pcall(function()
-                    tool.LeftClickRemote:FireServer(dir, n) 
-                end)
-                n += 1
-                task.wait(0.05)
+    while task.wait(0.05 + math.random() * 0.005) do
+        local char = game:GetService("Players").LocalPlayer.Character
+        if not char then return end
+        local tool = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool")
+        for _, it in ipairs(char:GetChildren()) do
+            if it:IsA("Tool") then
+                tool = it
+                break
             end
         end
-    else
-        local mainHead, hitTable
-        hitTable = {}
-        for _, mob in ipairs(targets) do
-            if not mob:GetAttribute("IsBoat") then
-                local head = mob:FindFirstChild("Head")
-                if head then 
-                    table.insert(hitTable, {mob, head})
-                    mainHead = mainHead or head 
+        if not tool then return end
+        local targets = GetEnemiesInRange(char, 120)
+        if #targets == 0 then return end
+        if tool:FindFirstChild("LeftClickRemote") then
+            local n = 1
+            for _, mob in ipairs(targets) do
+                local root = mob:FindFirstChild("HumanoidRootPart")
+                if root then
+                    local dir = (root.Position - char:GetPivot().Position).Unit
+                    pcall(function()
+                        tool.LeftClickRemote:FireServer(dir, n)
+                    end)
+                    n += 1
+                    task.wait(0.05)
                 end
             end
-        end
-        if mainHead then
-            local ok, Net = pcall(function() return game:GetService("ReplicatedStorage").Modules and game:GetService("ReplicatedStorage").Modules.Net end)
-            if ok and Net and Net["RE/RegisterAttack"] and Net["RE/RegisterHit"] then
-                pcall(function()
-                    Net["RE/RegisterAttack"]:FireServer(0.1)
-                    Net["RE/RegisterHit"]:FireServer(mainHead, hitTable)
-                end)
+        else
+            local mainHead, hitTable
+            hitTable = {}
+            for _, mob in ipairs(targets) do
+                if not mob:GetAttribute("IsBoat") then
+                    local head = mob:FindFirstChild("Head")
+                    if head then
+                        table.insert(hitTable, {mob, head})
+                        mainHead = mainHead or head
+                    end
+                end
+            end
+            if mainHead then
+                local ok, Net = pcall(function() return game:GetService("ReplicatedStorage").Modules and game:GetService("ReplicatedStorage").Modules.Net end)
+                if ok and Net and Net["RE/RegisterAttack"] and Net["RE/RegisterHit"] then
+                    pcall(function()
+                        Net["RE/RegisterAttack"]:FireServer(0.1)
+                        Net["RE/RegisterHit"]:FireServer(mainHead, hitTable)
+                    end)
+                end
             end
         end
     end
 end
 
+function Hop()
+  local HttpService = game:GetService("HttpService")
+  local TeleportService = game:GetService("TeleportService")
+  local Players = game:GetService("Players")
+  local PlaceID = game.PlaceId
+  local VisitedServers = {}
+  local Cursor = nil
+  local LastHour = os.date("!*t").hour
+  local function ResetIfNewHour()
+    local hour = os.date("!*t").hour
+    if hour ~= LastHour then
+      VisitedServers = {}
+      LastHour = hour
+    end
+  end
+  
+  local function GetServer()
+    local url = "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?limit=100"
+    if Cursor then
+      url = url .. "&cursor=" .. Cursor
+    end
+    
+    local data = HttpService:JSONDecode(game:HttpGet(url))
+    Cursor = data.nextPageCursor
+    for _, server in pairs(data.data) do
+      if server.playing < server.maxPlayers and not VisitedServers[server.id] then
+        return server.id
+      end
+    end
+  end
+  
+  task.spawn(function()
+    while task.wait(0.5) do
+      pcall(function()
+        ResetIfNewHour()
+        local ServerID = GetServer()
+        if ServerID then
+          VisitedServers[ServerID] = true
+          task.wait(1)
+          TeleportService:TeleportToPlaceInstance(PlaceID, ServerID, Players.LocalPlayer)
+        end
+      end)
+    end
+  end)
+end
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -355,7 +402,6 @@ task.spawn(function()
                   v.Humanoid.UseJumpPower = false
                   v.HumanoidRootPart.CanCollide = false
                   v.HumanoidRootPart.Anchored = true
-                  task.wait(0.05 + math.random() * 0.005)
                   AttackNoCoolDown()
                 until v.Humanoid.Health <= 0
               end
@@ -438,14 +484,70 @@ if ThirdSea then
   }):OnChanged(function(Value)
     _G.AutoElite = Value
   end)
-  
+
+ task.spawn(function()
+    while task.wait(1.2) do
+        if _G.AutoElite then
+            pcall(function()
+                for i, v in ipairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+                    if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
+                        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                            repeat
+                                task.wait(0.8)
+                                TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
+                                AutoHaki()
+                                v.Humanoid.WalkSpeed = 0
+                                v.Humanoid.AutoJumpEnabled = false
+                                v.Humanoid.JumpPower = false
+                                v.Humanoid.UseJumpPower = false
+                                v.HumanoidRootPart.CanCollide = false
+                                v.HumanoidRootPart.Anchored = true
+                                AttackNoCoolDown()
+                            until v.Humanoid.Health <= 0
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
+	
   Tabs.Farming:AddToggle("ToggleAutoEliteHop", {
     Title = "Auto Elite Hop",
     Default = false
   }):OnChanged(function(Value)
     _G.AutoEliteHop = Value
   end)
-  
+
+task.spawn(function()
+    while task.wait(1.2) do
+        if _G.AutoEliteHop then
+            pcall(function()
+                for i, v in ipairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+                    if v.Name == "Diablo" or v.Name == "Deandre" or v.Name == "Urban" then
+                        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                            repeat
+                                task.wait(0.8)
+                                TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
+                                AutoHaki()
+                                v.Humanoid.WalkSpeed = 0
+                                v.Humanoid.AutoJumpEnabled = false
+                                v.Humanoid.JumpPower = false
+                                v.Humanoid.UseJumpPower = false
+                                v.HumanoidRootPart.CanCollide = false
+                                v.HumanoidRootPart.Anchored = true
+                                AttackNoCoolDown()
+                            until v.Humanoid.Health <= 0
+                        end
+                    else
+                        Hop()
+                    end
+                end
+            end)
+        end
+    end
+end)
+	
   Tabs.Farming:AddToggle("TogglePirateRaid", {
     Title = "Pirate Raid",
     Default = false
@@ -787,51 +889,6 @@ Tabs.Status:AddButton({
   end
 })
 
-function Hop()
-  local HttpService = game:GetService("HttpService")
-  local TeleportService = game:GetService("TeleportService")
-  local Players = game:GetService("Players")
-  local PlaceID = game.PlaceId
-  local VisitedServers = {}
-  local Cursor = nil
-  local LastHour = os.date("!*t").hour
-  local function ResetIfNewHour()
-    local hour = os.date("!*t").hour
-    if hour ~= LastHour then
-      VisitedServers = {}
-      LastHour = hour
-    end
-  end
-  
-  local function GetServer()
-    local url = "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?limit=100"
-    if Cursor then
-      url = url .. "&cursor=" .. Cursor
-    end
-    
-    local data = HttpService:JSONDecode(game:HttpGet(url))
-    Cursor = data.nextPageCursor
-    for _, server in pairs(data.data) do
-      if server.playing < server.maxPlayers and not VisitedServers[server.id] then
-        return server.id
-      end
-    end
-  end
-  
-  task.spawn(function()
-    while task.wait(0.5) do
-      pcall(function()
-        ResetIfNewHour()
-        local ServerID = GetServer()
-        if ServerID then
-          VisitedServers[ServerID] = true
-          task.wait(1)
-          TeleportService:TeleportToPlaceInstance(PlaceID, ServerID, Players.LocalPlayer)
-        end
-      end)
-    end
-  end)
-end
 
 Tabs.Status:AddButton({
   Title = "Hop Server",
