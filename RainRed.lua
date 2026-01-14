@@ -162,7 +162,7 @@ function AttackNoCoolDown()
                         tool.LeftClickRemote:FireServer(dir, n)
                     end)
                     n += 1
-                    task.wait(0.03)
+                    task.wait(0.01)
                 end
             end
         else
@@ -386,7 +386,7 @@ Tabs.Main:AddToggle("ToggleAQ", {
 end)
 	
 task.spawn(function()
-  while task.wait(1.3) do
+  while task.wait(1.2) do
     if _G.AutoTS then
       pcall(function()
         if ThirdSea then
@@ -520,11 +520,11 @@ end)
   end)
 
 task.spawn(function()
-    while task.wait(1.2) do
+    while task.wait(0.8) do
         if _G.AutoEliteHop then
             pcall(function()
                 for i, v in ipairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-                    if not v.Name == "Diablo" or not v.Name == "Deandre" or not v.Name == "Urban" or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("God's Chalice") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("God's Chalice") or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Fist of Darkness") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("Fist of Darkness") then
+                    if not v.Name == "Diablo" or not v.Name == "Deandre" or not v.Name == "Urban" or not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("God's Chalice") or not game:GetService("Players").LocalPlayer.Character:FindFirstChild("God's Chalice") then
                         Hop()
                     end
                 end
