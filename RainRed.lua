@@ -104,7 +104,7 @@ end
 task.spawn(function()
   while task.wait(1.5) do
     pcall(function()
-      if _G.AutoTS or _G.AutoElite or _G.AutoEliteHop then
+      if _G.AutoTS or _G.AutoElite or _G.AutoEliteHop or _G.TweenIsland then
         _G.IsTweening = true
         local BodyVelocityClip = game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyAntiVelocityClip") or Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
         BodyVelocityClip.Name = "BodyAntiVelocityClip"
@@ -115,6 +115,8 @@ task.spawn(function()
             v.CanCollide = false
           end
         end
+	  else
+		CancelTween()
       end
     end)
   end
